@@ -9,13 +9,13 @@
 
   --background: var(--t-light-1);
   --foreground: var(--t-dark-1);
+
+  --dropShadow-hard: 2px 2px 0 rgb(255,255,255,0.25);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {

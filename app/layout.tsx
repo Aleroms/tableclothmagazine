@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
+import NavBar from "./ui/navigationBar";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${outfit.variable} ${inter.variable} antialiased`}>
+        <NavBar />
         {children}
       </body>
     </html>
