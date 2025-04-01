@@ -8,7 +8,7 @@ export default function NavBar() {
   return (
     <header className="bg-black">
       <div className="flex items-center justify-between bg-black py-4 px-8">
-        <TableLogo />
+        <TableLogo size={80} />
 
         {/* desktop menu */}
         <nav className="hidden md:flex items-center justify-even gap-10 capitalize font-medium">

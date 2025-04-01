@@ -6,13 +6,13 @@ const bowlby_one = Bowlby_One({
   weight: "400",
 });
 
-export default function TableLogo() {
+export default function TableLogo({ size }: { size: number }) {
   return (
     <div className="flex items-center justify-center">
       <Image
         src="/tableLogo/logo.svg"
-        width={80}
-        height={80}
+        width={size}
+        height={size}
         alt="tablecloth magazine"
       />
       <div className="hidden md:flex flex-col ml-4">
