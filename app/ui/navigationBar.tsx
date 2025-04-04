@@ -7,7 +7,7 @@ export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header className="bg-black">
-      <div className="flex items-center justify-between bg-black py-4 px-8">
+      <div className="flex items-center justify-between bg-black py-5 px-8">
         <TableLogo size={80} />
 
         {/* desktop menu */}
