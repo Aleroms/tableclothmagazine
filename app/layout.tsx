@@ -18,7 +18,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Tablecloth Magazine",
-  description: "description for tablecloth magazine!",
+  description:
+    "The Tablecloth is a gamedev magazine run by alumni and current members of the Video Game Development Club @ UCI. Read interviews, post-mortems, and more!",
 };
 
 export default function RootLayout({

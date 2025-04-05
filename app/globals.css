@@ -10,7 +10,8 @@
   --background: var(--t-light-1);
   --foreground: var(--t-dark-1);
 
-  --dropShadow-hard: 2px 2px 0 rgb(255,255,255,0.25);
+  --dropShadow-hard: 2px 2px 0 rgb(255, 255, 255, 0.25);
+  --dropShadow: 2px 2px 2 rgb(255, 255, 255, 0.25);
 }
 
 @theme inline {
