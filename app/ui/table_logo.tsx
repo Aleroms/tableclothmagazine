@@ -13,6 +13,7 @@ export default function TableLogo({ size }: { size: number }) {
         src="/tableLogo/logo.svg"
         width={size}
         height={size}
+        priority
         alt="tablecloth magazine"
       />
       <div className="hidden md:flex flex-col ml-4">

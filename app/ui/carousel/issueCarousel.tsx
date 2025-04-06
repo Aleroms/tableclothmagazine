@@ -1,8 +1,17 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { CarouselProps } from "../lib/definitions";
 import { useState } from "react";
+
+export interface Slide {
+  to: string;
+  img_url: string;
+  release_date: Date;
+}
+
+export interface CarouselProps {
+  slides: Slide[];
+}
 
 export default function IssueCarousel({ slides }: CarouselProps) {
   const [current, setCurrent] = useState(0);

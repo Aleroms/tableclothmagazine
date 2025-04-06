@@ -1,7 +1,11 @@
-import { carouselPlaceholder } from "./lib/placeholder-data";
+import {
+  carouselPlaceholder,
+  showcasePlaceholder,
+} from "./lib/placeholder-data";
 import ArticlePreview from "./ui/articlePreview";
-import IssueCarousel from "./ui/issueCarousel";
+import IssueCarousel from "./ui/carousel/issueCarousel";
 import NavButton from "./ui/button/navigationButton";
+import InfiniteCarousel from "./ui/carousel/infiniteCarousel";
 
 export default function Home() {
   const sortedCarousel = carouselPlaceholder.sort(
@@ -13,6 +17,7 @@ export default function Home() {
       <main className="my-15">
         {/* Latest Releases  */}
         <IssueCarousel slides={sortedCarousel} />
+        {/* Article preview  */}
         <ArticlePreview />
         <div className="flex justify-center m-10">
           <NavButton
@@ -21,6 +26,13 @@ export default function Home() {
           >
             View More
           </NavButton>
+        </div>
+        {/* Showcase  */}
+        <div className="mx-4 my-40 max-w-5xl lg:mx-auto">
+          <h2 className="capitalize font-bold text-2xl md:text-4xl">
+            Showcase
+          </h2>
+          <InfiniteCarousel items={showcasePlaceholder} />
         </div>
       </main>
     </>

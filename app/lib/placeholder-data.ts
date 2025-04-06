@@ -23,6 +23,7 @@ const articlePlaceholder = [
     writer: {
       id: "1",
       role: "",
+      auth_level: "",
       first_name: "Riley",
       last_name: "Park",
     },
@@ -36,6 +37,7 @@ const articlePlaceholder = [
     writer: {
       id: "2",
       role: "",
+      auth_level: "",
       first_name: "Adam",
       last_name: "Tan",
     },
@@ -49,6 +51,7 @@ const articlePlaceholder = [
     writer: {
       id: "3",
       role: "",
+      auth_level: "",
       first_name: "Alex",
       last_name: "Grams",
     },
@@ -63,6 +66,7 @@ const articlePlaceholder = [
     writer: {
       id: "4",
       role: "",
+      auth_level: "",
       first_name: "Ryan",
       last_name: "Chang",
     },
@@ -76,6 +80,7 @@ const articlePlaceholder = [
     writer: {
       id: "5",
       role: "",
+      auth_level: "",
       first_name: "Victoria",
       last_name: "Winn",
     },
@@ -90,6 +95,7 @@ const articlePlaceholder = [
     writer: {
       id: "5",
       role: "",
+      auth_level: "",
       first_name: "Victoria",
       last_name: "Win",
     },
@@ -103,6 +109,7 @@ const articlePlaceholder = [
     writer: {
       id: "7",
       role: "",
+      auth_level: "",
       first_name: "Dane",
       last_name: "Carstens",
     },
@@ -116,6 +123,7 @@ const articlePlaceholder = [
     writer: {
       id: "8",
       role: "",
+      auth_level: "",
       first_name: "Ittai",
       last_name: "Mann",
     },
@@ -125,4 +133,17 @@ const articlePlaceholder = [
   },
 ];
 
-export { carouselPlaceholder, articlePlaceholder };
+const showcasePlaceholder = [
+  {
+    id: "1",
+    img_url: "/showcase/attack.png",
+    link: "https://sonicfangameshq.com/forums/showcase/art-attack.2218/",
+  },
+  {
+    id: "2",
+    img_url: "/showcase/fighting.png",
+    link: "https://saffrona.itch.io/fighting-for-our-dreams-an-esports-visual-novel",
+  },
+];
+
+export { carouselPlaceholder, articlePlaceholder, showcasePlaceholder };

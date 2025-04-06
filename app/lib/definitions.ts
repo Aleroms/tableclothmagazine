@@ -1,18 +1,9 @@
-export interface Slide {
-  to: string;
-  img_url: string;
-  release_date: Date;
-}
-
-export interface CarouselProps {
-  slides: Slide[];
-}
-
 // last name optional to support usernames
 export interface User {
   id: string;
   img_url?: string;
   role: string;
+  auth_level: string;
   first_name: string;
   last_name?: string;
 }
@@ -34,4 +25,11 @@ export interface Issue {
   editor: User;
   release_date: Date;
   articles: Article[];
+}
+
+export interface Showcase {
+  id: string;
+  img_url: string;
+  link: string;
+  name?: string;
 }
