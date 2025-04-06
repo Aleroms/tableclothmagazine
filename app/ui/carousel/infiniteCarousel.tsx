@@ -14,8 +14,6 @@ export default function InfiniteCarousel({ items }: InfProps) {
         direction="left"
         speed={50}
         loop={0}
-        gradient
-        gradientColor="var(--background)"
         autoFill
       >
         {items.map((item) => (

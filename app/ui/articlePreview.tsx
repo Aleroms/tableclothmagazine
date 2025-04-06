@@ -8,7 +8,7 @@ export default function ArticlePreview() {
     (a, b) => b.release_date.getTime() - a.release_date.getTime()
   );
   return (
-    <div className="my-12 md:my-16 mx-4 md:max-w-4xl lg:mx-auto">
+    <div className="my-12 md:my-30 mx-4 md:max-w-4xl lg:mx-auto">
       <h2 className="capitalize font-bold text-2xl md:text-4xl">Articles</h2>
       <div className="mt-4">
         <div className="flex flex-col gap-3 md:grid md:grid-cols-2">

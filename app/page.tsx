@@ -6,6 +6,7 @@ import ArticlePreview from "./ui/articlePreview";
 import IssueCarousel from "./ui/carousel/issueCarousel";
 import NavButton from "./ui/button/navigationButton";
 import InfiniteCarousel from "./ui/carousel/infiniteCarousel";
+import AboutPreview from "./ui/about/aboutPreview";
 
 export default function Home() {
   const sortedCarousel = carouselPlaceholder.sort(
@@ -27,12 +28,13 @@ export default function Home() {
             View More
           </NavButton>
         </div>
-        {/* Showcase  */}
-        <div className="mx-4 my-40 max-w-5xl lg:mx-auto">
-          <h2 className="capitalize font-bold text-2xl md:text-4xl">
-            Showcase
-          </h2>
+        {/* Showcase + About  */}
+        <div className="mx-4 my-80 max-w-5xl lg:mx-auto">
+          <h2 className="capitalize font-bold text-2xl md:text-4xl">Showcase</h2>
           <InfiniteCarousel items={showcasePlaceholder} />
+          <div className="my-80">
+            <AboutPreview />
+          </div>
         </div>
       </main>
     </>
