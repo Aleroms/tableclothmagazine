@@ -146,4 +146,91 @@ const showcasePlaceholder = [
   },
 ];
 
-export { carouselPlaceholder, articlePlaceholder, showcasePlaceholder };
+const eventsPlaceholder = [
+  {
+    id: "1",
+    startDate: new Date("2024-10-07"),
+    title: "VGDC: Pitch Presentations",
+  },
+  {
+    id: "2",
+    startDate: new Date("2024-10-14"),
+    endDate: new Date("2024-10-21"),
+    title: "Steam Next Fest begins",
+    notes: 'Keep an eye out for the new "Save the Castle!" demo!',
+  },
+  {
+    id: "3",
+    startDate: new Date("2024-10-25"),
+    endDate: new Date("2024-10-27"),
+    title: "VGDC: Fall Game Jam",
+  },
+  {
+    id: "4",
+    startDate: new Date("2024-11-18"),
+    title: "VGDC: Playtesting Night",
+  },
+  {
+    id: "5",
+    startDate: new Date("2024-12-2"),
+    title: "VGDC: Project Showcase",
+  },
+  {
+    id: "6",
+    startDate: new Date("2025-01-07"),
+    title: "Winter TT Magazine releases!",
+  },
+  {
+    id: "7",
+    startDate: new Date("2025-01-20"),
+    endDate: new Date("2025-01-26"),
+    title: "Global Game Jam",
+  },
+  {
+    id: "8",
+    startDate: new Date("2025-02-10"),
+    endDate: new Date("2025-02-14"),
+    title: "VGDC Game Developer's Week",
+  },
+  {
+    id: "9",
+    startDate: new Date("2025-02-11"),
+    endDate: new Date("2025-02-13"),
+    title: "D.I.C.E Summit",
+  },
+  {
+    id: "10",
+    startDate: new Date("2025-02-16"),
+    endDate: new Date("2025-02-23"),
+    title: "The Table Game Jam",
+  },
+  {
+    id: "11",
+    startDate: new Date("2025-02-18"),
+    title: "VGDC Playtesting Night",
+  },
+  {
+    id: "12",
+    startDate: new Date("2025-02-24"),
+    endDate: new Date("2025-03-03"),
+    title: "Steam Next Fest",
+  },
+  {
+    id: "13",
+    startDate: new Date("2025-03-11"),
+    title: "VGDC Project Presentation",
+  },
+  {
+    id: "14",
+    startDate: new Date("2025-03-17"),
+    endDate: new Date("2025-03-21"),
+    title: "GDC",
+  },
+];
+
+export {
+  carouselPlaceholder,
+  articlePlaceholder,
+  showcasePlaceholder,
+  eventsPlaceholder,
+};

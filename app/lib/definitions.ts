@@ -33,3 +33,12 @@ export interface Showcase {
   link: string;
   name?: string;
 }
+
+export interface Event {
+  id: string;
+  startDate: Date;
+  endDate?: Date;
+  title: string;
+  notes?: string;
+  externalLink?: string;
+}
