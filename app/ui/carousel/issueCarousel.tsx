@@ -14,15 +14,19 @@ export interface CarouselProps {
 }
 
 export default function IssueCarousel({ slides }: CarouselProps) {
+  const sortedSlides = slides.sort(
+    (a, b) => b.release_date.getTime() - a.release_date.getTime()
+  );
+
   const [current, setCurrent] = useState(0);
   const visibleSlides = 3;
 
   function nextSlide() {
-    setCurrent(current === slides.length - 1 ? 0 : current + 1);
+    setCurrent(current === sortedSlides.length - 1 ? 0 : current + 1);
   }
 
   function prevSlide() {
-    setCurrent(current === 0 ? slides.length - 1 : current - 1);
+    setCurrent(current === 0 ? sortedSlides.length - 1 : current - 1);
   }
   return (
     <div className="m-auto max-w-5xl bg-[var(--t-dark-2)] p-2 flex flex-col rounded-sm">
@@ -38,11 +42,14 @@ export default function IssueCarousel({ slides }: CarouselProps) {
           </h2>
           <div className="my-1">
             <div className=" flex overflow-x-auto gap-2 sm:gap-3 md:gap-4 lg:gap-8">
-              {slides
+              {sortedSlides
                 .slice(current, current + visibleSlides)
                 .concat(
-                  current + visibleSlides > slides.length
-                    ? slides.slice(0, (current + visibleSlides) % slides.length)
+                  current + visibleSlides > sortedSlides.length
+                    ? sortedSlides.slice(
+                        0,
+                        (current + visibleSlides) % sortedSlides.length
+                      )
                     : []
                 )
                 .map((slide) => (
@@ -71,9 +78,9 @@ export default function IssueCarousel({ slides }: CarouselProps) {
           className="hidden sm:inline-flex bg-[var(--t-light-1)] h-18 w-5 rounded-xl mx-4 hover:bg-neutral-200 cursor-pointer"
         />
       </div>
-      {/* pagination  */}
+      {/* pagination hidden on mobile  */}
       <div className="hidden sm:flex justify-center items-center gap-4 m-4">
-        {slides.map((_, idx) => (
+        {sortedSlides.map((_, idx) => (
           <div
             key={idx}
             className={`h-4 w-4 rounded-full transition delay-150 ease-in-out ${

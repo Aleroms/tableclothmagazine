@@ -1,6 +1,5 @@
 import {
   carouselPlaceholder,
-  eventsPlaceholder,
   showcasePlaceholder,
 } from "./lib/placeholder-data";
 import ArticlePreview from "./ui/articlePreview";
@@ -12,17 +11,13 @@ import UpcomingEvents from "./ui/upcomingEvents";
 import { latestThreeEvents } from "./lib/utils";
 
 export default function Home() {
-  const sortedCarousel = carouselPlaceholder.sort(
-    (a, b) => b.release_date.getTime() - a.release_date.getTime()
-  );
-
-  const latestThree = latestThreeEvents(eventsPlaceholder);
+  const latestThree = latestThreeEvents();
 
   return (
     <>
       <main className="mt-15 mb-40">
         {/* Latest Releases  */}
-        <IssueCarousel slides={sortedCarousel} />
+        <IssueCarousel slides={carouselPlaceholder} />
         {/* Article preview  */}
         <ArticlePreview />
         <div className="flex justify-center m-10">

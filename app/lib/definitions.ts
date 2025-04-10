@@ -3,7 +3,7 @@ export interface User {
   id: string;
   img_url?: string;
   role: string;
-  auth_level: string;
+  auth_level: "admin" | "writer";
   first_name: string;
   last_name?: string;
 }
@@ -22,9 +22,8 @@ export interface Issue {
   name: string;
   img_url: string;
   editors_note: string;
-  editor: User;
+  editor_id: string;
   release_date: Date;
-  articles: Article[];
 }
 
 export interface Showcase {
