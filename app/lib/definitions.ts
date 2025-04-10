@@ -6,6 +6,7 @@ export interface User {
   auth_level: "admin" | "writer";
   first_name: string;
   last_name?: string;
+  pronouns?: string;
 }
 
 export interface Article {

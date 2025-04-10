@@ -15,10 +15,10 @@
   --dropShadow: 2px 2px 2 rgb(255, 255, 255, 0.25);
 }
 
-@theme inline {
+/* @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-}
+} */
 
 @media (prefers-color-scheme: dark) {
   :root {

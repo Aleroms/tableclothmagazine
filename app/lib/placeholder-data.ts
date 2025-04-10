@@ -1,29 +1,31 @@
+import { Article, User } from "./definitions";
+
 const carouselPlaceholder = [
   {
-    to: "/issue/1",
+    to: "/issues/1",
     img_url: "/issueCover/issue1.png",
     release_date: new Date("2024-10-02"),
   },
   {
-    to: "/issue/2",
+    to: "/issues/2",
     img_url: "/issueCover/issue2.png",
     release_date: new Date("2025-01-15"),
   },
   {
-    to: "/issue/3",
+    to: "/issues/3",
     img_url: "/issueCover/issue3.png",
     release_date: new Date("2025-04-21"),
   },
 ];
 
-const articlePlaceholder = [
+const articlePlaceholder: Article[] = [
   {
     id: "1",
     issue_id: "2",
     writer: {
       id: "1",
       role: "",
-      auth_level: "",
+      auth_level: "writer",
       first_name: "Riley",
       last_name: "Park",
     },
@@ -37,7 +39,7 @@ const articlePlaceholder = [
     writer: {
       id: "2",
       role: "",
-      auth_level: "",
+      auth_level: "writer",
       first_name: "Adam",
       last_name: "Tan",
     },
@@ -51,7 +53,7 @@ const articlePlaceholder = [
     writer: {
       id: "3",
       role: "",
-      auth_level: "",
+      auth_level: "writer",
       first_name: "Alex",
       last_name: "Grams",
     },
@@ -66,7 +68,7 @@ const articlePlaceholder = [
     writer: {
       id: "4",
       role: "",
-      auth_level: "",
+      auth_level: "writer",
       first_name: "Ryan",
       last_name: "Chang",
     },
@@ -80,7 +82,7 @@ const articlePlaceholder = [
     writer: {
       id: "5",
       role: "",
-      auth_level: "",
+      auth_level: "admin",
       first_name: "Victoria",
       last_name: "Winn",
     },
@@ -95,7 +97,7 @@ const articlePlaceholder = [
     writer: {
       id: "5",
       role: "",
-      auth_level: "",
+      auth_level: "admin",
       first_name: "Victoria",
       last_name: "Winn",
     },
@@ -109,7 +111,7 @@ const articlePlaceholder = [
     writer: {
       id: "7",
       role: "",
-      auth_level: "",
+      auth_level: "admin",
       first_name: "Dane",
       last_name: "Carstens",
     },
@@ -123,7 +125,7 @@ const articlePlaceholder = [
     writer: {
       id: "8",
       role: "",
-      auth_level: "",
+      auth_level: "writer",
       first_name: "Ittai",
       last_name: "Mann",
     },
@@ -262,10 +264,9 @@ const issuesPlaceholder = [
     editors_note:
       "Hello everyone! Welcome to the second issue of The Tablecloth! I am so happy we were able to do another one of these (especially with the busy holiday season!). Thank you to everyone who worked on this issue: Dane and Alex have returned not as interviewees, but as writers themselves! Riley and Adam join us with articles based on their personal game development experience. We also have several more puzzles thanks to Murphy and Noel. A huge shoutout to Nichole who helped edit every article and playtested every puzzle. And last but not least, thank you to SupriseOrb for once again laying out the magazine and giving it such a beautiful design. I hope you all enjoy this issue, and thank you for supporting this next release!",
   },
-  
 ];
 
-const usersPlaceholder = [
+const usersPlaceholder: User[] = [
   {
     id: "1",
     role: "writer",
@@ -300,7 +301,8 @@ const usersPlaceholder = [
     auth_level: "admin",
     first_name: "Victoria",
     last_name: "Winn",
-    img_url: "/user/victoria5.png",
+    img_url: "/user/victoriawinn5.png",
+    pronouns: "she/her",
   },
   {
     id: "7",

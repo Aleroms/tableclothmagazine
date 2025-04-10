@@ -1,18 +1,20 @@
 import ArticleCard from "./card/articleCard";
 import Link from "next/link";
 
-import { articlePlaceholder } from "../lib/placeholder-data";
+import { Article } from "../lib/definitions";
 
-export default function ArticlePreview() {
-  const sortedArticles = articlePlaceholder.sort(
-    (a, b) => b.release_date.getTime() - a.release_date.getTime()
-  );
+interface ArticlePreviewProps {
+  articles: Article[];
+}
+
+export default function ArticlePreview({ articles }: ArticlePreviewProps) {
+
   return (
     <div className="my-12 md:my-30 mx-4 md:max-w-4xl lg:mx-auto">
       <h2 className="capitalize font-bold text-2xl md:text-4xl">Articles</h2>
       <div className="mt-4">
         <div className="flex flex-col gap-3 md:grid md:grid-cols-2">
-          {sortedArticles.map((article, idx) => (
+          {articles.map((article, idx) => (
             <Link
               key={article.id}
               href={`issue/${article.issue_id}/article/${article.id}`}

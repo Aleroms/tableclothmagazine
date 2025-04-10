@@ -8,10 +8,11 @@ import NavButton from "./ui/button/navigationButton";
 import InfiniteCarousel from "./ui/carousel/infiniteCarousel";
 import AboutPreview from "./ui/about/aboutPreview";
 import UpcomingEvents from "./ui/upcomingEvents";
-import { latestThreeEvents } from "./lib/utils";
+import { latestThreeEvents, getArticles } from "./lib/utils";
 
 export default function Home() {
   const latestThree = latestThreeEvents();
+  const articles = getArticles(8);
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function Home() {
         {/* Latest Releases  */}
         <IssueCarousel slides={carouselPlaceholder} />
         {/* Article preview  */}
-        <ArticlePreview />
+        <ArticlePreview articles={articles} />
         <div className="flex justify-center m-10">
           <NavButton
             href="/issues/"

@@ -1,16 +1,16 @@
-import { formatDateToUSA, GetAllIssues } from "@/app/lib/utils";
+import { formatDateToUSA, getAllIssues } from "@/app/lib/utils";
 import Image from "next/image";
 import NavButton from "../button/navigationButton";
 import Link from "next/link";
 
 export default function IssueOverview() {
-  const issues = GetAllIssues();
+  const issues = getAllIssues();
   return (
     <div className="bg-[var(--t-dark-3)] p-4 rounded-sm max-w-4xl m-4 md:m-auto md:grid md:grid-cols-3 md:gap-8 lg:max-w-7xl md:pb-8">
       {issues.map((issue) => (
         <article key={issue.id} className="px-4 my-5">
           <div className="relative w-60 h-80 m-auto lg:w-80 md:h-100">
-            <Link href={`issues/${issue.id}`}>
+            <Link href={`/issues/${issue.id}`}>
               <Image
                 src={issue.img_url}
                 fill
