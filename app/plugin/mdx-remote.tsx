@@ -1,12 +1,15 @@
 import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
+
 import Link from "next/link";
+import Image from "next/image";
+
 import React from "react";
 
-// Generic type for MDX component props
-type ComponentProps = {
-  children?: React.ReactNode;
-  href?: string;
-};
+import {
+  ComponentImageProps,
+  ComponetAnchorProps,
+  ComponentProps,
+} from "./definitions";
 
 const components = {
   h2: (props: ComponentProps) => (
@@ -18,10 +21,10 @@ const components = {
   em: (props: ComponentProps) => (
     <em className="text-stone-400 my-6">{props.children}</em>
   ),
-  a: (props: ComponentProps) => {
+  a: (props: ComponetAnchorProps) => {
     const { href, children } = props;
     const styles =
-      "font-black text-lg underline underline-offset-3 decoration-2 hover:decoration-3 decoration-[var(--table-1)]";
+      "font-bold text-lg underline underline-offset-3 decoration-2 hover:decoration-3 decoration-[var(--table-1)]";
 
     if (typeof href === "string" && href.startsWith("https")) {
       return (
@@ -33,13 +36,16 @@ const components = {
 
     if (typeof href === "string") {
       return (
-        <Link href={href}>
-          <a className={`${styles}`}>{children}</a>
+        <Link href={href} className={`${styles}`}>
+          {children}
         </Link>
       );
     }
 
     return <span>{children}</span>;
+  },
+  img: ({ src, alt }: ComponentImageProps) => {
+    return <Image src={src} alt={alt} width={300} height={300} />;
   },
 };
 

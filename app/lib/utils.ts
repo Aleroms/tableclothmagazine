@@ -63,7 +63,7 @@ export const getMarkdownByArticleId = async (articleId: string) => {
     ),
     "utf-8"
   );
-  console.log("content", content);
+
   return content;
 };
 
