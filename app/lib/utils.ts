@@ -41,3 +41,9 @@ export const getUserById = (id: string): User | undefined =>
 
 export const getArticlesByIssueId = (issueId: string) =>
   articlePlaceholder.filter((article) => article.issue_id === issueId);
+
+export const getArticleByArticleId = (articleId: string) =>
+  articlePlaceholder.find((article) => article.id === articleId);
+
+export const getAuthorById = (authorId: string) =>
+  usersPlaceholder.find((user) => user.id === authorId);

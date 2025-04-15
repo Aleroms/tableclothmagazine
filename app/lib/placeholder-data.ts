@@ -22,13 +22,7 @@ const articlePlaceholder: Article[] = [
   {
     id: "1",
     issue_id: "2",
-    writer: {
-      id: "1",
-      role: "",
-      auth_level: "writer",
-      first_name: "Riley",
-      last_name: "Park",
-    },
+    writer_id: "1",
     title: "Reflections on Designing for After-school Enrichment",
     content: "",
     release_date: new Date("2025-01-15"),
@@ -36,13 +30,7 @@ const articlePlaceholder: Article[] = [
   {
     id: "2",
     issue_id: "2",
-    writer: {
-      id: "2",
-      role: "",
-      auth_level: "writer",
-      first_name: "Adam",
-      last_name: "Tan",
-    },
+    writer_id: "2",
     title: "Game Jamming to Game Making",
     content: "",
     release_date: new Date("2025-01-15"),
@@ -50,13 +38,7 @@ const articlePlaceholder: Article[] = [
   {
     id: "3",
     issue_id: "2",
-    writer: {
-      id: "3",
-      role: "",
-      auth_level: "writer",
-      first_name: "Alex",
-      last_name: "Grams",
-    },
+    writer_id: "3",
     title:
       "Explaining Divide and Conquer, Dynamic Programming, and Greedy Algorithms",
     content: "",
@@ -65,13 +47,7 @@ const articlePlaceholder: Article[] = [
   {
     id: "4",
     issue_id: "1",
-    writer: {
-      id: "4",
-      role: "",
-      auth_level: "writer",
-      first_name: "Ryan",
-      last_name: "Chang",
-    },
+    writer_id: "4",
     title: "Optimizing Monster Hunter Armor with Linear Programming",
     content: "",
     release_date: new Date("2024-10-02"),
@@ -79,13 +55,7 @@ const articlePlaceholder: Article[] = [
   {
     id: "5",
     issue_id: "1",
-    writer: {
-      id: "5",
-      role: "",
-      auth_level: "admin",
-      first_name: "Victoria",
-      last_name: "Winn",
-    },
+    writer_id: "5",
     title:
       "Interview with Dane Carstens: Designing for Virtual Reality with “Save The Castle!”",
     content: "",
@@ -94,13 +64,7 @@ const articlePlaceholder: Article[] = [
   {
     id: "6",
     issue_id: "1",
-    writer: {
-      id: "5",
-      role: "",
-      auth_level: "admin",
-      first_name: "Victoria",
-      last_name: "Winn",
-    },
+    writer_id: "5",
     title: "Interview with Alex Grams: Interning as a Gameplay Programmer",
     content: "",
     release_date: new Date("2024-10-02"),
@@ -108,13 +72,7 @@ const articlePlaceholder: Article[] = [
   {
     id: "7",
     issue_id: "1",
-    writer: {
-      id: "7",
-      role: "",
-      auth_level: "admin",
-      first_name: "Dane",
-      last_name: "Carstens",
-    },
+    writer_id: "7",
     title: "Playing Games on Easy is Allowed!",
     content: "",
     release_date: new Date("2024-10-02"),
@@ -122,13 +80,7 @@ const articlePlaceholder: Article[] = [
   {
     id: "8",
     issue_id: "1",
-    writer: {
-      id: "8",
-      role: "",
-      auth_level: "writer",
-      first_name: "Ittai",
-      last_name: "Mann",
-    },
+    writer_id: "8",
     title: "Ok… So what is a game engine?",
     content: "",
     release_date: new Date("2024-10-02"),

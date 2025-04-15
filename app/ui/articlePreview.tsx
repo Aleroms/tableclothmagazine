@@ -17,7 +17,7 @@ export default function ArticlePreview({ articles }: ArticlePreviewProps) {
           {articles.map((article, idx) => (
             <Link
               key={article.id}
-              href={`issue/${article.issue_id}/article/${article.id}`}
+              href={`${article.issue_id}/article/${article.id}`}
               className={idx % 3 === 2 ? "md:col-span-2" : ""}
             >
               <ArticleCard article={article} />

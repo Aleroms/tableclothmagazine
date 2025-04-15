@@ -1,5 +1,5 @@
 import { Article } from "@/app/lib/definitions";
-import { formatDateToUSA } from "@/app/lib/utils";
+import { formatDateToUSA, getAuthorById } from "@/app/lib/utils";
 import Image from "next/image";
 
 type ArticleCardProps = {
@@ -7,8 +7,13 @@ type ArticleCardProps = {
 };
 
 export default function ArticleCard({ article }: ArticleCardProps) {
-  const { writer, release_date, title } = article;
-  const fullName = writer.first_name + " " + writer.last_name;
+  const { release_date, title, writer_id } = article;
+
+  const writer = getAuthorById(writer_id);
+
+  const fullName = writer
+    ? `${writer.first_name} ${writer.last_name}`
+    : "Unknown Author";
   const date = formatDateToUSA(release_date);
 
   return (
@@ -18,12 +23,13 @@ export default function ArticleCard({ article }: ArticleCardProps) {
     >
       <h3 className="mb-8">{title}</h3>
       <div className="flex gap-4 items-center">
-        {writer.img_url ? (
+        {writer?.img_url ? (
           <Image
             width={40}
-            height={40}
+            height={45}
             src={writer.img_url}
             alt={`${fullName} profile picture`}
+            className="rounded-full"
           />
         ) : (
           // fallback incase user has no profile picture

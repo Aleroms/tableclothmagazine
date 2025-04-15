@@ -12,7 +12,7 @@ export interface User {
 export interface Article {
   id: string;
   issue_id: string;
-  writer: User;
+  writer_id: string;
   title: string;
   content: string;
   release_date: Date;
