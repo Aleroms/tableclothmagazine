@@ -15,6 +15,7 @@ export interface Article {
   writer_id: string;
   title: string;
   content: string;
+  markdown?: string;
   release_date: Date;
 }
 

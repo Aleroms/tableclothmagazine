@@ -21,11 +21,12 @@ const carouselPlaceholder = [
 const articlePlaceholder: Article[] = [
   {
     id: "1",
-    issue_id: "2",
-    writer_id: "1",
-    title: "Reflections on Designing for After-school Enrichment",
+    issue_id: "1",
+    writer_id: "5",
+    title: "Interview with Alex Grams: Interning as a Gameplay Programmer",
     content: "",
-    release_date: new Date("2025-01-15"),
+    markdown: "content/issues/1/test.md",
+    release_date: new Date("2024-10-02"),
   },
   {
     id: "2",
@@ -33,6 +34,7 @@ const articlePlaceholder: Article[] = [
     writer_id: "2",
     title: "Game Jamming to Game Making",
     content: "",
+    markdown: "content/issues/1/test.md",
     release_date: new Date("2025-01-15"),
   },
   {
@@ -42,6 +44,7 @@ const articlePlaceholder: Article[] = [
     title:
       "Explaining Divide and Conquer, Dynamic Programming, and Greedy Algorithms",
     content: "",
+    markdown: "content/issues/1/test.md",
     release_date: new Date("2025-01-15"),
   },
   {
@@ -50,6 +53,7 @@ const articlePlaceholder: Article[] = [
     writer_id: "4",
     title: "Optimizing Monster Hunter Armor with Linear Programming",
     content: "",
+    markdown: "content/issues/1/test.md",
     release_date: new Date("2024-10-02"),
   },
   {
@@ -59,6 +63,7 @@ const articlePlaceholder: Article[] = [
     title:
       "Interview with Dane Carstens: Designing for Virtual Reality with “Save The Castle!”",
     content: "",
+    markdown: "content/issues/1/test.md",
     release_date: new Date("2024-10-02"),
   },
   {
@@ -67,6 +72,7 @@ const articlePlaceholder: Article[] = [
     writer_id: "5",
     title: "Interview with Alex Grams: Interning as a Gameplay Programmer",
     content: "",
+    markdown: "content/issues/1/test.md",
     release_date: new Date("2024-10-02"),
   },
   {
@@ -75,6 +81,7 @@ const articlePlaceholder: Article[] = [
     writer_id: "7",
     title: "Playing Games on Easy is Allowed!",
     content: "",
+    markdown: "content/issues/1/test.md",
     release_date: new Date("2024-10-02"),
   },
   {
@@ -83,6 +90,7 @@ const articlePlaceholder: Article[] = [
     writer_id: "8",
     title: "Ok… So what is a game engine?",
     content: "",
+    markdown: "content/issues/1/test.md",
     release_date: new Date("2024-10-02"),
   },
 ];
