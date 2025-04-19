@@ -18,12 +18,14 @@ export default function TableLogo({ size }: { size: number }) {
       />
       <div className="hidden md:flex flex-col ml-4">
         <h2
-          className={`text-md lg:text-xl ${bowlby_one.className} drop-shadow-[--dropShadow-hard]`}
+          className={`text-md lg:text-xl ${bowlby_one.className}`}
+          style={{ textShadow: "var(--dropShadow-hard)" }}
         >
           THE TABLECLOTH MAGAZINE
         </h2>
         <h2
-          className={`text-xs lg:text-md ${bowlby_one.className} drop-shadow-[--dropShadow-hard]`}
+          className={`text-xs lg:text-md ${bowlby_one.className}`}
+          style={{ textShadow: "var(--dropShadow-hard)" }}
         >
           covering your game dev news
         </h2>

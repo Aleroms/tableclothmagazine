@@ -3,18 +3,21 @@ export interface User {
   id: string;
   img_url?: string;
   role: string;
-  auth_level: "admin" | "writer";
+  auth_level: "admin" | "writer" | "basic";
   first_name: string;
   last_name?: string;
   pronouns?: string;
+  fav_color?: string;
+  description?: string;
 }
 
 export interface Article {
   id: string;
   issue_id: string;
-  writer: User;
+  writer_id: string;
   title: string;
   content: string;
+  markdown?: string;
   release_date: Date;
 }
 

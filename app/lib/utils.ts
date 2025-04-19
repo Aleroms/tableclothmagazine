@@ -1,3 +1,6 @@
+import { promises as fs } from "fs";
+import path from "path";
+
 import { User } from "./definitions";
 import {
   articlePlaceholder,
@@ -39,5 +42,38 @@ export const getIssueById = (id: string) =>
 export const getUserById = (id: string): User | undefined =>
   usersPlaceholder.find((user) => user.id === id);
 
+export const getAllTableclothUsers = (): User[] =>
+  usersPlaceholder.filter(
+    (user) => user.auth_level === "admin" || user.auth_level === "writer"
+  );
+
 export const getArticlesByIssueId = (issueId: string) =>
   articlePlaceholder.filter((article) => article.issue_id === issueId);
+
+export const getMarkdownByArticleId = async (articleId: string) => {
+  const article = articlePlaceholder.find(
+    (article) => article.id === articleId
+  );
+
+  if (article == null) {
+    return undefined;
+  }
+
+  const { issue_id, id } = article;
+
+  const content = await fs.readFile(
+    path.join(
+      process.cwd(),
+      `content/issues/${issue_id}/article/${id}/page.mdx`
+    ),
+    "utf-8"
+  );
+
+  return content;
+};
+
+export const getArticleByArticleId = (articleId: string) =>
+  articlePlaceholder.find((article) => article.id === articleId);
+
+export const getAuthorById = (authorId: string) =>
+  usersPlaceholder.find((user) => user.id === authorId);
