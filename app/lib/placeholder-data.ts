@@ -292,6 +292,12 @@ const usersPlaceholder: User[] = [
     auth_level: "admin",
     first_name: "Santiago",
     last_name: "Morales",
+    description: `Passionate web developer committed to crafting responsive and accessible web experiences with a focus on quality, innovation, and continuous learning. I love coffee ☕ and coding 👨‍💻
+      
+      [GitHub](https://github.com/aleroms/) [Linkedin](https://www.linkedin.com/in/santiago-morales-14b466194/) [itch.io](https://aleroms.itch.io)
+      `,
+    fav_color: "#41b883",
+    pronouns: "he / him",
   },
   {
     id: "10",

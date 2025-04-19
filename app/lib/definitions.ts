@@ -3,10 +3,12 @@ export interface User {
   id: string;
   img_url?: string;
   role: string;
-  auth_level: "admin" | "writer";
+  auth_level: "admin" | "writer" | "basic";
   first_name: string;
   last_name?: string;
   pronouns?: string;
+  fav_color?: string;
+  description?: string;
 }
 
 export interface Article {

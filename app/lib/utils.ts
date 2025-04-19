@@ -42,6 +42,11 @@ export const getIssueById = (id: string) =>
 export const getUserById = (id: string): User | undefined =>
   usersPlaceholder.find((user) => user.id === id);
 
+export const getAllTableclothUsers = (): User[] =>
+  usersPlaceholder.filter(
+    (user) => user.auth_level === "admin" || user.auth_level === "writer"
+  );
+
 export const getArticlesByIssueId = (issueId: string) =>
   articlePlaceholder.filter((article) => article.issue_id === issueId);
 
