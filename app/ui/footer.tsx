@@ -1,7 +1,8 @@
 import TableLogo from "./table_logo";
 import Link from "next/link";
 export default function Footer() {
-  const links = ["issues", "about", "events", "resources"];
+  // removing "resources" for now
+  const links = ["issues", "about", "events"];
   const delim = "|";
   return (
     <footer className="px-12 py-8 bg-[var(--t-dark-3)] block">

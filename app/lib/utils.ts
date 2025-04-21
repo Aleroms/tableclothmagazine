@@ -26,6 +26,13 @@ export const latestThreeEvents = () =>
     })
     .slice(0, 3);
 
+export const getAllEvents = () =>
+  eventsPlaceholder.sort((a, b) => {
+    const dateA = new Date(a.endDate || a.startDate).getTime();
+    const dateB = new Date(b.endDate || b.startDate).getTime();
+    return dateB - dateA;
+  });
+
 export const getAllIssues = () =>
   issuesPlaceholder.sort(
     (a, b) => b.release_date.getTime() - a.release_date.getTime()

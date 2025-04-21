@@ -44,4 +44,5 @@ export interface Event {
   title: string;
   notes?: string;
   externalLink?: string;
+  duration?: string;
 }

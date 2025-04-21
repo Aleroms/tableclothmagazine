@@ -1,4 +1,4 @@
-import { Article, User } from "./definitions";
+import { Article, User, Event } from "./definitions";
 
 const carouselPlaceholder = [
   {
@@ -116,11 +116,12 @@ const showcasePlaceholder = [
   },
 ];
 
-const eventsPlaceholder = [
+const eventsPlaceholder: Event[] = [
   {
     id: "1",
     startDate: new Date("2024-10-07"),
     title: "VGDC: Pitch Presentations",
+    duration: "3PM - 7PM",
   },
   {
     id: "2",
@@ -139,11 +140,13 @@ const eventsPlaceholder = [
     id: "4",
     startDate: new Date("2024-11-18"),
     title: "VGDC: Playtesting Night",
+    duration: "5PM - 8PM",
   },
   {
     id: "5",
     startDate: new Date("2024-12-2"),
     title: "VGDC: Project Showcase",
+    duration: "6PM - 9PM",
   },
   {
     id: "6",
@@ -161,12 +164,15 @@ const eventsPlaceholder = [
     startDate: new Date("2025-02-10"),
     endDate: new Date("2025-02-14"),
     title: "VGDC Game Developer's Week",
+    duration: "8AM - 5PM",
   },
   {
     id: "9",
     startDate: new Date("2025-02-11"),
     endDate: new Date("2025-02-13"),
     title: "D.I.C.E Summit",
+    duration: "8AM - 8PM",
+    externalLink: "https://www.dicesummit.org/",
   },
   {
     id: "10",
@@ -178,6 +184,7 @@ const eventsPlaceholder = [
     id: "11",
     startDate: new Date("2025-02-18"),
     title: "VGDC Playtesting Night",
+    duration: "5PM - 9PM",
   },
   {
     id: "12",
@@ -189,12 +196,13 @@ const eventsPlaceholder = [
     id: "13",
     startDate: new Date("2025-03-11"),
     title: "VGDC Project Presentation",
+    duration: "4:30PM - 8PM",
   },
   {
     id: "14",
     startDate: new Date("2025-03-17"),
     endDate: new Date("2025-03-21"),
-    title: "GDC",
+    title: "Game Developer's Conference",
   },
 ];
 

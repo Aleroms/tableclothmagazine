@@ -17,7 +17,7 @@ export default function NavBar() {
           <Link href="/issues">Issues</Link>
           <Link href="/about">about</Link>
           <Link href="/events">events</Link>
-          <Link href="/resources">resources</Link>
+          {/* <Link href="/resources">resources</Link> */}
         </nav>
 
         {/* hamburger menu*/}
@@ -57,9 +57,9 @@ export default function NavBar() {
           <Link href="/events" onClick={() => setMenuOpen(false)}>
             Events
           </Link>
-          <Link href="/resources" onClick={() => setMenuOpen(false)}>
+          {/* <Link href="/resources" onClick={() => setMenuOpen(false)}>
             Resources
-          </Link>
+          </Link> */}
         </nav>
       )}
     </header>
