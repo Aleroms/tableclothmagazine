@@ -1,5 +1,6 @@
 import { Event } from "@/app/lib/definitions";
 import { JSX } from "react";
+import Link from "next/link";
 
 interface EventsSelectorProps {
   events: Event[];
@@ -22,21 +23,26 @@ export default function EventsSelector({ events }: EventsSelectorProps) {
         currentYear = year;
         currentMonthIndex = null; // reset month when year changes
         items.push(
-          <h2 key={`year-${year}`} className="text-xl font-bold md:mt-4">
+          <Link
+            href={`#month-${year}-${monthIndex}`}
+            key={`year-${year}`}
+            className="text-xl font-bold md:mt-4"
+          >
             {year}
-          </h2>
+          </Link>
         );
       }
 
       if (monthIndex !== currentMonthIndex) {
         currentMonthIndex = monthIndex;
         items.push(
-          <h3
+          <Link
+            href={`#month-${year}-${monthIndex}`}
             key={`month-${year}-${monthIndex}`}
             className="text-md md:font-medium md:mt-2"
           >
             {monthName}
-          </h3>
+          </Link>
         );
       }
     }
@@ -46,11 +52,12 @@ export default function EventsSelector({ events }: EventsSelectorProps) {
 
   return (
     <aside
-      className="flex gap-8 outline-3 outline-offset-4 
-      outline-(--t-dark-3) px-4 py-1 md:pb-6 md:text-right md:justify-end
-      mb-4  items-center justify-evenly bg-[var(--t-dark-3)] 
-      overflow-x-scroll md:flex-col md:overflow-auto 
-      md:outline-0 md:rounded-sm shrink-0"
+      className="flex gap-8 outline-3
+      outline-(--t-dark-1) px-4 py-3 md:pb-6
+      items-center justify-evenly bg-[var(--t-dark-3)] 
+      overflow-x-scroll md:flex-col md:overflow-y-auto
+      md:overflow-x-hidden  md:outline-0 md:rounded-sm shrink-0
+      sticky top-0 md:top-2 z-1 md:h-screen"
     >
       {createAsideFromEvents()}
     </aside>

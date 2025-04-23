@@ -1,4 +1,5 @@
 import { Event } from "@/app/lib/definitions";
+import { ExternalLink } from "lucide-react";
 
 interface EventsCardProps {
   event: Event;
@@ -28,7 +29,7 @@ export default function EventsCard({ event }: EventsCardProps) {
   const endDateNum = endDate?.getDate();
 
   return (
-    <div className="mx-2 my-4 lg:my-8 grid grid-2 lg:grid-cols-[33%_99%]">
+    <div className="mx-2 my-4 lg:my-8 grid grid-2 lg:grid-cols-[33%_66%]">
       {/* displays the start - endDate?  */}
       <div>
         <h2 className="uppercase font-light text-xl md:text-2xl lg:text-3xl">
@@ -47,14 +48,14 @@ export default function EventsCard({ event }: EventsCardProps) {
           <p className="text-[var(--t-dark-4)] mr-4 md:text-lg mt-4 md:mr-0 md:mt-0">
             {duration ? duration : "All Day"}
           </p>
-          <p className="md:text-lg">
-            {title}
+          <div className="flex items-center">
+            <p className="md:text-lg">{title}</p>
             {externalLink && (
               <a href={externalLink} className="ml-4">
-                link
+                <ExternalLink size={22}/>
               </a>
             )}
-          </p>
+          </div>
         </div>
         {notes && <p className="text-[var(--t-dark-4)]">{notes}</p>}
       </div>

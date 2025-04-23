@@ -6,6 +6,7 @@ interface EventsDetailsProps {
   events: Event[];
 }
 
+
 // export interface Event {
 //   id: string;
 //   startDate: Date;
@@ -34,15 +35,17 @@ export default function EventsDetails({ events }: EventsDetailsProps) {
         items.push(
           <div
             key={`month-${year}-${monthIdx}`}
-            className="relative flex py-5 items-center"
+            id={`month-${year}-${monthIdx}`}
+            className="relative flex py-5 items-center scroll-mt-10"
           >
             <h2 className="flex-shrink mr-3 font-bold text-xl">{`${monthName} ${currentYear}`}</h2>
             <div className="flex-grow border-t-2 border-[var(--t-dark-4)]" />
           </div>
         );
+        continue;
       }
 
-      // the conent of the current event
+      // the content of the current event
       items.push(<EventsCard key={event.id} event={event} />);
 
       // event divider i.e March 2025 ---
@@ -51,7 +54,8 @@ export default function EventsDetails({ events }: EventsDetailsProps) {
         items.push(
           <div
             key={`month-${year}-${monthIdx}`}
-            className="relative flex py-5 items-center"
+            id={`month-${year}-${monthIdx}`}
+            className="relative flex py-5 items-center scroll-mt-10"
           >
             <h2 className="flex-shrink mr-3 font-bold text-xl">{`${monthName} ${currentYear}`}</h2>
             <div className="flex-grow border-t-2 border-[var(--t-dark-4)]" />
@@ -63,7 +67,7 @@ export default function EventsDetails({ events }: EventsDetailsProps) {
     return items;
   };
   return (
-    <main className="flex flex-col p-4 mb-6 bg-[var(--t-dark-3)] md:min-w-lg lg:min-w-2xl rounded-sm">
+    <main className="flex flex-col p-4 bg-[var(--t-dark-3)] md:min-w-lg lg:min-w-2xl rounded-sm">
       {createEventBody()}
     </main>
   );
