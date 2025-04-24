@@ -1,20 +1,21 @@
 import { Article, User, Event, Issue } from "./definitions";
+import { ExternalLink } from "lucide-react";
 
 const carouselPlaceholder = [
   {
     to: "/issues/1",
     img_url: "/issueCover/issue1.png",
-    release_date: new Date("2024-10-02"),
+    release_date: new Date(2024, 9, 2), // October 2, 2024
   },
   {
     to: "/issues/2",
     img_url: "/issueCover/issue2.png",
-    release_date: new Date("2025-01-15"),
+    release_date: new Date(2025, 0, 15), // January 15, 2025
   },
   {
     to: "/issues/3",
     img_url: "/issueCover/issue3.png",
-    release_date: new Date("2025-04-21"),
+    release_date: new Date(2025, 3, 21), // April 21, 2025
   },
 ];
 
@@ -26,7 +27,7 @@ const articlePlaceholder: Article[] = [
     title: "Interview with Alex Grams: Interning as a Gameplay Programmer",
     content: "",
     markdown: "content/issues/1/test.md",
-    release_date: new Date("2024-10-02"),
+    release_date: new Date(2024, 9, 2),
   },
   {
     id: "2",
@@ -35,7 +36,7 @@ const articlePlaceholder: Article[] = [
     title: "Who Wants to be Reincarnated: Postmortem",
     content: "",
     markdown: "content/issues/1/test.md",
-    release_date: new Date("2024-10-02"),
+    release_date: new Date(2024, 9, 2),
   },
   {
     id: "3",
@@ -44,7 +45,7 @@ const articlePlaceholder: Article[] = [
     title: "OK... So What is a Game Engine",
     content: "",
     markdown: "content/issues/1/test.md",
-    release_date: new Date("2024-10-02"),
+    release_date: new Date(2024, 9, 2),
   },
   {
     id: "4",
@@ -54,7 +55,7 @@ const articlePlaceholder: Article[] = [
       "Interview with Dane Carstens: Designing for Virtual Reality with 'Save The Castle!'",
     content: "",
     markdown: "content/issues/1/test.md",
-    release_date: new Date("2024-10-02"),
+    release_date: new Date(2024, 9, 2),
   },
   {
     id: "5",
@@ -63,7 +64,7 @@ const articlePlaceholder: Article[] = [
     title: "Optimizing Monster Hunter Armor with Linear Programming",
     content: "",
     markdown: "content/issues/1/test.md",
-    release_date: new Date("2024-10-02"),
+    release_date: new Date(2024, 9, 2),
   },
   {
     id: "6",
@@ -72,7 +73,7 @@ const articlePlaceholder: Article[] = [
     title: "Playing Games on Easy is Allowed!",
     content: "",
     markdown: "content/issues/1/test.md",
-    release_date: new Date("2025-01-15"),
+    release_date: new Date(2025, 0, 15),
   },
   {
     id: "7",
@@ -81,7 +82,7 @@ const articlePlaceholder: Article[] = [
     title: "Reflections on Designing for After-school Enrichment",
     content: "",
     markdown: "content/issues/1/test.md",
-    release_date: new Date("2025-01-15"),
+    release_date: new Date(2025, 0, 15),
   },
   {
     id: "8",
@@ -90,7 +91,7 @@ const articlePlaceholder: Article[] = [
     title: "Game Jamming to Game Making",
     content: "",
     markdown: "content/issues/1/test.md",
-    release_date: new Date("2025-01-15"),
+    release_date: new Date(2025, 0, 15),
   },
   {
     id: "9",
@@ -99,7 +100,7 @@ const articlePlaceholder: Article[] = [
     title:
       "Explaining Divide and Conquer, Dynamic Programming, and Greedy Algorithms",
     content: "",
-    release_date: new Date("2025-01-15"),
+    release_date: new Date(2025, 0, 15),
   },
 ];
 
@@ -120,65 +121,65 @@ const eventsPlaceholder: Event[] = [
   {
     id: "1",
     issue_id: 1,
-    startDate: new Date("2024-10-7"),
+    startDate: new Date(2024, 9, 7),
     title: "VGDC: Pitch Presentations",
     duration: "3PM - 7PM",
   },
   {
     id: "2",
     issue_id: 1,
-    startDate: new Date("2024-10-14"),
-    endDate: new Date("2024-10-21"),
+    startDate: new Date(2024, 9, 14),
+    endDate: new Date(2024, 9, 21),
     title: "Steam Next Fest",
     notes: 'Keep an eye out for the new "Save the Castle!" demo!',
   },
   {
     id: "3",
     issue_id: 1,
-    startDate: new Date("2024-10-25"),
-    endDate: new Date("2024-10-27"),
+    startDate: new Date(2024, 9, 25),
+    endDate: new Date(2024, 9, 27),
     title: "VGDC: Fall Game Jam",
   },
   {
     id: "4",
     issue_id: 1,
-    startDate: new Date("2024-11-18"),
+    startDate: new Date(2024, 10, 18),
     title: "VGDC: Playtesting Night",
     duration: "5PM - 8PM",
   },
   {
     id: "5",
     issue_id: 1,
-    startDate: new Date("2024-12-2"),
+    startDate: new Date(2024, 11, 2),
     title: "VGDC: Project Showcase",
     duration: "6PM - 9PM",
   },
   {
     id: "6",
     issue_id: 1,
-    startDate: new Date("2025-01-7"),
+    startDate: new Date(2025, 0, 7),
     title: "Winter TT Magazine releases!",
   },
   {
     id: "7",
     issue_id: 1,
-    startDate: new Date("2025-01-20"),
-    endDate: new Date("2025-01-26"),
+    startDate: new Date(2025, 0, 20),
+    endDate: new Date(2025, 0, 26),
     title: "Global Game Jam",
   },
   {
     id: "8",
     issue_id: 2,
-    startDate: new Date("2025-02-10"),
-    endDate: new Date("2025-02-14"),
+    startDate: new Date(2025, 1, 10),
+    endDate: new Date(2025, 1, 14),
     title: "VGDC Game Developer's Week",
     duration: "8AM - 5PM",
   },
   {
     id: "9",
     issue_id: 2,
-    startDate: new Date("2025-02-11"),
-    endDate: new Date("2025-02-13"),
+    startDate: new Date(2025, 1, 11),
+    endDate: new Date(2025, 1, 13),
     title: "D.I.C.E Summit",
     duration: "8AM - 8PM",
     externalLink: "https://www.dicesummit.org/",
@@ -186,36 +187,36 @@ const eventsPlaceholder: Event[] = [
   {
     id: "10",
     issue_id: 2,
-    startDate: new Date("2025-02-16"),
-    endDate: new Date("2025-02-23"),
+    startDate: new Date(2025, 1, 16),
+    endDate: new Date(2025, 1, 23),
     title: "The Table Game Jam",
   },
   {
     id: "11",
     issue_id: 2,
-    startDate: new Date("2025-02-18"),
+    startDate: new Date(2025, 1, 18),
     title: "VGDC Playtesting Night",
     duration: "5PM - 9PM",
   },
   {
     id: "12",
     issue_id: 2,
-    startDate: new Date("2025-02-24"),
-    endDate: new Date("2025-03-03"),
+    startDate: new Date(2025, 1, 24),
+    endDate: new Date(2025, 2, 3),
     title: "Steam Next Fest",
   },
   {
     id: "13",
     issue_id: 2,
-    startDate: new Date("2025-03-11"),
+    startDate: new Date(2025, 2, 11),
     title: "VGDC Project Presentation",
     duration: "4:30PM - 8PM",
   },
   {
     id: "14",
     issue_id: 2,
-    startDate: new Date("2025-03-17"),
-    endDate: new Date("2025-03-21"),
+    startDate: new Date(2025, 2, 17),
+    endDate: new Date(2025, 2, 21),
     title: "Game Developer's Conference",
   },
 ];
@@ -225,7 +226,7 @@ const issuesPlaceholder: Issue[] = [
     id: 1,
     name: "Issue 1",
     img_url: "/issueCover/issue1.png",
-    release_date: new Date("2024-10-02"),
+    release_date: new Date(2024, 9, 2),
     description:
       "Some text that describes the issue and mentions anything that the user might want to know about the issue.",
     editor_id: "5",
@@ -236,7 +237,7 @@ const issuesPlaceholder: Issue[] = [
     id: 2,
     name: "Issue 2",
     img_url: "/issueCover/issue2.png",
-    release_date: new Date("2025-01-15"),
+    release_date: new Date(2025, 0, 15),
     description:
       "Some text that describes the issue and mentions anything that the user might want to know about the issue.",
     editor_id: "5",
@@ -247,7 +248,7 @@ const issuesPlaceholder: Issue[] = [
     id: 3,
     name: "Issue 3",
     img_url: "/issueCover/issue3.png",
-    release_date: new Date("2025-03-15"),
+    release_date: new Date(2025, 2, 15), // March 15, 2025
     description:
       "Some text that describes the issue and mentions anything that the user might want to know about the issue.",
     editor_id: "5",
