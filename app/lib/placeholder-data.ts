@@ -1,5 +1,4 @@
 import { Article, User, Event, Issue } from "./definitions";
-import { ExternalLink } from "lucide-react";
 
 const carouselPlaceholder = [
   {

@@ -31,6 +31,15 @@ export const getAllEvents = (): Event[] => getSortedEvents(eventsPlaceholder);
 export const getAllEventsChronological = (): Event[] =>
   getSortedEvents(eventsPlaceholder, false);
 
+export const getUpcomingCurrentIssueEvents = (): Event[] => {
+  const currentIssueId = getCurrentIssueId();
+  const now = new Date();
+
+  return getIssueEventsById(currentIssueId).filter(
+    (event) => new Date(event.startDate).getTime() >= now.getTime()
+  );
+};
+
 export const getSortedEvents = (
   events: Event[],
   reverse: boolean = true
@@ -60,7 +69,6 @@ export const getPastIssueEvents = (reverse: boolean = true): Event[] => {
     (event) => event.issue_id !== currentIssueId
   );
 
-  
   return getSortedEvents(pastIssuesEvents, reverse);
 };
 

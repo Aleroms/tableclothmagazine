@@ -5,14 +5,6 @@ interface EventsCardProps {
   event: Event;
 }
 
-// export interface Event {
-//   id: string;
-//   startDate: Date;
-//   endDate?: Date;
-//   title: string;
-//   notes?: string;
-//   externalLink?: string;
-// }
 
 export default function EventsCard({ event }: EventsCardProps) {
   const { startDate, endDate, duration, title, externalLink, notes } = event;

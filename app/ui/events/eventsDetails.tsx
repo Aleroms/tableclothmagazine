@@ -6,7 +6,6 @@ interface EventsDetailsProps {
   events: Event[];
 }
 
-
 // export interface Event {
 //   id: string;
 //   startDate: Date;
@@ -17,6 +16,7 @@ interface EventsDetailsProps {
 // }
 
 export default function EventsDetails({ events }: EventsDetailsProps) {
+  console.log(events);
   const createEventBody = () => {
     let currentYear: number | null = null;
     let currentMonthIdx: number | null = null;
@@ -28,40 +28,29 @@ export default function EventsDetails({ events }: EventsDetailsProps) {
       const monthName = date.toLocaleString("default", { month: "long" });
       const monthIdx = date.getMonth();
 
-      // event divider i.e March 2025 ---
-      if (year !== currentYear) {
+      let addDivider = false;
+
+      if (year !== currentYear || monthIdx !== currentMonthIdx) {
         currentYear = year;
         currentMonthIdx = monthIdx;
+        addDivider = true;
+      }
+
+      if (addDivider) {
         items.push(
           <div
             key={`month-${year}-${monthIdx}`}
             id={`month-${year}-${monthIdx}`}
             className="relative flex py-5 items-center scroll-mt-10"
           >
-            <h2 className="flex-shrink mr-3 font-bold text-xl">{`${monthName} ${currentYear}`}</h2>
+            <h2 className="flex-shrink mr-3 font-bold text-xl">{`${monthName} ${year}`}</h2>
             <div className="flex-grow border-t-2 border-[var(--t-dark-4)]" />
           </div>
         );
-        continue;
       }
 
-      // the content of the current event
+      // Always add the event card after checking the date headers
       items.push(<EventsCard key={event.id} event={event} />);
-
-      // event divider i.e March 2025 ---
-      if (monthIdx !== currentMonthIdx) {
-        currentMonthIdx = monthIdx;
-        items.push(
-          <div
-            key={`month-${year}-${monthIdx}`}
-            id={`month-${year}-${monthIdx}`}
-            className="relative flex py-5 items-center scroll-mt-10"
-          >
-            <h2 className="flex-shrink mr-3 font-bold text-xl">{`${monthName} ${currentYear}`}</h2>
-            <div className="flex-grow border-t-2 border-[var(--t-dark-4)]" />
-          </div>
-        );
-      }
     }
 
     return items;
