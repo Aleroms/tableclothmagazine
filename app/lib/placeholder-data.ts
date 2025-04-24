@@ -1,4 +1,4 @@
-import { Article, User, Event } from "./definitions";
+import { Article, User, Event, Issue } from "./definitions";
 
 const carouselPlaceholder = [
   {
@@ -21,7 +21,7 @@ const carouselPlaceholder = [
 const articlePlaceholder: Article[] = [
   {
     id: "1",
-    issue_id: "1",
+    issue_id: 1,
     writer_id: "5",
     title: "Interview with Alex Grams: Interning as a Gameplay Programmer",
     content: "",
@@ -30,7 +30,7 @@ const articlePlaceholder: Article[] = [
   },
   {
     id: "2",
-    issue_id: "1",
+    issue_id: 1,
     writer_id: "5",
     title: "Who Wants to be Reincarnated: Postmortem",
     content: "",
@@ -39,7 +39,7 @@ const articlePlaceholder: Article[] = [
   },
   {
     id: "3",
-    issue_id: "1",
+    issue_id: 1,
     writer_id: "8",
     title: "OK... So What is a Game Engine",
     content: "",
@@ -48,7 +48,7 @@ const articlePlaceholder: Article[] = [
   },
   {
     id: "4",
-    issue_id: "1",
+    issue_id: 1,
     writer_id: "5",
     title:
       "Interview with Dane Carstens: Designing for Virtual Reality with 'Save The Castle!'",
@@ -58,7 +58,7 @@ const articlePlaceholder: Article[] = [
   },
   {
     id: "5",
-    issue_id: "1",
+    issue_id: 1,
     writer_id: "4",
     title: "Optimizing Monster Hunter Armor with Linear Programming",
     content: "",
@@ -67,7 +67,7 @@ const articlePlaceholder: Article[] = [
   },
   {
     id: "6",
-    issue_id: "2",
+    issue_id: 2,
     writer_id: "7",
     title: "Playing Games on Easy is Allowed!",
     content: "",
@@ -76,7 +76,7 @@ const articlePlaceholder: Article[] = [
   },
   {
     id: "7",
-    issue_id: "2",
+    issue_id: 2,
     writer_id: "1",
     title: "Reflections on Designing for After-school Enrichment",
     content: "",
@@ -85,7 +85,7 @@ const articlePlaceholder: Article[] = [
   },
   {
     id: "8",
-    issue_id: "2",
+    issue_id: 2,
     writer_id: "2",
     title: "Game Jamming to Game Making",
     content: "",
@@ -94,7 +94,7 @@ const articlePlaceholder: Article[] = [
   },
   {
     id: "9",
-    issue_id: "2",
+    issue_id: 2,
     writer_id: "3",
     title:
       "Explaining Divide and Conquer, Dynamic Programming, and Greedy Algorithms",
@@ -206,9 +206,9 @@ const eventsPlaceholder: Event[] = [
   },
 ];
 
-const issuesPlaceholder = [
+const issuesPlaceholder: Issue[] = [
   {
-    id: "1",
+    id: 1,
     name: "Issue 1",
     img_url: "/issueCover/issue1.png",
     release_date: new Date("2024-10-02"),
@@ -219,7 +219,7 @@ const issuesPlaceholder = [
       "Hello everyone! Welcome to the very first issue of The Tablecloth! I want to sincerely thank everyone who worked on this issue. Thank you to Ittai and Ryan for their excellent technical articles. Thank you to Dane and Alex for sharing your amazing work. Thank you to SupriseOrb for putting all the pieces together and laying them out so beautifully! (Also a bonus thank you to Riley for coming up with the name!)",
   },
   {
-    id: "2",
+    id: 2,
     name: "Issue 2",
     img_url: "/issueCover/issue2.png",
     release_date: new Date("2025-01-15"),
@@ -230,7 +230,7 @@ const issuesPlaceholder = [
       "Hello everyone! Welcome to the second issue of The Tablecloth! I am so happy we were able to do another one of these (especially with the busy holiday season!). Thank you to everyone who worked on this issue: Dane and Alex have returned not as interviewees, but as writers themselves! Riley and Adam join us with articles based on their personal game development experience. We also have several more puzzles thanks to Murphy and Noel. A huge shoutout to Nichole who helped edit every article and playtested every puzzle. And last but not least, thank you to SupriseOrb for once again laying out the magazine and giving it such a beautiful design. I hope you all enjoy this issue, and thank you for supporting this next release!",
   },
   {
-    id: "3",
+    id: 3,
     name: "Issue 3",
     img_url: "/issueCover/issue3.png",
     release_date: new Date("2025-03-15"),

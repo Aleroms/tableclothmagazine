@@ -43,7 +43,7 @@ export const getArticles = (limit: number) =>
     .sort((a, b) => b.release_date.getTime() - a.release_date.getTime())
     .slice(0, limit);
 
-export const getIssueById = (id: string) =>
+export const getIssueById = (id: number) =>
   issuesPlaceholder.find((issue) => issue.id === id);
 
 export const getUserById = (id: string): User | undefined =>
@@ -54,7 +54,7 @@ export const getAllTableclothUsers = (): User[] =>
     (user) => user.auth_level === "admin" || user.auth_level === "writer"
   );
 
-export const getArticlesByIssueId = (issueId: string) =>
+export const getArticlesByIssueId = (issueId: number) =>
   articlePlaceholder.filter((article) => article.issue_id === issueId);
 
 export const getMarkdownByArticleId = async (articleId: string) => {

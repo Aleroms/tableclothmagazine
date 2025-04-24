@@ -13,7 +13,7 @@ export interface User {
 
 export interface Article {
   id: string;
-  issue_id: string;
+  issue_id: number;
   writer_id: string;
   title: string;
   content: string;
@@ -22,12 +22,13 @@ export interface Article {
 }
 
 export interface Issue {
-  id: string;
+  id: number;
   name: string;
   img_url: string;
   editors_note: string;
   editor_id: string;
   release_date: Date;
+  description: string;
 }
 
 export interface Showcase {

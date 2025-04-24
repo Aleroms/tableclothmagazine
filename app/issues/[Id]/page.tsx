@@ -14,7 +14,10 @@ interface IssueDetailsProps {
 }
 export default async function IssueDetails({ params }: IssueDetailsProps) {
   const { Id } = await params;
-  const issue = getIssueById(Id);
+
+  const id = parseInt(Id);
+  const issue = getIssueById(id);
+
 
   if (issue == null) {
     redirect("/");
