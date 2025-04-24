@@ -40,6 +40,7 @@ export interface Showcase {
 
 export interface Event {
   id: string;
+  issue_id: number;
   startDate: Date;
   endDate?: Date;
   title: string;

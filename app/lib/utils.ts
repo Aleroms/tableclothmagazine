@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-import { User } from "./definitions";
+import { User, Event } from "./definitions";
 import {
   articlePlaceholder,
   eventsPlaceholder,
@@ -26,12 +26,49 @@ export const latestThreeEvents = () =>
     })
     .slice(0, 3);
 
-export const getAllEvents = () =>
-  eventsPlaceholder.sort((a, b) => {
+export const getAllEvents = (): Event[] => getSortedEvents(eventsPlaceholder);
+
+export const getAllEventsChronological = (): Event[] =>
+  getSortedEvents(eventsPlaceholder, false);
+
+export const getSortedEvents = (
+  events: Event[],
+  reverse: boolean = true
+): Event[] => {
+  return [...events].sort((a, b) => {
     const dateA = new Date(a.endDate || a.startDate).getTime();
     const dateB = new Date(b.endDate || b.startDate).getTime();
-    return dateB - dateA;
+
+    return reverse ? dateB - dateA : dateA - dateB;
   });
+};
+
+export const getCurrentIssueEvents = (): Event[] => {
+  if (eventsPlaceholder.length === 0) return [];
+
+  // Find the current issue id (max num)
+  const currentIssueId = getCurrentIssueId();
+
+  return getIssueEventsById(currentIssueId);
+};
+
+export const getPastIssueEvents = (reverse: boolean = true): Event[] => {
+  if (eventsPlaceholder.length === 0) return [];
+
+  const currentIssueId = getCurrentIssueId();
+  const pastIssuesEvents = eventsPlaceholder.filter(
+    (event) => event.issue_id !== currentIssueId
+  );
+
+  
+  return getSortedEvents(pastIssuesEvents, reverse);
+};
+
+export const getCurrentIssueId = (): number =>
+  Math.max(...eventsPlaceholder.map((event) => event.issue_id));
+
+export const getIssueEventsById = (id: number): Event[] =>
+  eventsPlaceholder.filter((event) => event.issue_id === id);
 
 export const getAllIssues = () =>
   issuesPlaceholder.sort(
