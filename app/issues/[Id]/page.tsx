@@ -8,16 +8,27 @@ import {
 } from "@/app/lib/utils";
 import ArticlePreview from "@/app/ui/articlePreview";
 import UserShort from "@/app/ui/user/userShort";
+import { Metadata } from "next";
 
 interface IssueDetailsProps {
   params: Promise<{ Id: string }>;
 }
+
+export async function generateMetadata({
+  params,
+}: IssueDetailsProps): Promise<Metadata> {
+  const { Id } = await params;
+  return {
+    title: `Issue ${Id} | Tablecloth Magazine`,
+    description: `Details of Issue ${Id} of Tablecloth Magazine.`,
+  };
+}
+
 export default async function IssueDetails({ params }: IssueDetailsProps) {
   const { Id } = await params;
 
   const id = parseInt(Id);
   const issue = getIssueById(id);
-
 
   if (issue == null) {
     redirect("/");

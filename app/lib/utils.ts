@@ -35,8 +35,11 @@ export const getUpcomingCurrentIssueEvents = (): Event[] => {
   const currentIssueId = getCurrentIssueId();
   const now = new Date();
 
-  return getIssueEventsById(currentIssueId).filter(
-    (event) => new Date(event.startDate).getTime() >= now.getTime()
+  return getSortedEvents(
+    getIssueEventsById(currentIssueId).filter(
+      (event) => new Date(event.startDate).getTime() >= now.getTime()
+    ),
+    false
   );
 };
 
@@ -129,3 +132,4 @@ export const getArticleByArticleId = (articleId: string) =>
 
 export const getAuthorById = (authorId: string) =>
   usersPlaceholder.find((user) => user.id === authorId);
+

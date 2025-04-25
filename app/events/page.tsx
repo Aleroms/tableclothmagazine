@@ -2,7 +2,11 @@ import Image from "next/image";
 import { getUpcomingCurrentIssueEvents } from "../lib/utils";
 import NavButton from "../ui/button/navigationButton";
 import EventsDetails from "../ui/events/eventsDetails";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Events"
+}
 export default function Events() {
   const events = getUpcomingCurrentIssueEvents();
 

@@ -1,5 +1,9 @@
+import { Metadata } from "next";
 import IssueOverview from "../ui/issues/issueOverview";
 
+export const metadata: Metadata = {
+  title: "Issues",
+};
 export default function Issues() {
   return (
     <main className="mt-20 mb-40">

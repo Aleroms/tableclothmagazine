@@ -263,6 +263,8 @@ const usersPlaceholder: User[] = [
     auth_level: "writer",
     first_name: "Riley",
     last_name: "Park",
+    pronouns: "he/him",
+    fav_color: "#f6c9de",
   },
   {
     id: "2",
@@ -300,6 +302,10 @@ const usersPlaceholder: User[] = [
     auth_level: "admin",
     first_name: "Dane",
     last_name: "Carstens",
+    pronouns: "he/him",
+    fav_color: "#770268",
+    description:
+      "Dane likes writing code and building gameplay systems, as well as advocating for public transit. For more, visit [danecarstens.net](https://danecarstens.net/)",
   },
   {
     id: "8",
@@ -319,7 +325,6 @@ const usersPlaceholder: User[] = [
       [GitHub](https://github.com/aleroms/) [Linkedin](https://www.linkedin.com/in/santiago-morales-14b466194/) [itch.io](https://aleroms.itch.io)
       `,
     fav_color: "#41b883",
-    pronouns: "he / him",
   },
   {
     id: "10",
@@ -327,6 +332,26 @@ const usersPlaceholder: User[] = [
     auth_level: "writer",
     first_name: "Nichole",
     last_name: "Wong",
+  },
+  {
+    id: "11",
+    role: "Graphic Designer / Editor",
+    pronouns: "they/them",
+    fav_color: "#88D8C0",
+    auth_level: "writer",
+    first_name: "SupriseOrb",
+    description:
+      "Queer indie game dev and occasional artist. https://supriseorb.carrd.co/",
+  },
+  {
+    id: "12",
+    role: "Writer",
+    pronouns: "he/him",
+    fav_color: "#800020",
+    auth_level: "writer",
+    first_name: "Charlie",
+    last_name: "Xu",
+    description: "game designer and NBA fanatic",
   },
 ];
 

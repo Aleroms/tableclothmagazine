@@ -17,7 +17,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Tablecloth Magazine",
+  title: {
+    default: "Tablecloth Magazine",
+    template: "%s | Tablecloth Magazine",
+  },
   description:
     "The Tablecloth is a gamedev magazine run by alumni and current members of the Video Game Development Club @ UCI. Read interviews, post-mortems, and more!",
 };
@@ -29,9 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body
-        className={`${outfit.variable} ${inter.variable} antialiased`}
-      >
+      <body className={`${outfit.variable} ${inter.variable} antialiased`}>
         <NavBar />
         {children}
         <Footer />

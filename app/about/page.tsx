@@ -1,11 +1,16 @@
 import { Bowlby_One } from "next/font/google";
 import { getAllTableclothUsers } from "../lib/utils";
 import UserTeamPreview from "../ui/team/userTeamPreview";
+import { Metadata } from "next";
 
 const bowlby_one = Bowlby_One({
   subsets: ["latin"],
   weight: "400",
 });
+
+export const metadata: Metadata = {
+  title: "About",
+};
 
 export default function About() {
   const tableclothTeam = getAllTableclothUsers();
