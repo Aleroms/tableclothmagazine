@@ -88,7 +88,7 @@ function parseDescriptionForExternalLinks(description: string): JSX.Element {
     }
   }
 
-  return <div>{fullParsedDesc.flat()}</div>;
+  return <>{fullParsedDesc}</>;
 }
 
 export default function UserDetails({ user }: { user: User }) {

@@ -353,6 +353,16 @@ const usersPlaceholder: User[] = [
     last_name: "Xu",
     description: "game designer and NBA fanatic",
   },
+  {
+    id: "13",
+    role: "Writer",
+    pronouns: "she/her",
+    auth_level: "writer",
+    description:
+      "Doubled in Computer Game Science and Art. Randomly deep dives to analyze and investigate niche stuff, just need a moment to buffer memories. [Site](https://murphypchu.weebly.com/)",
+    first_name: "Murphy",
+    last_name: "Chu",
+  },
 ];
 
 export {

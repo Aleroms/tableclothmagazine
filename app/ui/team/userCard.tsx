@@ -1,22 +1,13 @@
 import { User } from "@/app/lib/definitions";
-import clsx from "clsx";
 import Image from "next/image";
 
 interface Props {
   user: User;
-  isSelected: boolean;
-  onClick: () => void;
 }
 
-export default function UserCard({ user, isSelected, onClick }: Props) {
+export default function UserCard({ user }: Props) {
   return (
-    <div
-      onClick={onClick}
-      className={clsx(
-        "transition-all duration-200 ease-in-out rounded-3xl cursor-pointer",
-        isSelected && "ring-4 ring-[var(--table-1)] scale-105"
-      )}
-    >
+    <div className="transition-all duration-200 ease-in-out rounded-3xl">
       {!user.img_url ? (
         <div className="h-35 w-35 bg-stone-400 rounded-3xl md:h-20 md:w-20" />
       ) : (
@@ -27,9 +18,6 @@ export default function UserCard({ user, isSelected, onClick }: Props) {
             fill
             sizes="80px"
             style={{ objectFit: "cover", borderRadius: "1rem" }}
-            className={clsx(
-              isSelected && "ring-4 ring-[var(--table-1)] scale-105"
-            )}
           />
         </div>
       )}
