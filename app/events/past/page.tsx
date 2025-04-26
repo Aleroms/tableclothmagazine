@@ -1,7 +1,7 @@
 import PastEventsCalendar from "@/app/ui/events/pastEventsCalendar";
 import { Metadata } from "next";
 
-export const metadate: Metadata = {
+export const metadata: Metadata = {
   title: "Past Events",
 };
 export default function PastEventsPage() {

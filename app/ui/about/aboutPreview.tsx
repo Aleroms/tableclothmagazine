@@ -1,8 +1,10 @@
+import { getAllTableclothUsers } from "@/app/lib/utils";
 import NavButton from "../button/navigationButton";
-import TeamSkeleton from "../skeleton/teamSkeleton";
+import UserCard from "../team/userCard";
+// import TeamSkeleton from "../skeleton/teamSkeleton";
 
 export default function AboutPreview() {
-  const teamCount = 12;
+  const team = getAllTableclothUsers();
   return (
     <div className="flex flex-col gap-1 md:flex-row-reverse md:gap-15">
       <article className="block">
@@ -21,13 +23,16 @@ export default function AboutPreview() {
         </p>
         <NavButton
           href="/about"
-          className="mt-2 border-1 border-solid border-stone-400 bg-[var(--foreground)]  transition hover:bg-stone-100 focus:border-black text-stone-700"
+          className="mt-2 border-1 border-solid border-stone-400 dark:bg-[var(--foreground)]  transition hover:bg-stone-100 focus:border-black text-stone-700"
         >
           Our Team
         </NavButton>
       </article>
-      <div className="my-12 px-3 shrink-0">
-        <TeamSkeleton teamCount={teamCount} />
+      <div className="my-12 px-3 shrink-0 grid grid-cols-4 gap-3">
+        {/* <TeamSkeleton teamCount={12} /> */}
+        {team.map((user) => (
+          <UserCard user={user} key={user.id} />
+        ))}
       </div>
     </div>
   );

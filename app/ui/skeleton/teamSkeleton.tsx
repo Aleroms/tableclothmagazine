@@ -6,7 +6,7 @@ export default function TeamSkeleton({ teamCount }: teamSkeleton) {
   const team = Array.from({ length: teamCount }, (_, idx) => (
     <div
       key={idx}
-      className="h-13 w-13 md:h-15 md:w-15 bg-[var(--t-dark-4)] border border-black rounded-lg drop-shadow-[var(--dropShadow)]"
+      className="h-13 w-13 md:h-15 md:w-15 bg-[var(--t-dark-4)] rounded-lg shadow-md"
     />
   ));
   return (

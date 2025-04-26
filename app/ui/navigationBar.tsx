@@ -6,8 +6,8 @@ import Link from "next/link";
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <header className="bg-black">
-      <div className="flex items-center justify-between bg-black py-5 px-8">
+    <header className="bg-[var(--t-light-3)] dark:bg-black shadow-sm">
+      <div className="flex items-center justify-between py-5 px-8">
         <Link href={"/"}>
           <TableLogo size={80} />
         </Link>
@@ -27,19 +27,19 @@ export default function NavBar() {
           aria-label="Toggle navigation menu"
         >
           <span
-            className={`bg-white block transition-all duration-300 ease-out 
+            className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm ${
                       menuOpen ? "rotate-45 translate-y-1" : ""
                     }`}
           ></span>
           <span
-            className={`bg-white block transition-all duration-300 ease-out 
+            className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm my-0.5 ${
                       menuOpen ? "opacity-0" : "opacity-100"
                     }`}
           ></span>
           <span
-            className={`bg-white block transition-all duration-300 ease-out 
+            className={`dark:bg-white bg-black block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm ${
                       menuOpen ? "rotate-135 -translate-y-2" : ""
                     }`}

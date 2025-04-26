@@ -6,7 +6,11 @@ const bowlby_one = Bowlby_One({
   weight: "400",
 });
 
-export default function TableLogo({ size }: { size: number }) {
+interface TableLogoProps {
+  isFooter?: boolean;
+  size: number;
+}
+export default function TableLogo({ size, isFooter }: TableLogoProps) {
   return (
     <div className="flex items-center justify-center">
       <Image
@@ -18,13 +22,17 @@ export default function TableLogo({ size }: { size: number }) {
       />
       <div className="hidden md:flex flex-col ml-4">
         <h2
-          className={`text-md lg:text-xl ${bowlby_one.className}`}
+          className={`text-md lg:text-xl ${bowlby_one.className} ${
+            isFooter && "text-white"
+          }`}
           style={{ textShadow: "var(--dropShadow-hard)" }}
         >
           THE TABLECLOTH MAGAZINE
         </h2>
         <h2
-          className={`text-xs lg:text-md ${bowlby_one.className}`}
+          className={`text-xs lg:text-md ${bowlby_one.className} ${
+            isFooter && "text-white"
+          }`}
           style={{ textShadow: "var(--dropShadow-hard)" }}
         >
           covering your game dev news

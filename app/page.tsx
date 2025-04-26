@@ -35,6 +35,7 @@ export default function Home() {
             Showcase
           </h2>
           <InfiniteCarousel items={showcasePlaceholder} />
+          {/* About us preview  */}
           <div className="my-80">
             <AboutPreview />
           </div>
@@ -49,7 +50,7 @@ export default function Home() {
         <div className="flex justify-center m-10">
           <NavButton
             href="/events/"
-            className="mt-2 border-1 border-solid border-stone-400 bg-[var(--foreground)]  transition hover:bg-stone-100 focus:border-black text-stone-700"
+            className="mt-2 border-1 border-solid border-stone-400 dark:bg-[var(--foreground)]  transition hover:bg-stone-100 focus:border-black text-stone-700"
           >
             Show All Events
           </NavButton>

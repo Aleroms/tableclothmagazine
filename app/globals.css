@@ -7,6 +7,8 @@
   --t-dark-4: #afafaf;
   --t-light-1: #ffffff;
   --t-light-2: #d9d9d9;
+  --t-light-3: #f7f6f2;
+  --t-light-4: #f5f7f9;
   --table-1: #b97a57;
 
   --background: var(--t-light-1);
@@ -32,6 +34,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter) Arial, Helvetica, sans-serif;
+  
 }
 
 h1,

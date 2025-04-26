@@ -1,4 +1,5 @@
 "use client";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -29,12 +30,12 @@ export default function IssueCarousel({ slides }: CarouselProps) {
     setCurrent(current === 0 ? sortedSlides.length - 1 : current - 1);
   }
   return (
-    <div className="m-auto max-w-5xl bg-[var(--t-dark-2)] p-2 flex flex-col rounded-sm">
+    <div className="m-auto max-w-5xl dark:bg-[var(--t-dark-2)] p-2 flex flex-col rounded-sm">
       <div className="flex items-center justify-center">
         {/* left button  */}
         <button
           onClick={prevSlide}
-          className="hidden sm:inline-flex bg-[var(--t-light-1)] h-18 w-5 rounded-xl mx-4 hover:bg-neutral-200 cursor-pointer"
+          className="hidden sm:inline-flex bg-[var(--t-dark-1)] dark:bg-[var(--t-light-1)] h-18 w-5 rounded-xl mx-4 hover:bg-neutral-400 dark:hover:bg-neutral-200 cursor-pointer"
         />
         <div className="carousel-body flex flex-col p-2 w-full justify-center">
           <h2 className="capitalize font-bold text-2xl md:text-4xl inline">
@@ -63,7 +64,7 @@ export default function IssueCarousel({ slides }: CarouselProps) {
                         fill
                         sizes="(max-width: 768px) 150px, 250px"
                         alt={slide.to.replace(/\//g, " ")}
-                        className="object-cover rounded-sm"
+                        className="object-cover rounded-sm shadow-md"
                         draggable="false"
                       />
                     </Link>
@@ -75,7 +76,7 @@ export default function IssueCarousel({ slides }: CarouselProps) {
         {/* right button  */}
         <button
           onClick={nextSlide}
-          className="hidden sm:inline-flex bg-[var(--t-light-1)] h-18 w-5 rounded-xl mx-4 hover:bg-neutral-200 cursor-pointer"
+          className="hidden sm:inline-flex bg-[var(--t-dark-1)] dark:bg-[var(--t-light-1)] h-18 w-5 rounded-xl mx-4 hover:bg-neutral-400 dark:hover:bg-neutral-200  cursor-pointer"
         />
       </div>
       {/* pagination hidden on mobile  */}
@@ -83,9 +84,11 @@ export default function IssueCarousel({ slides }: CarouselProps) {
         {sortedSlides.map((_, idx) => (
           <div
             key={idx}
-            className={`h-4 w-4 rounded-full transition delay-150 ease-in-out ${
-              idx === current ? "bg-white" : "bg-neutral-500"
-            } hover:bg-neutral-300`}
+            className={clsx(
+              "h-4 w-4 rounded-full transition delay-150 ease-in-out",
+              idx === current ? "bg-black dark:bg-white" : "bg-stone-300",
+              "dark:hover:bg-neutral-300 hover:bg-neutral-400"
+            )}
             onClick={() => setCurrent(idx)}
           />
         ))}

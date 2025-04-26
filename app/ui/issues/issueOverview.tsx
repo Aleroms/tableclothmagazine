@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function IssueOverview() {
   const issues = getAllIssues();
   return (
-    <div className="bg-[var(--t-dark-3)] p-4 rounded-sm max-w-4xl m-4 md:m-auto md:grid md:grid-cols-3 md:gap-8 lg:max-w-7xl md:pb-8">
+    <div className="dark:bg-[var(--t-dark-3)] bg-[var(--t-light-3)] shadow-sm p-4 rounded-sm max-w-4xl m-4 md:m-auto md:grid md:grid-cols-3 md:gap-8 lg:max-w-7xl md:pb-8">
       {issues.map((issue) => (
         <article key={issue.id} className="px-4 my-5">
           <div className="relative w-60 h-80 m-auto lg:w-80 md:h-100">
@@ -16,7 +16,7 @@ export default function IssueOverview() {
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 alt={issue.name}
-                className="py-1 mb-1 drop-shadow-[var(--dropShadow)] rounded-sm"
+                className=" mb-2 shadow-sm rounded-sm"
               />
             </Link>
           </div>
