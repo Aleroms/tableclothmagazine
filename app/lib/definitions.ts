@@ -16,7 +16,6 @@ export interface Article {
   issue_id: number;
   writer_id: string;
   title: string;
-  content: string;
   markdown?: string;
   release_date: Date;
 }

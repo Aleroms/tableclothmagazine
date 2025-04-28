@@ -22,7 +22,12 @@ export default async function ArticleDetails({ params }: ArticleDetailsProps) {
 
   const writer = getAuthorById(article.writer_id);
 
-  const markdown = await getMarkdownByArticleId(articleId);
+  let markdown;
+  try {
+    markdown = await getMarkdownByArticleId(articleId);
+  } catch (error) {
+    console.log(error);
+  }
 
   return (
     <main className="my-10 md:my-30 mx-7 max-w-3xl md:mx-auto lg:my-30 lg:max-w-6xl">
