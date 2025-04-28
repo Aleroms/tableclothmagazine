@@ -34,7 +34,7 @@ export interface Showcase {
   id: string;
   img_url: string;
   link: string;
-  name?: string;
+  name: string;
 }
 
 export interface Event {

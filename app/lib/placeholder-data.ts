@@ -1,5 +1,21 @@
-import { Article, User, Event, Issue } from "./definitions";
+import path from "path";
+import { Article, User, Event, Issue, Showcase } from "./definitions";
+import { readFileSync } from "fs";
 
+function loadMarkdown(issueId: number, articleId: string) {
+  return readFileSync(
+    path.join(
+      process.cwd(),
+      "content",
+      "issues",
+      String(issueId),
+      "article",
+      articleId,
+      "page.mdx"
+    ),
+    "utf-8"
+  );
+}
 const usersPlaceholder: User[] = [
   {
     id: "c8dbd410-08b4-44e7-805c-cb66e222233c",
@@ -31,6 +47,8 @@ const usersPlaceholder: User[] = [
     first_name: "Ryan",
     last_name: "Chang (Artless)",
     pronouns: "Any",
+    img_url:
+      "https://tablecloth-magazine-local.s3.us-west-1.amazonaws.com/user/unfringing-copyright.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAYFULPW4Z2X3ZPR7F%2F20250428%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250428T194338Z&X-Amz-Expires=300&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMSJHMEUCIFfT88lbBqZtWUXU7UQDFcugizjIm4bi2oIePMN6MqxfAiEA4Wa4KzObmzPaJ1U4HQBerJPC0XcY6H6nXNLH2GoLXh0q7QIIfRAEGgw1NjE4NTk1MDgwMTkiDFCKadVHNGVfk0hclCrKAgwt0H06AGHZRjpYzv%2FFOVXZaAzFpwD3qbcgiiE3VUSRRLAiPOIXhrwpKBfP%2FcNzOgFsRv2%2F1Ri9lOMF51XO%2BdiZ9vnNC8TKzmXoLcU3ULw7t2qBolTpwFFJYj0BmCL08ilDxzy6fvrO8r%2BE8sGQX4jZ8hbtkzjH5uC%2FGO%2FlAox%2B8Cs%2F0YpUJyG6xzd1aBAygdorihhYweoI8WtJdvgISkYmoP9%2Fyxx2%2FCvss9DAgd0ALT6PVj8M02afstKnl9hjmjNUopcpJpkcfQBY60TwAgkYtYya5wPAiZVLLCDOP0zqG%2F%2FORFtZp1XemtvI8PqCRHunTseQMbB3cyHvxSkyMzxEbFNqxNKuNGBYepblQOILjnNcmKneEnfQevncKD0iWUdC5IdbXl9hid5Dz3GBH1Uf3cdYsmQDXsZPiWmC0MbaAaKN%2BcU88pi%2BPjDhs7%2FABjqtAjro3IzueVK7kPF5CsrxxjRit%2Bg0VDIXq%2Fu8yXuHIwx%2BesLv9aB6Ro7eTERudpkYb14wKC6%2FmunmxMm3rokNO4en%2FWHDexn17cBBSCMHQiIqArmOdp2tWMxFg2mhNRrGpuoAu9ytGS4jEOujEDLNMeAqypkJzBSiY44MbzTNS5R0dFkPRVUYrNK2KWAa183cbKtfXkWsn2E9WCV3XYNvm4Th1dGmGDDRykCq0tnuCRnblbIbMBTaEDVD40kQQRb1I43yLoZ8ayKIakDRvPdBTHWFSf8KBhP6h1Aw5%2B5YLaF1y1TOYUT0%2FlaEABazADfk949ut6CQe02ONbIzDmVECFvbn0by4Pmw8SOOJaHJJn8pWp4L0fO9WzYJNMq%2BQ10ULezNMpo%2FEcvOtkaytdg%3D&X-Amz-Signature=f7f65a810a436e1b0fc6cbec2155985a7ae9553e90efac3d7480d68867066f6c&X-Amz-SignedHeaders=host&response-content-disposition=inline",
     fav_color: "#A0DEFF",
     description:
       "CS (Algorithms) major and Math minor. Graduated 2022. Thinking about working in education. [Games Portfolio](https://artlessavian.github.io/) [portfolio](https://artlessavian.github.io/)",
@@ -53,6 +71,8 @@ const usersPlaceholder: User[] = [
     last_name: "Carstens",
     pronouns: "he/him",
     fav_color: "#770268",
+    img_url:
+      "https://tablecloth-magazine-local.s3.us-west-1.amazonaws.com/user/profile01.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAYFULPW4Z2X3ZPR7F%2F20250428%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250428T194415Z&X-Amz-Expires=300&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMSJHMEUCIFfT88lbBqZtWUXU7UQDFcugizjIm4bi2oIePMN6MqxfAiEA4Wa4KzObmzPaJ1U4HQBerJPC0XcY6H6nXNLH2GoLXh0q7QIIfRAEGgw1NjE4NTk1MDgwMTkiDFCKadVHNGVfk0hclCrKAgwt0H06AGHZRjpYzv%2FFOVXZaAzFpwD3qbcgiiE3VUSRRLAiPOIXhrwpKBfP%2FcNzOgFsRv2%2F1Ri9lOMF51XO%2BdiZ9vnNC8TKzmXoLcU3ULw7t2qBolTpwFFJYj0BmCL08ilDxzy6fvrO8r%2BE8sGQX4jZ8hbtkzjH5uC%2FGO%2FlAox%2B8Cs%2F0YpUJyG6xzd1aBAygdorihhYweoI8WtJdvgISkYmoP9%2Fyxx2%2FCvss9DAgd0ALT6PVj8M02afstKnl9hjmjNUopcpJpkcfQBY60TwAgkYtYya5wPAiZVLLCDOP0zqG%2F%2FORFtZp1XemtvI8PqCRHunTseQMbB3cyHvxSkyMzxEbFNqxNKuNGBYepblQOILjnNcmKneEnfQevncKD0iWUdC5IdbXl9hid5Dz3GBH1Uf3cdYsmQDXsZPiWmC0MbaAaKN%2BcU88pi%2BPjDhs7%2FABjqtAjro3IzueVK7kPF5CsrxxjRit%2Bg0VDIXq%2Fu8yXuHIwx%2BesLv9aB6Ro7eTERudpkYb14wKC6%2FmunmxMm3rokNO4en%2FWHDexn17cBBSCMHQiIqArmOdp2tWMxFg2mhNRrGpuoAu9ytGS4jEOujEDLNMeAqypkJzBSiY44MbzTNS5R0dFkPRVUYrNK2KWAa183cbKtfXkWsn2E9WCV3XYNvm4Th1dGmGDDRykCq0tnuCRnblbIbMBTaEDVD40kQQRb1I43yLoZ8ayKIakDRvPdBTHWFSf8KBhP6h1Aw5%2B5YLaF1y1TOYUT0%2FlaEABazADfk949ut6CQe02ONbIzDmVECFvbn0by4Pmw8SOOJaHJJn8pWp4L0fO9WzYJNMq%2BQ10ULezNMpo%2FEcvOtkaytdg%3D&X-Amz-Signature=42b7c385ed215673ac627e071e0e06c116de3a0ded76d69698bc52817d8f19a9&X-Amz-SignedHeaders=host&response-content-disposition=inline",
     description:
       "Dane likes writing code and building gameplay systems, as well as advocating for public transit. For more, visit [danecarstens.net](https://danecarstens.net/)",
   },
@@ -113,6 +133,19 @@ const usersPlaceholder: User[] = [
     first_name: "Murphy",
     last_name: "Chu",
   },
+  {
+    id: "899fcd63-6c4a-4f06-805d-042b9ca49c8e",
+    role: "Puzzle Maker",
+    img_url:
+      "https://tablecloth-magazine-local.s3.us-west-1.amazonaws.com/user/scoli_pfp.png",
+    pronouns: "he/him",
+    fav_color: "#AFA3F0",
+    first_name: "Noel AM",
+    last_name: "Paredes",
+    auth_level: "writer",
+    description:
+      "GDIM Major and Informatics Minor. Self-proclaimed gastronomer wit a love for sourdogh. [Itch.io Page](https://goozmabackatitagain.itch.io/)",
+  },
 ];
 
 const carouselPlaceholder = [
@@ -140,7 +173,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 1,
     writer_id: usersPlaceholder[4].id,
     title: "Interview with Alex Grams: Interning as a Gameplay Programmer",
-    markdown: "content/issues/1/test.md",
+    markdown: loadMarkdown(1, "7a5c4ef5-86e1-408b-8020-991fa1c98b02"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -148,7 +181,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 1,
     writer_id: usersPlaceholder[4].id,
     title: "Who Wants to be Reincarnated: Postmortem",
-    markdown: "content/issues/1/test.md",
+    markdown: loadMarkdown(1, "e501eb04-7f4a-46dc-a8a3-c9290ab6593e"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -156,7 +189,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 1,
     writer_id: usersPlaceholder[6].id,
     title: "OK... So What is a Game Engine",
-    markdown: "content/issues/1/test.md",
+    markdown: loadMarkdown(1, "0b286ba5-9dc1-4695-96e5-0c59c217d6d9"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -165,7 +198,7 @@ const articlePlaceholder: Article[] = [
     writer_id: usersPlaceholder[4].id,
     title:
       "Interview with Dane Carstens: Designing for Virtual Reality with 'Save The Castle!'",
-    markdown: "content/issues/1/test.md",
+    markdown: loadMarkdown(1, "9655c0f5-c24e-4a3c-a505-edac29ca8fb2"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -173,7 +206,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 1,
     writer_id: usersPlaceholder[3].id,
     title: "Optimizing Monster Hunter Armor with Linear Programming",
-    markdown: "content/issues/1/test.md",
+    markdown: loadMarkdown(1, "a0cd9865-2a03-4637-a2dd-60f6e63bf674"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -181,7 +214,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 2,
     writer_id: usersPlaceholder[5].id,
     title: "Playing Games on Easy is Allowed!",
-    markdown: "content/issues/1/test.md",
+    markdown: loadMarkdown(2, "988d45d5-4961-4f89-93b6-49e68225e404"),
     release_date: new Date(2025, 0, 15),
   },
   {
@@ -189,7 +222,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 2,
     writer_id: usersPlaceholder[0].id,
     title: "Reflections on Designing for After-school Enrichment",
-    markdown: "content/issues/1/test.md",
+    markdown: loadMarkdown(2, "0513f24f-ca51-4be3-b2fb-953e542f6456"),
     release_date: new Date(2025, 0, 15),
   },
   {
@@ -197,7 +230,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 2,
     writer_id: usersPlaceholder[1].id,
     title: "Game Jamming to Game Making",
-    markdown: "content/issues/1/test.md",
+    markdown: loadMarkdown(2, "988f476d-487f-45af-953f-87bb7626d703"),
     release_date: new Date(2025, 0, 15),
   },
   {
@@ -210,18 +243,20 @@ const articlePlaceholder: Article[] = [
   },
 ];
 
-const showcasePlaceholder = [
+const showcasePlaceholder: Showcase[] = [
   {
     id: "90fe9dca-c14e-41a1-9c55-b7eeefc39315",
     img_url:
       "https://tablecloth-magazine-local.s3.us-west-1.amazonaws.com/showcase/attack.png",
     link: "https://sonicfangameshq.com/forums/showcase/art-attack.2218/",
+    name: "Art Attack",
   },
   {
     id: "a5d190aa-00cd-44be-bea0-8190b0820a09",
     img_url:
       "https://tablecloth-magazine-local.s3.us-west-1.amazonaws.com/showcase/fighting.png",
     link: "https://saffrona.itch.io/fighting-for-our-dreams-an-esports-visual-novel",
+    name: "Fighting for our Dreams an esports visual novel",
   },
 ];
 
@@ -338,7 +373,7 @@ const issuesPlaceholder: Issue[] = [
     release_date: new Date(2024, 9, 2),
     description:
       "Some text that describes the issue and mentions anything that the user might want to know about the issue.",
-    editor_id: "5",
+    editor_id: usersPlaceholder[4].id,
     editors_note:
       "Hello everyone! Welcome to the very first issue of The Tablecloth! I want to sincerely thank everyone who worked on this issue. Thank you to Ittai and Ryan for their excellent technical articles. Thank you to Dane and Alex for sharing your amazing work. Thank you to SupriseOrb for putting all the pieces together and laying them out so beautifully! (Also a bonus thank you to Riley for coming up with the name!)",
   },
@@ -350,7 +385,7 @@ const issuesPlaceholder: Issue[] = [
     release_date: new Date(2025, 0, 15),
     description:
       "Some text that describes the issue and mentions anything that the user might want to know about the issue.",
-    editor_id: "5",
+    editor_id: usersPlaceholder[4].id,
     editors_note:
       "Hello everyone! Welcome to the second issue of The Tablecloth! I am so happy we were able to do another one of these (especially with the busy holiday season!). Thank you to everyone who worked on this issue: Dane and Alex have returned not as interviewees, but as writers themselves! Riley and Adam join us with articles based on their personal game development experience. We also have several more puzzles thanks to Murphy and Noel. A huge shoutout to Nichole who helped edit every article and playtested every puzzle. And last but not least, thank you to SupriseOrb for once again laying out the magazine and giving it such a beautiful design. I hope you all enjoy this issue, and thank you for supporting this next release!",
   },
@@ -362,7 +397,7 @@ const issuesPlaceholder: Issue[] = [
     release_date: new Date(2025, 2, 15), // March 15, 2025
     description:
       "Some text that describes the issue and mentions anything that the user might want to know about the issue.",
-    editor_id: "5",
+    editor_id: usersPlaceholder[4].id,
     editors_note:
       "Hello everyone! Welcome to the second issue of The Tablecloth! I am so happy we were able to do another one of these (especially with the busy holiday season!). Thank you to everyone who worked on this issue: Dane and Alex have returned not as interviewees, but as writers themselves! Riley and Adam join us with articles based on their personal game development experience. We also have several more puzzles thanks to Murphy and Noel. A huge shoutout to Nichole who helped edit every article and playtested every puzzle. And last but not least, thank you to SupriseOrb for once again laying out the magazine and giving it such a beautiful design. I hope you all enjoy this issue, and thank you for supporting this next release!",
   },
