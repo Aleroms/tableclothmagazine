@@ -1,23 +1,30 @@
-import { carouselPlaceholder } from "./lib/placeholder-data";
 import ArticlePreview from "./ui/articlePreview";
 import IssueCarousel from "./ui/carousel/issueCarousel";
 import NavButton from "./ui/button/navigationButton";
 import InfiniteCarousel from "./ui/carousel/infiniteCarousel";
 import AboutPreview from "./ui/about/aboutPreview";
 import UpcomingEvents from "./ui/upcomingEvents";
-import { latestThreeEvents, getArticles } from "./lib/utils";
-import { getShowcase } from "./lib/db";
+import {
+  getIssuesThumbnail,
+  getLatestArticles,
+  getShowcase,
+  getUpcomingEvents,
+} from "./lib/database/query";
 
 export default async function Home() {
-  const showcase = await getShowcase();
-  const latestThree = latestThreeEvents();
-  const articles = getArticles(8);
+  const [showcase, upcomingEvents, articles, issuesThumbnail] =
+    await Promise.all([
+      getShowcase(),
+      getUpcomingEvents(3),
+      getLatestArticles(8),
+      getIssuesThumbnail(),
+    ]);
 
   return (
     <>
       <main className="mt-15 mb-40">
         {/* Latest Releases  */}
-        <IssueCarousel slides={carouselPlaceholder} />
+        <IssueCarousel thumbnails={issuesThumbnail} />
         {/* Article preview  */}
         <ArticlePreview articles={articles} />
         <div className="flex justify-center m-10">
@@ -44,7 +51,13 @@ export default async function Home() {
           <h2 className="font-bold capitalize text-2xl md:text-4xl">
             Upcoming events
           </h2>
-          <UpcomingEvents events={latestThree} />
+          {upcomingEvents.length > 0 ? (
+            <UpcomingEvents events={upcomingEvents} />
+          ) : (
+            <p className="text-lg ml-2 mt-6 mb-6">
+              There are no upcoming events! ✨
+            </p>
+          )}
         </div>
         <div className="flex justify-center m-10">
           <NavButton

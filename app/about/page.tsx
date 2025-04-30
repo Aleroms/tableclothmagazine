@@ -1,7 +1,7 @@
 import { Bowlby_One } from "next/font/google";
-import { getAllTableclothUsers } from "../lib/utils";
 import UserTeamPreview from "../ui/team/userTeamPreview";
 import { Metadata } from "next";
+import { getTableclothTeam } from "../lib/database/query";
 
 const bowlby_one = Bowlby_One({
   subsets: ["latin"],
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   title: "About",
 };
 
-export default function About() {
-  const tableclothTeam = getAllTableclothUsers();
+export default async function About() {
+  const tableclothTeam = await getTableclothTeam();
   return (
     <>
       <main className="my-12 md:my-20 lg:my-40">

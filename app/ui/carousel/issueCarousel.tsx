@@ -1,33 +1,24 @@
 "use client";
+import { IssueThumbnail } from "@/app/lib/definitions";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-export interface Slide {
-  to: string;
-  img_url: string;
-  release_date: Date;
-}
-
 export interface CarouselProps {
-  slides: Slide[];
+  thumbnails: IssueThumbnail[];
 }
 
-export default function IssueCarousel({ slides }: CarouselProps) {
-  const sortedSlides = slides.sort(
-    (a, b) => b.release_date.getTime() - a.release_date.getTime()
-  );
-
+export default function IssueCarousel({ thumbnails }: CarouselProps) {
   const [current, setCurrent] = useState(0);
   const visibleSlides = 3;
 
   function nextSlide() {
-    setCurrent(current === sortedSlides.length - 1 ? 0 : current + 1);
+    setCurrent(current === thumbnails.length - 1 ? 0 : current + 1);
   }
 
   function prevSlide() {
-    setCurrent(current === 0 ? sortedSlides.length - 1 : current - 1);
+    setCurrent(current === 0 ? thumbnails.length - 1 : current - 1);
   }
   return (
     <div className="m-auto max-w-5xl dark:bg-[var(--t-dark-2)] p-2 flex flex-col rounded-sm">
@@ -43,27 +34,27 @@ export default function IssueCarousel({ slides }: CarouselProps) {
           </h2>
           <div className="my-1">
             <div className=" flex overflow-x-auto gap-2 sm:gap-3 md:gap-4 lg:gap-8">
-              {sortedSlides
+              {thumbnails
                 .slice(current, current + visibleSlides)
                 .concat(
-                  current + visibleSlides > sortedSlides.length
-                    ? sortedSlides.slice(
+                  current + visibleSlides > thumbnails.length
+                    ? thumbnails.slice(
                         0,
-                        (current + visibleSlides) % sortedSlides.length
+                        (current + visibleSlides) % thumbnails.length
                       )
                     : []
                 )
-                .map((slide) => (
+                .map(({ id, name, img_url }) => (
                   <div
-                    key={slide.to}
+                    key={id}
                     className="relative w-[150px] md:w-[250px] aspect-[3/4] shrink-0 mt-2"
                   >
-                    <Link href={slide.to}>
+                    <Link href={`issues/${id}`}>
                       <Image
-                        src={slide.img_url}
+                        src={img_url}
                         fill
                         sizes="(max-width: 768px) 150px, 250px"
-                        alt={slide.to.replace(/\//g, " ")}
+                        alt={name}
                         className="object-cover rounded-sm shadow-md"
                         draggable="false"
                       />
@@ -81,7 +72,7 @@ export default function IssueCarousel({ slides }: CarouselProps) {
       </div>
       {/* pagination hidden on mobile  */}
       <div className="hidden sm:flex justify-center items-center gap-4 m-4">
-        {sortedSlides.map((_, idx) => (
+        {thumbnails.map((_, idx) => (
           <div
             key={idx}
             className={clsx(

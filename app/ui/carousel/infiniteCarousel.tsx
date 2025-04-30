@@ -9,20 +9,14 @@ interface InfProps {
 export default function InfiniteCarousel({ items }: InfProps) {
   return (
     <div className="m-4">
-      <Marquee
-        pauseOnHover
-        direction="left"
-        speed={50}
-        loop={0}
-        autoFill
-      >
-        {items.map((item) => (
-          <a href={item.link} key={item.id}>
+      <Marquee pauseOnHover direction="left" speed={50} loop={0} autoFill>
+        {items.map(({ link, id, name, img_url }) => (
+          <a href={link} key={id}>
             <Image
               width={250}
               height={175}
-              alt={item.name || "external link"}
-              src={item.img_url}
+              alt={name}
+              src={img_url}
               className="w-[250px] h-[175px] rounded-sm mr-3 md:mr-6 lg:mr-12"
               priority
             />

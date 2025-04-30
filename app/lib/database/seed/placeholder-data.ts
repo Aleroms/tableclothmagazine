@@ -1,18 +1,10 @@
 import path from "path";
-import { Article, User, Event, Issue, Showcase } from "./definitions";
+import { Article, User, Event, Issue, Showcase } from "../../definitions";
 import { readFileSync } from "fs";
 
-function loadMarkdown(issueId: number, articleId: string) {
+function loadMarkdown(articleId: string) {
   return readFileSync(
-    path.join(
-      process.cwd(),
-      "content",
-      "issues",
-      String(issueId),
-      "article",
-      articleId,
-      "page.mdx"
-    ),
+    path.join(process.cwd(), "content", `${articleId}.mdx`),
     "utf-8"
   );
 }
@@ -20,7 +12,7 @@ const usersPlaceholder: User[] = [
   {
     id: "c8dbd410-08b4-44e7-805c-cb66e222233c",
     role: "writer",
-    auth_level: "writer",
+    auth_level: "team",
     first_name: "Riley",
     last_name: "Park",
     pronouns: "he/him",
@@ -29,21 +21,21 @@ const usersPlaceholder: User[] = [
   {
     id: "876db4dc-d16d-4f58-82e6-9f5d9210129f",
     role: "writer",
-    auth_level: "writer",
+    auth_level: "team",
     first_name: "Adam",
     last_name: "Tan",
   },
   {
     id: "82c2565f-9e51-497c-9802-5ccbcd605174",
     role: "writer",
-    auth_level: "writer",
+    auth_level: "team",
     first_name: "Alex",
     last_name: "Grams",
   },
   {
     id: "f6c50bb9-7872-4d0a-9ba6-06eddca6b6ef",
     role: "Writer",
-    auth_level: "writer",
+    auth_level: "team",
     first_name: "Ryan",
     last_name: "Chang (Artless)",
     pronouns: "Any",
@@ -79,7 +71,7 @@ const usersPlaceholder: User[] = [
   {
     id: "e371d364-b890-4683-8a1f-db885b33e2b1",
     role: "writer",
-    auth_level: "writer",
+    auth_level: "team",
     first_name: "Ittai",
     last_name: "Mann",
   },
@@ -99,7 +91,7 @@ const usersPlaceholder: User[] = [
   {
     id: "476cc04f-1ba8-426e-a67e-fa544c791112",
     role: "Editor",
-    auth_level: "writer",
+    auth_level: "team",
     first_name: "Nichole",
     last_name: "Wong",
   },
@@ -108,7 +100,7 @@ const usersPlaceholder: User[] = [
     role: "Graphic Designer / Editor",
     pronouns: "they/them",
     fav_color: "#88D8C0",
-    auth_level: "writer",
+    auth_level: "team",
     first_name: "SupriseOrb",
     description:
       "Queer indie game dev and occasional artist. https://supriseorb.carrd.co/",
@@ -118,7 +110,7 @@ const usersPlaceholder: User[] = [
     role: "Writer",
     pronouns: "he/him",
     fav_color: "#800020",
-    auth_level: "writer",
+    auth_level: "team",
     first_name: "Charlie",
     last_name: "Xu",
     description: "game designer and NBA fanatic",
@@ -127,7 +119,7 @@ const usersPlaceholder: User[] = [
     id: "139a126e-f171-4096-abb4-5c172ad15262",
     role: "Writer",
     pronouns: "she/her",
-    auth_level: "writer",
+    auth_level: "team",
     description:
       "Doubled in Computer Game Science and Art. Randomly deep dives to analyze and investigate niche stuff, just need a moment to buffer memories. [Site](https://murphypchu.weebly.com/)",
     first_name: "Murphy",
@@ -142,7 +134,7 @@ const usersPlaceholder: User[] = [
     fav_color: "#AFA3F0",
     first_name: "Noel AM",
     last_name: "Paredes",
-    auth_level: "writer",
+    auth_level: "team",
     description:
       "GDIM Major and Informatics Minor. Self-proclaimed gastronomer wit a love for sourdogh. [Itch.io Page](https://goozmabackatitagain.itch.io/)",
   },
@@ -173,7 +165,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 1,
     writer_id: usersPlaceholder[4].id,
     title: "Interview with Alex Grams: Interning as a Gameplay Programmer",
-    markdown: loadMarkdown(1, "7a5c4ef5-86e1-408b-8020-991fa1c98b02"),
+    markdown: loadMarkdown("7a5c4ef5-86e1-408b-8020-991fa1c98b02"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -181,7 +173,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 1,
     writer_id: usersPlaceholder[4].id,
     title: "Who Wants to be Reincarnated: Postmortem",
-    markdown: loadMarkdown(1, "e501eb04-7f4a-46dc-a8a3-c9290ab6593e"),
+    markdown: loadMarkdown("e501eb04-7f4a-46dc-a8a3-c9290ab6593e"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -189,7 +181,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 1,
     writer_id: usersPlaceholder[6].id,
     title: "OK... So What is a Game Engine",
-    markdown: loadMarkdown(1, "0b286ba5-9dc1-4695-96e5-0c59c217d6d9"),
+    markdown: loadMarkdown("0b286ba5-9dc1-4695-96e5-0c59c217d6d9"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -198,7 +190,7 @@ const articlePlaceholder: Article[] = [
     writer_id: usersPlaceholder[4].id,
     title:
       "Interview with Dane Carstens: Designing for Virtual Reality with 'Save The Castle!'",
-    markdown: loadMarkdown(1, "9655c0f5-c24e-4a3c-a505-edac29ca8fb2"),
+    markdown: loadMarkdown("9655c0f5-c24e-4a3c-a505-edac29ca8fb2"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -206,7 +198,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 1,
     writer_id: usersPlaceholder[3].id,
     title: "Optimizing Monster Hunter Armor with Linear Programming",
-    markdown: loadMarkdown(1, "a0cd9865-2a03-4637-a2dd-60f6e63bf674"),
+    markdown: loadMarkdown("a0cd9865-2a03-4637-a2dd-60f6e63bf674"),
     release_date: new Date(2024, 9, 2),
   },
   {
@@ -214,7 +206,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 2,
     writer_id: usersPlaceholder[5].id,
     title: "Playing Games on Easy is Allowed!",
-    markdown: loadMarkdown(2, "988d45d5-4961-4f89-93b6-49e68225e404"),
+    markdown: loadMarkdown("988d45d5-4961-4f89-93b6-49e68225e404"),
     release_date: new Date(2025, 0, 15),
   },
   {
@@ -222,7 +214,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 2,
     writer_id: usersPlaceholder[0].id,
     title: "Reflections on Designing for After-school Enrichment",
-    markdown: loadMarkdown(2, "0513f24f-ca51-4be3-b2fb-953e542f6456"),
+    markdown: loadMarkdown("0513f24f-ca51-4be3-b2fb-953e542f6456"),
     release_date: new Date(2025, 0, 15),
   },
   {
@@ -230,7 +222,7 @@ const articlePlaceholder: Article[] = [
     issue_id: 2,
     writer_id: usersPlaceholder[1].id,
     title: "Game Jamming to Game Making",
-    markdown: loadMarkdown(2, "988f476d-487f-45af-953f-87bb7626d703"),
+    markdown: loadMarkdown("988f476d-487f-45af-953f-87bb7626d703"),
     release_date: new Date(2025, 0, 15),
   },
   {
@@ -240,6 +232,7 @@ const articlePlaceholder: Article[] = [
     title:
       "Explaining Divide and Conquer, Dynamic Programming, and Greedy Algorithms",
     release_date: new Date(2025, 0, 15),
+    markdown: loadMarkdown("8b13fa22-64ba-493f-b928-d9fd67b65480"),
   },
 ];
 

@@ -1,9 +1,9 @@
-import { getPastIssueEvents } from "@/app/lib/utils";
 import EventsDetails from "./eventsDetails";
 import EventsSelector from "./eventsSelector";
+import { getPastEvents } from "@/app/lib/database/query";
 
-export default function PastEventsCalendar() {
-  const events = getPastIssueEvents()
+export default async function PastEventsCalendar() {
+  const events = await getPastEvents();
   return (
     <div
       className="flex flex-col md:flex-row gap-6 md:items-start 

@@ -1,15 +1,15 @@
 import { Article } from "@/app/lib/definitions";
 import UserAuthor from "../user/userAuthor";
-import { getAuthorById } from "@/app/lib/utils";
+import { getUserById } from "@/app/lib/database/query";
 
 type ArticleCardProps = {
   article: Article;
 };
 
-export default function ArticleCard({ article }: ArticleCardProps) {
+export default async function ArticleCard({ article }: ArticleCardProps) {
   const { release_date, title, writer_id } = article;
 
-  const writer = getAuthorById(writer_id);
+  const writer = await getUserById(writer_id);
 
   return (
     <article

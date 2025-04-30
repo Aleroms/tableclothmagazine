@@ -9,7 +9,7 @@ import {
   ComponentImageProps,
   ComponetAnchorProps,
   ComponentProps,
-} from "./definitions";
+} from "./definitions.mdx";
 
 const components = {
   h2: (props: ComponentProps) => (

@@ -1,14 +1,14 @@
 "use server";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import {
-  getArticlesByIssueId,
-  getIssueById,
-  getUserById,
-} from "@/app/lib/utils";
 import ArticlePreview from "@/app/ui/articlePreview";
 import UserShort from "@/app/ui/user/userShort";
 import { Metadata } from "next";
+import {
+  getIssueById,
+  getUserById,
+  getArticlesByIssueId,
+} from "@/app/lib/database/query";
 
 interface IssueDetailsProps {
   params: Promise<{ Id: string }>;
@@ -28,15 +28,15 @@ export default async function IssueDetails({ params }: IssueDetailsProps) {
   const { Id } = await params;
 
   const id = parseInt(Id);
-  const issue = getIssueById(id);
+  const issue = await getIssueById(id);
 
   if (issue == null) {
     redirect("/");
   }
 
-  const articles = getArticlesByIssueId(issue.id);
+  const articles = await getArticlesByIssueId(issue.id);
 
-  const editor = getUserById(issue.editor_id);
+  const editor = await getUserById(issue.editor_id);
 
   return (
     <main className="mt-20 mb-40">

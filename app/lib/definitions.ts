@@ -3,7 +3,7 @@ export interface User {
   id: string;
   img_url?: string;
   role: string;
-  auth_level: "admin" | "writer" | "basic";
+  auth_level: "admin" | "team" | "basic";
   first_name: string;
   last_name?: string;
   pronouns?: string;
@@ -16,7 +16,7 @@ export interface Article {
   issue_id: number;
   writer_id: string;
   title: string;
-  markdown?: string;
+  markdown: string;
   release_date: Date;
 }
 
@@ -28,6 +28,12 @@ export interface Issue {
   editor_id: string;
   release_date: Date;
   description: string;
+}
+
+export interface IssueThumbnail {
+  id: number;
+  name: string;
+  img_url: string;
 }
 
 export interface Showcase {

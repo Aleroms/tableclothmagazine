@@ -1,10 +1,10 @@
-import { getAllTableclothUsers } from "@/app/lib/utils";
+import { getTableclothTeam } from "@/app/lib/database/query";
 import NavButton from "../button/navigationButton";
 import UserCard from "../team/userCard";
 // import TeamSkeleton from "../skeleton/teamSkeleton";
 
-export default function AboutPreview() {
-  const team = getAllTableclothUsers();
+export default async function AboutPreview() {
+  const team = await getTableclothTeam();
   return (
     <div className="flex flex-col gap-1 md:flex-row-reverse md:gap-15">
       <article className="block">
