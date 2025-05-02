@@ -12,8 +12,8 @@ export default function Issues() {
           Issues
         </h1>
         <p className="md:mb-30">
-          text about our issues and maybe a few words about how often we provide
-          issues (when they can expect another issue)
+          The Tablecloth releases issues on a quarterly basis. Read all of our
+          released issues below!
         </p>
       </div>
       <IssueOverview />

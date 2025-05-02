@@ -20,7 +20,7 @@ export default function UserAuthor({ writer, release_date }: UserAuthorProps) {
           height={45}
           src={writer.img_url}
           alt={`${fullName} profile picture`}
-          className="rounded-full"
+          className="rounded-full shrink-0"
         />
       ) : (
         // fallback incase user has no profile picture

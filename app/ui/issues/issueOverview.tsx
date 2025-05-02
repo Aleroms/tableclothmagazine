@@ -21,20 +21,21 @@ export default async function IssueOverview() {
               />
             </Link>
           </div>
-
-          <div className="flex items-end justify-between m-1">
-            <h2>{name}</h2>
-            <p className="text-sm text-[var(--t-dark-4)]">
-              {formatDateToUSA(release_date)}
-            </p>
+          <div className="md:min-h-40 my-4 ">
+            <div className="flex items-end justify-between m-1">
+              <h2>{name}</h2>
+              <p className="text-sm text-[var(--t-dark-4)]">
+                {formatDateToUSA(release_date)}
+              </p>
+            </div>
+            <p className="mb-4">{description}</p>
+            <NavButton
+              href={`issues/${id}`}
+              className="border-1 border-solid border-stone-400 transition hover:bg-stone-100/5 focus:border-white text-stone-400 my-4"
+            >
+              View More
+            </NavButton>
           </div>
-          <p className="mb-4">{description}</p>
-          <NavButton
-            href={`issues/${id}`}
-            className="border-1 border-solid border-stone-400 transition hover:bg-stone-100/5 focus:border-white text-stone-400 my-4"
-          >
-            View More
-          </NavButton>
         </article>
       ))}
     </div>

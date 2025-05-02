@@ -37,13 +37,12 @@ export default async function Events() {
 
       {/* Past Events  */}
       <div className="mb-20 text-center max-w-xl m-auto">
-        <h2 className="capitalize text-3xl md:text-4xl lg:text-6xl font-bold mx-6">
+        <h2 className="capitalize text-3xl md:text-4xl lg:text-6xl font-bold mx-6 mb-4">
           Past Events
         </h2>
         <p className="text-xl mb-6 ">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. In distinctio
-          saepe deserunt necessitatibus. Odio corrupti deleniti minima, et
-          perspiciatis libero!
+          The Tablecloth features events relevant to gamedevs and UCI alumni.
+          View all previous events in the archive!
         </p>
         <NavButton
           href="/events/past"

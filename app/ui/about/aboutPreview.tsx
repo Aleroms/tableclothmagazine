@@ -13,13 +13,12 @@ export default async function AboutPreview() {
           <span className="text-[var(--table-1)]">for you</span>
         </h2>
         <p className="text-[var(--t-dark-4)] mb-10">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
-          aliquam veritatis aspernatur quis exercitationem, repellendus eligendi
-          numquam debitis, obcaecati nesciunt perferendis. Temporibus autem est
-          deleniti possimus? Illum atque expedita at quam voluptatum similique.
-          Numquam quae fugiat sapiente? Placeat voluptatibus eos perspiciatis
-          quis provident molestiae, ea, quos dolorem iusto similique reiciendis
-          consequuntur sit nihil expedita est. Delectus qui cumque dolorum.
+          The Tablecloth is a magazine created by alumni and members of the
+          Video Game Development Club @ UCI. Our goal is to create and nurture
+          community between current students and alumni by sharing each
+          other&apos;s work. The magazine focues on a variety of game
+          development topics, including interviews, post-mortems, opinion
+          pieces, and more. Thank you for reading and supporting our work.
         </p>
         <NavButton
           href="/about"
