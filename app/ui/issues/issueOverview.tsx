@@ -1,6 +1,4 @@
-import { formatDateToUSA } from "@/app/lib/utils";
 import Image from "next/image";
-import NavButton from "../button/navigationButton";
 import Link from "next/link";
 import { getAllIssues } from "@/app/lib/database/query";
 
