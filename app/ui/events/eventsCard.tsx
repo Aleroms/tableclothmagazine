@@ -24,13 +24,14 @@ export default function EventsCard({ event }: EventsCardProps) {
     <div className="mx-2 my-4 lg:my-8 grid grid-2 lg:grid-cols-[33%_66%]">
       {/* displays the start - endDate?  */}
       <div>
-        <h2 className="uppercase font-light text-xl md:text-2xl lg:text-3xl">
-          {endDate
-            ? `${startDayOfWeekName} - ${endDayOfWeekName}`
-            : startDayOfWeekName}
+              <h2 className="uppercase font-light text-xl md:text-2xl lg:text-3xl">
+                  {endDate ? `${startDateNum} - ${endDateNum}` : startDateNum}
+          
         </h2>
         <h3 className="text-lg font-medium text-[var(--t-dark-4)]">
-          {endDate ? `${startDateNum} - ${endDateNum}` : startDateNum}
+                  {endDate
+                      ? `${startDayOfWeekName} - ${endDayOfWeekName}`
+                      : startDayOfWeekName}
         </h3>
       </div>
 
