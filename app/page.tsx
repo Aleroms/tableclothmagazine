@@ -22,7 +22,7 @@ export default async function Home() {
 
   return (
     <>
-      <main className="mt-15 mb-40">
+      <main className="mt-0 md:mt-15 mb-40">
         {/* Latest Releases  */}
         <IssueCarousel thumbnails={issuesThumbnail} />
         {/* Article preview  */}
@@ -36,13 +36,13 @@ export default async function Home() {
           </NavButton>
         </div>
         {/* Showcase + About  */}
-        <div className="mx-4 my-80 max-w-5xl lg:mx-auto">
-          <h2 className="capitalize font-bold text-2xl md:text-4xl">
-            Showcase
+        <div className="mx-4 my-15 max-w-5xl lg:mx-auto">
+          <h2 className="capitalize font-bold text-2xl md:text-4xl mb-10">
+            Developer Showcase
           </h2>
           <InfiniteCarousel items={showcase} />
           {/* About us preview  */}
-          <div className="my-80">
+          <div className="my-40">
             <AboutPreview />
           </div>
         </div>

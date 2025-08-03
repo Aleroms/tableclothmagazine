@@ -41,7 +41,7 @@ export default async function IssueDetails({ params }: IssueDetailsProps) {
   return (
     <main className="mt-20 mb-40">
       <div className="m-4">
-        <div className="relative w-70 h-80 m-auto lg:w-80 md:h-100">
+        <div className="relative w-70 h-100 m-auto lg:w-100 md:h-120">
           <Image
             src={issue.img_url}
             fill
@@ -50,12 +50,10 @@ export default async function IssueDetails({ params }: IssueDetailsProps) {
             className="py-1 mb-1 drop-shadow-[var(--dropShadow)] rounded-sm"
           />
         </div>
-        <h1 className="text-5xl text-center my-8 capitalize font-medium">
-          {issue.name}
-        </h1>
+        
       </div>
-      <div className="m-4 max-w-3xl md:m-auto">
-        <p>{issue.editors_note}</p>
+      <div className="max-w-4xl sm:max-w-4xl m-auto my-10">
+        <p className="my-10 ml-5 mr-5 sm:ml-0 sm:mr-0">{issue.editors_note}</p>
         {editor && <UserShort user={editor} />}
       </div>
       {articles.length > 0 ? (
