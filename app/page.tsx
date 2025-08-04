@@ -38,7 +38,7 @@ export default async function Home() {
         {/* Showcase + About  */}
         <div className="mx-4 my-15 max-w-5xl lg:mx-auto">
           <h2 className="capitalize font-bold text-2xl md:text-4xl mb-10">
-            Developer Showcase
+            Developer Showcase:
           </h2>
           <InfiniteCarousel items={showcase} />
           {/* About us preview  */}
