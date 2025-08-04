@@ -21,7 +21,8 @@ export const getShowcase = async (limit: number = 5) => {
           FROM showcases
           ORDER BY created_at DESC
           LIMIT ${limit}`;
-    return data;
+      console.log(data);
+      return data;
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch showcases: ${error}`);
