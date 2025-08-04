@@ -21,6 +21,7 @@ export const getShowcase = async (limit: number = 5) => {
           FROM showcases
           ORDER BY created_at DESC
           LIMIT ${limit}`;
+      console.log("");
       return data;
   } catch (error) {
     console.log(error);
