@@ -2,11 +2,26 @@ import UserAuthor from "@/app/ui/user/userAuthor";
 import { redirect } from "next/navigation";
 import { CustomMDX } from "@/app/plugin/mdx-remote";
 import { getArticleById, getUserById } from "@/app/lib/database/query";
-
+import { Metadata } from "next";
 interface ArticleDetailsProps {
   params: Promise<{ articleId: string }>;
 }
 
+interface IssueDetailsProps {
+    params: Promise<{ articleId: string }>;
+}
+
+export async function generateMetadata({
+    params,
+}: IssueDetailsProps): Promise<Metadata> {
+    const { articleId } = await params;
+    const article = await getArticleById(articleId);
+    const { title} = article;
+    return {
+        title: `${title}`,
+        description: `${title}`,
+    };
+}
 export default async function ArticleDetails({ params }: ArticleDetailsProps) {
   const { articleId } = await params;
 
