@@ -19,7 +19,7 @@ export async function generateMetadata({
 }: IssueDetailsProps): Promise<Metadata> {
   const { Id } = await params;
   return {
-    title: `Issue ${Id} | Tablecloth Magazine`,
+    title: `Issue ${Id}`,
     description: `Details of Issue ${Id} of Tablecloth Magazine.`,
   };
 }
