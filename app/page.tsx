@@ -22,7 +22,7 @@ export default async function Home() {
 
   return (
     <>
-      <main className="mt-0 md:mt-15 mb-40">
+      <main className="md:mt-15 mb-40">
         {/* Latest Releases  */}
         <IssueCarousel thumbnails={issuesThumbnail} />
         {/* Article preview  */}
