@@ -52,8 +52,8 @@ export default async function IssueDetails({ params }: IssueDetailsProps) {
         </div>
         
       </div>
-      <div className="max-w-4xl sm:max-w-4xl m-auto my-10">
-        <p className="my-10 ml-5 mr-5 sm:ml-0 sm:mr-0">{issue.editors_note}</p>
+          <div className="m-4 max-w-3xl md:m-auto">
+              <p>{issue.editors_note}</p>
         {editor && <UserShort user={editor} />}
       </div>
       {articles.length > 0 ? (
