@@ -21,7 +21,7 @@ export const getShowcase = async (limit: number = 5) => {
           FROM showcases
           ORDER BY created_at DESC
           LIMIT ${limit}`;
-    return data;
+      return data;
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch showcases: ${error}`);
@@ -192,7 +192,7 @@ export async function getIssueById(id: number): Promise<Issue> {
 export async function getIssuesThumbnail(): Promise<IssueThumbnail[]> {
   try {
     return await sql`
-    SELECT id, name, img_url FROM issues`;
+    SELECT id, name, img_url FROM issues ORDER BY id DESC`;
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch issue thumbnail ${error}`);

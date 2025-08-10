@@ -21,7 +21,7 @@ export default function IssueCarousel({ thumbnails }: CarouselProps) {
     setCurrent(current === 0 ? thumbnails.length - 1 : current - 1);
   }
   return (
-    <div className="m-auto max-w-5xl dark:bg-[var(--t-dark-2)] p-2 flex flex-col rounded-sm">
+    <div className="m-auto max-w-7xl dark:bg-[var(--t-dark-2)] p-2 flex flex-col rounded-sm">
       <div className="flex items-center justify-center">
         {/* left button  */}
         <button
@@ -29,11 +29,11 @@ export default function IssueCarousel({ thumbnails }: CarouselProps) {
           className="hidden sm:inline-flex bg-[var(--t-dark-1)] dark:bg-[var(--t-light-1)] h-18 w-5 rounded-xl mx-4 hover:bg-neutral-400 dark:hover:bg-neutral-200 cursor-pointer"
         />
         <div className="carousel-body flex flex-col p-2 w-full justify-center">
-          <h2 className="capitalize font-bold text-2xl md:text-4xl inline">
-            Latest Release
+          <h2 className="capitalize font-bold text-2xl md:text-4xl inline mt-5 mb-5">
+            Latest Releases:
           </h2>
           <div className="my-1">
-            <div className=" flex overflow-x-auto gap-2 sm:gap-3 md:gap-4 lg:gap-8">
+            <div className=" flex overflow-x-auto gap-2 sm:gap-8 md:gap-8 lg:gap-8">
               {thumbnails
                 .slice(current, current + visibleSlides)
                 .concat(
@@ -47,7 +47,7 @@ export default function IssueCarousel({ thumbnails }: CarouselProps) {
                 .map(({ id, name, img_url }) => (
                   <div
                     key={id}
-                    className="relative w-[150px] md:w-[250px] aspect-[3/4] shrink-0 mt-2"
+                    className="relative w-[250px] md:w-[350px] aspect-[3/4] shrink-0 mt-2 mr-20 ml-20 sm:mr-0 sm:ml-0"
                   >
                     <Link href={`issues/${id}`}>
                       <Image

@@ -19,7 +19,7 @@ export async function generateMetadata({
 }: IssueDetailsProps): Promise<Metadata> {
   const { Id } = await params;
   return {
-    title: `Issue ${Id} | Tablecloth Magazine`,
+    title: `Issue ${Id}`,
     description: `Details of Issue ${Id} of Tablecloth Magazine.`,
   };
 }
@@ -41,7 +41,7 @@ export default async function IssueDetails({ params }: IssueDetailsProps) {
   return (
     <main className="mt-20 mb-40">
       <div className="m-4">
-        <div className="relative w-70 h-80 m-auto lg:w-80 md:h-100">
+        <div className="relative w-70 h-100 m-auto lg:w-100 md:h-120">
           <Image
             src={issue.img_url}
             fill
@@ -50,12 +50,10 @@ export default async function IssueDetails({ params }: IssueDetailsProps) {
             className="py-1 mb-1 drop-shadow-[var(--dropShadow)] rounded-sm"
           />
         </div>
-        <h1 className="text-5xl text-center my-8 capitalize font-medium">
-          {issue.name}
-        </h1>
+        
       </div>
-      <div className="m-4 max-w-3xl md:m-auto">
-        <p>{issue.editors_note}</p>
+          <div className="m-4 max-w-3xl md:m-auto">
+              <p>{issue.editors_note}</p>
         {editor && <UserShort user={editor} />}
       </div>
       {articles.length > 0 ? (
