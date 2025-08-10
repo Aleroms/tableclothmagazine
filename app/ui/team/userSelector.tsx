@@ -16,7 +16,7 @@ export default function UserSelector({
   return (
     <>
       {/* Mobile view of user profile images  */}
-      <div className="flex overflow-visible overflow-x-auto gap-6 items-center p-3 grid grid-cols-5 cursor-pointer">
+          <div className="flex overflow-visible overflow-x-auto gap-6 items-center p-3 md:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 cursor-pointer">
         {users.map((user) => ( 
           <div
             key={user.id}
