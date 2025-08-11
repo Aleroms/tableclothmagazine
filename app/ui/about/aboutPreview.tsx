@@ -27,7 +27,7 @@ export default async function AboutPreview() {
           Our Team
         </NavButton>
       </article>
-      <div className="my-12 px-3 shrink-0 grid grid-cols-4 gap-3">
+      <div className="my-8 shrink-0 grid grid-cols-3 sm:grid-cols-5 gap-3 content-center ml-6 sm:ml-0">
         {/* <TeamSkeleton teamCount={12} /> */}
         {team.map((user) => (
           <UserCard user={user} key={user.id} />

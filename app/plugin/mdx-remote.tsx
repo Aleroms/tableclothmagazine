@@ -45,7 +45,7 @@ const components = {
     return <span>{children}</span>;
   },
   img: ({ src, alt }: ComponentImageProps) => {
-    return <Image src={src} alt={alt} width={300} height={300} />;
+    return <Image src={src} alt={alt} width={500} height={500} />;
   },
 };
 
