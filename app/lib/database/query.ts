@@ -21,7 +21,7 @@ export const getShowcase = async (limit: number = 5) => {
           FROM showcases
           ORDER BY created_at DESC
           LIMIT ${limit}`;
-      return data;
+    return data;
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch showcases: ${error}`);
@@ -49,7 +49,7 @@ export async function getMarkdownByArticleId(
 export async function getLatestArticles(limit: number): Promise<Article[]> {
   try {
     const rows = await sql`
-        SELECT * FROM articles ORDER BY release_date LIMIT ${limit}`;
+        SELECT * FROM articles ORDER BY release_date DESC LIMIT ${limit}`;
     return transformRowToArticleArray(rows);
   } catch (error) {
     console.log(error);
