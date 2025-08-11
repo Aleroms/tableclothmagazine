@@ -166,6 +166,17 @@ export async function getUserById(id: string): Promise<User> {
   }
 }
 
+export async function getUserByEmail(email: string): Promise<User> {
+  try {
+    const data = await sql`
+    SELECT * FROM users WHERE email = ${email}`;
+    return data[0] as User;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to fetch user email ${email} ${error}`);
+  }
+}
+
 // ISSUES
 
 export async function getAllIssues(): Promise<Issue[]> {

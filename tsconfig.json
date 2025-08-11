@@ -22,6 +22,15 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.mjs", "app/plugin/mdx-remote.tsx", "tailwind.config.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "tailwind.config.mjs",
+    "app/plugin/mdx-remote.tsx",
+    "tailwind.config.js",
+    "types"
+  ],
   "exclude": ["node_modules"]
 }

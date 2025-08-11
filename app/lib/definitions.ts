@@ -9,6 +9,8 @@ export interface User {
   pronouns?: string;
   fav_color?: string;
   description?: string;
+  password: string;
+  email: string;
 }
 
 export interface Article {
