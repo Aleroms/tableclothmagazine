@@ -116,7 +116,7 @@ export default function UserDetails({ user }: { user: User }) {
           {parseDescriptionForExternalLinks(user.description)}
         </p>
       ) : (
-        <p>an overal awesome person! ✨</p>
+        <p>an overall awesome person! ✨</p>
       )}
     </div>
   );
