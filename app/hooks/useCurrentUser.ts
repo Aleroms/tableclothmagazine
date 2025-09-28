@@ -1,14 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-
-type User = {
-  id: string;
-  email: string;
-  first_name: string;
-  last_name?: string;
-  auth_level: "admin" | "team" | "basic";
-};
+import { User } from "@/app/lib/definitions";
 
 export function useCurrentUser() {
   const { data: session, status } = useSession();
@@ -19,12 +12,17 @@ export function useCurrentUser() {
     async function fetchUser() {
       if (session?.user?.email) {
         try {
+          console.log("Fetching user data for:", session.user.email);
           const response = await fetch("/api/user/me");
+          console.log("Response status:", response.status);
+          
           if (response.ok) {
             const userData = await response.json();
+            console.log("User data received:", userData);
             setUser(userData);
           } else {
-            console.error("Failed to fetch user data");
+            const errorData = await response.json();
+            console.error("Failed to fetch user data:", response.status, errorData);
           }
         } catch (error) {
           console.error("Error fetching user:", error);
@@ -32,6 +30,7 @@ export function useCurrentUser() {
           setLoading(false);
         }
       } else {
+        console.log("No session or email found:", session);
         setLoading(false);
       }
     }

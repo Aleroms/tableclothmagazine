@@ -11,6 +11,7 @@ import {
   transformRowToEventArray,
 } from "./query-utils";
 import sql from "./db";
+import { hash } from "bcrypt";
 
 // SHOWCASE
 
@@ -21,7 +22,7 @@ export const getShowcase = async (limit: number = 5) => {
           FROM showcases
           ORDER BY created_at DESC
           LIMIT ${limit}`;
-      return data;
+    return data;
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch showcases: ${error}`);
@@ -174,6 +175,53 @@ export async function getUserByEmail(email: string): Promise<User> {
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch user email ${email} ${error}`);
+  }
+}
+
+export async function updateUserProfile(
+  email: string,
+  profileData: {
+    img_url?: string | null;
+    first_name: string;
+    last_name?: string | null;
+    pronouns?: string | null;
+    fav_color?: string | null;
+    description?: string | null;
+    email: string;
+  }
+): Promise<void> {
+  try {
+    await sql`
+      UPDATE users 
+      SET 
+        img_url = ${profileData.img_url || null},
+        first_name = ${profileData.first_name}, 
+        last_name = ${profileData.last_name || null},
+        pronouns = ${profileData.pronouns || null},
+        fav_color = ${profileData.fav_color || null},
+        description = ${profileData.description || null},
+        email = ${profileData.email},
+        updated_at = NOW()
+      WHERE email = ${email}`;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to update user profile for ${email}: ${error}`);
+  }
+}
+
+export async function updateUserPassword(
+  email: string,
+  newPassword: string
+): Promise<void> {
+  try {
+    const hashedPassword = await hash(newPassword, 10);
+    await sql`
+      UPDATE users 
+      SET password = ${hashedPassword}
+      WHERE email = ${email}`;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to update password for ${email}: ${error}`);
   }
 }
 
