@@ -1,5 +1,4 @@
-import NextAuth, { NextAuthOptions, Session } from "next-auth";
-import { JWT } from "next-auth/jwt";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 import { getUserByEmail } from "@/app/lib/database/query";
@@ -7,67 +6,56 @@ import { getUserByEmail } from "@/app/lib/database/query";
 const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      id: "credentials",
-      // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Table Credentials",
-      // `credentials` is used to generate a form on the sign in page.
+      name: "credentials",
       credentials: {
-        email: {
-          label: "Email",
-          type: "text",
-          placeholder: "example@mail.com",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-        },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // logic to look up the user from the credentials supplied
-        if (!credentials) return null;
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
         const user = await getUserByEmail(credentials.email);
-
         if (!user) return null;
 
         const isValid = await compare(credentials.password, user.password);
-
-        console.log(isValid);
         if (!isValid) return null;
 
-        // Any object returned will be saved in `user` property of the JWT
         return {
           id: user.id,
           email: user.email,
-          role: user.role,
+          name: user.first_name || user.email,
           auth_level: user.auth_level,
         };
       },
     }),
   ],
-  session: { strategy: "jwt" as const },
+  session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user }) {
-      if (user && "auth_level" in user && "role" in user) {
+      if (user) {
         token.id = user.id;
-        token.role = user.role;
         token.auth_level = user.auth_level;
       }
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
-      session.user.id = token.id as string;
-      session.user.role = token.role as string;
-      session.user.auth_level = token.auth_level as "admin" | "team" | "basic";
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
+        session.user.auth_level = token.auth_level as
+          | "admin"
+          | "team"
+          | "basic";
+      }
       return session;
     },
   },
+  pages: {
+    signIn: "/auth/signin",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
-
-/* 
-credentials:
-https://next-auth.js.org/providers/credentials?utm_source=chatgpt.com
-*/
+export { handler as GET, handler as POST, authOptions };
