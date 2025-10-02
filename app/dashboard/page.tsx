@@ -2,17 +2,14 @@
 import { useCurrentUser } from "@/app/hooks/useCurrentUser";
 import UpdateProfileForm from "@/app/ui/dashboard/updateProfileForm";
 import ChangePasswordForm from "@/app/ui/dashboard/changePasswordForm";
+import DashboardProfileSkeleton from "@/app/ui/skeleton/dashboardProfileSkeleton";
 import Image from "next/image";
 
 export default function Dashboard() {
   const { user, session, loading, isAdmin, isTeam } = useCurrentUser();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-white text-lg">Loading user information...</div>
-      </div>
-    );
+    return <DashboardProfileSkeleton />;
   }
 
   if (!session || !user) {

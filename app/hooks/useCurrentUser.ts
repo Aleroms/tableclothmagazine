@@ -15,14 +15,18 @@ export function useCurrentUser() {
           console.log("Fetching user data for:", session.user.email);
           const response = await fetch("/api/user/me");
           console.log("Response status:", response.status);
-          
+
           if (response.ok) {
             const userData = await response.json();
             console.log("User data received:", userData);
             setUser(userData);
           } else {
             const errorData = await response.json();
-            console.error("Failed to fetch user data:", response.status, errorData);
+            console.error(
+              "Failed to fetch user data:",
+              response.status,
+              errorData
+            );
           }
         } catch (error) {
           console.error("Error fetching user:", error);

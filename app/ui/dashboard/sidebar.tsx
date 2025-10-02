@@ -2,6 +2,7 @@
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useCurrentUser } from "@/app/hooks/useCurrentUser";
+import SidebarSkeleton from "@/app/ui/skeleton/sidebarSkeleton";
 
 export default function Sidebar() {
   const { user, session, loading, isAdmin, isTeam } = useCurrentUser();
@@ -10,11 +11,7 @@ export default function Sidebar() {
   console.log("isAdmin:", isAdmin, "isTeam:", isTeam);
 
   if (loading) {
-    return (
-      <div className="w-64 md:w-72 lg:w-80 flex flex-col p-4 bg-[var(--t-dark-2)] text-white">
-        Loading...
-      </div>
-    );
+    return <SidebarSkeleton />;
   }
 
   if (!session) {
