@@ -52,6 +52,7 @@ export default function UpdateProfileForm({
         setError(errorData.error || "Failed to update profile");
       }
     } catch (error) {
+      console.log(error);
       setError("An error occurred while updating your profile");
     } finally {
       setLoading(false);
