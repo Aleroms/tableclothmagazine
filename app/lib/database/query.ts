@@ -182,7 +182,7 @@ export async function isUserAdmin(email: string): Promise<boolean> {
   try {
     const data = await sql`
     SELECT auth_level FROM users WHERE email = ${email}`;
-    return data.length > 0 && data[0].auth_level === 'admin';
+    return data.length > 0 && data[0].auth_level === "admin";
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to determine if user ${email} is admin`);
@@ -333,5 +333,128 @@ export async function updateTeamMember(
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to update team member ${id}: ${error}`);
+  }
+}
+
+// ISSUE MANAGEMENT (Additional functions)
+
+export async function createIssue(issueData: {
+  name: string;
+  img_url: string | null;
+  editors_note: string | null;
+  editor_id: string;
+  release_date: Date;
+  description: string | null;
+}): Promise<Issue> {
+  try {
+    const result = await sql`
+      INSERT INTO issues (name, img_url, editors_note, editor_id, release_date, description)
+      VALUES (${issueData.name}, ${issueData.img_url}, ${issueData.editors_note}, 
+              ${issueData.editor_id}, ${issueData.release_date}, ${issueData.description})
+      RETURNING *`;
+    return result[0] as Issue;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to create issue: ${error}`);
+  }
+}
+
+export async function updateIssue(
+  id: number,
+  updates: {
+    name?: string;
+    img_url?: string;
+    editors_note?: string;
+    editor_id?: string;
+    release_date?: Date;
+    description?: string;
+  }
+): Promise<Issue> {
+  try {
+    const setClause = [];
+    const values: (string | Date | number)[] = [];
+
+    if (updates.name !== undefined) {
+      setClause.push(`name = $${setClause.length + 1}`);
+      values.push(updates.name);
+    }
+    if (updates.img_url !== undefined) {
+      setClause.push(`img_url = $${setClause.length + 1}`);
+      values.push(updates.img_url);
+    }
+    if (updates.editors_note !== undefined) {
+      setClause.push(`editors_note = $${setClause.length + 1}`);
+      values.push(updates.editors_note);
+    }
+    if (updates.editor_id !== undefined) {
+      setClause.push(`editor_id = $${setClause.length + 1}`);
+      values.push(updates.editor_id);
+    }
+    if (updates.release_date !== undefined) {
+      setClause.push(`release_date = $${setClause.length + 1}`);
+      values.push(updates.release_date);
+    }
+    if (updates.description !== undefined) {
+      setClause.push(`description = $${setClause.length + 1}`);
+      values.push(updates.description);
+    }
+
+    if (setClause.length === 0) {
+      throw new Error("No fields to update");
+    }
+
+    values.push(id);
+
+    const result = await sql.unsafe(
+      `
+      UPDATE issues 
+      SET ${setClause.join(", ")}
+      WHERE id = $${values.length}
+      RETURNING *
+    `,
+      values
+    );
+
+    if (result.length === 0) {
+      throw new Error("Issue not found");
+    }
+
+    return result[0] as unknown as Issue;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to update issue ${id}: ${error}`);
+  }
+}
+
+export async function checkIssueHasArticles(issueId: number): Promise<boolean> {
+  try {
+    const result = await sql`
+      SELECT COUNT(*) as count FROM articles WHERE issue_id = ${issueId}`;
+    return parseInt(result[0].count) > 0;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to check articles for issue ${issueId}: ${error}`);
+  }
+}
+
+export async function deleteIssue(id: number): Promise<void> {
+  try {
+    // First check if there are any articles associated with this issue
+    const hasArticles = await checkIssueHasArticles(id);
+    if (hasArticles) {
+      throw new Error(
+        "Cannot delete issue: There are articles associated with this issue"
+      );
+    }
+
+    const result = await sql`
+      DELETE FROM issues WHERE id = ${id}`;
+
+    if (result.count === 0) {
+      throw new Error("Issue not found");
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to delete issue ${id}: ${error}`);
   }
 }

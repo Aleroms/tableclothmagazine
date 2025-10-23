@@ -12,6 +12,20 @@ export default function AdminTeamPage() {
   const [teamLoading, setTeamLoading] = useState(true);
   const [teamError, setTeamError] = useState<string | null>(null);
 
+  // Edit modal state
+  const [editingMember, setEditingMember] = useState<User | null>(null);
+  const [editLoading, setEditLoading] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState({
+    role: "",
+    auth_level: "" as "admin" | "team" | "basic" | "",
+    first_name: "",
+    last_name: "",
+    pronouns: "",
+    fav_color: "",
+    description: "",
+  });
+
   useEffect(() => {
     if (!loading && (!session || !isAdmin)) {
       router.push("/dashboard");
@@ -56,6 +70,95 @@ export default function AdminTeamPage() {
     }
   }, [session, isAdmin, loading]);
 
+  // Edit functions
+  const openEditModal = (member: User) => {
+    setEditingMember(member);
+    setEditForm({
+      role: member.role,
+      auth_level: member.auth_level,
+      first_name: member.first_name,
+      last_name: member.last_name || "",
+      pronouns: member.pronouns || "",
+      fav_color: member.fav_color || "",
+      description: member.description || "",
+    });
+    setEditError(null);
+  };
+
+  const closeEditModal = () => {
+    setEditingMember(null);
+    setEditError(null);
+    setEditForm({
+      role: "",
+      auth_level: "",
+      first_name: "",
+      last_name: "",
+      pronouns: "",
+      fav_color: "",
+      description: "",
+    });
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingMember) return;
+
+    try {
+      setEditLoading(true);
+      setEditError(null);
+
+      const updates = {
+        role: editForm.role,
+        auth_level: editForm.auth_level,
+        first_name: editForm.first_name,
+        last_name: editForm.last_name || null,
+        pronouns: editForm.pronouns || null,
+        fav_color: editForm.fav_color || null,
+        description: editForm.description || null,
+      };
+
+      const response = await fetch(`/api/admin/team/${editingMember.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updates),
+      });
+
+      if (!response.ok) {
+        if (response.status === 400) {
+          throw new Error("Invalid data provided");
+        } else if (response.status === 401) {
+          throw new Error("Unauthorized");
+        } else if (response.status === 403) {
+          throw new Error("Admin access required");
+        } else if (response.status === 404) {
+          throw new Error("Team member not found");
+        } else {
+          throw new Error("Failed to update team member");
+        }
+      }
+
+      const updatedMember = await response.json();
+
+      // Update the team list with the updated member
+      setTeam((prevTeam) =>
+        prevTeam.map((member) =>
+          member.id === updatedMember.id ? updatedMember : member
+        )
+      );
+
+      closeEditModal();
+    } catch (error) {
+      console.error("Error updating team member:", error);
+      setEditError(
+        error instanceof Error ? error.message : "An error occurred"
+      );
+    } finally {
+      setEditLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -78,31 +181,6 @@ export default function AdminTeamPage() {
       <div className="border-b border-gray-700 pb-4">
         <h1 className="text-3xl font-bold text-white">Team Management</h1>
         <p className="text-gray-400 mt-2">Manage team members and roles</p>
-      </div>
-
-      {/* Admin Verification */}
-      <div className="bg-[var(--t-dark-2)] rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-white mb-4">
-          Admin Access Verified
-        </h2>
-        <div className="space-y-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-white">
-              ✅ Admin route is working correctly
-            </span>
-          </div>
-          <div className="flex items-center space-x-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-white">✅ Access control is functioning</span>
-          </div>
-          <div className="flex items-center space-x-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-white">
-              ✅ User role: {user?.auth_level?.toUpperCase()}
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* Team Stats */}
@@ -265,10 +343,7 @@ export default function AdminTeamPage() {
                         {member.email}
                       </span>
                       <button
-                        onClick={() => {
-                          // TODO: Implement edit functionality
-                          console.log("Edit member:", member.id);
-                        }}
+                        onClick={() => openEditModal(member)}
                         className="text-blue-400 hover:text-blue-300 text-xs font-medium"
                       >
                         Edit
@@ -280,6 +355,163 @@ export default function AdminTeamPage() {
           </div>
         )}
       </div>
+
+      {/* Edit Modal */}
+      {editingMember && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[var(--t-dark-2)] rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold text-white">
+                Edit Team Member
+              </h3>
+              <button
+                onClick={closeEditModal}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {editError && (
+              <div className="bg-red-900/20 border border-red-500 rounded-lg p-3 mb-4">
+                <div className="text-red-400 text-sm">{editError}</div>
+              </div>
+            )}
+
+            <form onSubmit={handleEditSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  First Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editForm.first_name}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, first_name: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  value={editForm.last_name}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, last_name: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Role *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editForm.role}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, role: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="e.g., Editor, Writer, Designer"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Access Level *
+                </label>
+                <select
+                  required
+                  value={editForm.auth_level}
+                  onChange={(e) =>
+                    setEditForm({
+                      ...editForm,
+                      auth_level: e.target.value as "admin" | "team" | "basic",
+                    })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                >
+                  <option value="">Select access level</option>
+                  <option value="basic">Basic</option>
+                  <option value="team">Team</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Pronouns
+                </label>
+                <input
+                  type="text"
+                  value={editForm.pronouns}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, pronouns: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="e.g., they/them, she/her, he/him"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Favorite Color
+                </label>
+                <input
+                  type="text"
+                  value={editForm.fav_color}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, fav_color: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="e.g., Blue, #FF5733"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Description
+                </label>
+                <textarea
+                  value={editForm.description}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, description: e.target.value })
+                  }
+                  rows={3}
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none resize-none"
+                  placeholder="Brief bio or description..."
+                />
+              </div>
+
+              <div className="flex space-x-3 pt-4">
+                <button
+                  type="submit"
+                  disabled={editLoading}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white px-4 py-2 rounded font-medium transition-colors"
+                >
+                  {editLoading ? "Updating..." : "Update Member"}
+                </button>
+                <button
+                  type="button"
+                  onClick={closeEditModal}
+                  disabled={editLoading}
+                  className="px-4 py-2 border border-gray-600 text-gray-300 hover:bg-gray-700 rounded font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

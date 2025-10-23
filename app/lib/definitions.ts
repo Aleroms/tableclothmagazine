@@ -25,11 +25,11 @@ export interface Article {
 export interface Issue {
   id: number;
   name: string;
-  img_url: string;
-  editors_note: string;
+  img_url: string | null;
+  editors_note: string | null;
   editor_id: string;
   release_date: Date;
-  description: string;
+  description: string | null;
 }
 
 export interface IssueThumbnail {
