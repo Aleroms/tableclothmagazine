@@ -178,6 +178,17 @@ export async function getUserByEmail(email: string): Promise<User> {
   }
 }
 
+export async function isUserAdmin(email: string): Promise<boolean> {
+  try {
+    const data = await sql`
+    SELECT auth_level FROM users WHERE email = ${email}`;
+    return data.length > 0 && data[0].auth_level === 'admin';
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to determine if user ${email} is admin`);
+  }
+}
+
 export async function updateUserProfile(
   email: string,
   profileData: {
@@ -255,5 +266,72 @@ export async function getIssuesThumbnail(): Promise<IssueThumbnail[]> {
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch issue thumbnail ${error}`);
+  }
+}
+
+// TEAM MANAGEMENT
+
+export async function updateTeamMember(
+  id: string,
+  updates: {
+    role?: string;
+    auth_level?: "admin" | "team" | "basic";
+    first_name?: string;
+    last_name?: string | null;
+    pronouns?: string | null;
+    fav_color?: string | null;
+    description?: string | null;
+  }
+): Promise<void> {
+  try {
+    const setClause = [];
+    const values: (string | null)[] = [];
+
+    if (updates.role !== undefined) {
+      setClause.push(`role = $${setClause.length + 1}`);
+      values.push(updates.role);
+    }
+    if (updates.auth_level !== undefined) {
+      setClause.push(`auth_level = $${setClause.length + 1}`);
+      values.push(updates.auth_level);
+    }
+    if (updates.first_name !== undefined) {
+      setClause.push(`first_name = $${setClause.length + 1}`);
+      values.push(updates.first_name);
+    }
+    if (updates.last_name !== undefined) {
+      setClause.push(`last_name = $${setClause.length + 1}`);
+      values.push(updates.last_name);
+    }
+    if (updates.pronouns !== undefined) {
+      setClause.push(`pronouns = $${setClause.length + 1}`);
+      values.push(updates.pronouns);
+    }
+    if (updates.fav_color !== undefined) {
+      setClause.push(`fav_color = $${setClause.length + 1}`);
+      values.push(updates.fav_color);
+    }
+    if (updates.description !== undefined) {
+      setClause.push(`description = $${setClause.length + 1}`);
+      values.push(updates.description);
+    }
+
+    if (setClause.length === 0) {
+      throw new Error("No fields to update");
+    }
+
+    values.push(id);
+
+    await sql.unsafe(
+      `
+      UPDATE users 
+      SET ${setClause.join(", ")}
+      WHERE id = $${values.length}
+    `,
+      values
+    );
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to update team member ${id}: ${error}`);
   }
 }
