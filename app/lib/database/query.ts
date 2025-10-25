@@ -178,6 +178,59 @@ export async function getUserByEmail(email: string): Promise<User> {
   }
 }
 
+export async function createUser(userData: {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name?: string | null;
+  role: string;
+  auth_level: "admin" | "team" | "basic";
+  pronouns?: string | null;
+  fav_color?: string | null;
+  description?: string | null;
+  img_url?: string | null;
+}): Promise<User> {
+  try {
+    // Hash the password
+    const hashedPassword = await hash(userData.password, 12);
+
+    const result = await sql`
+      INSERT INTO users (
+        email, 
+        password, 
+        first_name, 
+        last_name, 
+        role, 
+        auth_level, 
+        pronouns, 
+        fav_color, 
+        description, 
+        img_url
+      )
+      VALUES (
+        ${userData.email}, 
+        ${hashedPassword}, 
+        ${userData.first_name}, 
+        ${userData.last_name || null}, 
+        ${userData.role}, 
+        ${userData.auth_level}, 
+        ${userData.pronouns || null}, 
+        ${userData.fav_color || null}, 
+        ${userData.description || null}, 
+        ${userData.img_url || null}
+      )
+      RETURNING *`;
+
+    return result[0] as User;
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Error && error.message.includes("duplicate key")) {
+      throw new Error("A user with this email already exists");
+    }
+    throw new Error(`Failed to create user: ${error}`);
+  }
+}
+
 export async function isUserAdmin(email: string): Promise<boolean> {
   try {
     const data = await sql`
@@ -456,5 +509,46 @@ export async function deleteIssue(id: number): Promise<void> {
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to delete issue ${id}: ${error}`);
+  }
+}
+
+export async function deleteTeamMember(id: string): Promise<void> {
+  try {
+    // First check if the user exists
+    const user = await getUserById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Check if there are any issues or articles associated with this user
+    const userIssues = await sql`
+      SELECT COUNT(*) as count FROM issues WHERE editor_id = ${id}`;
+
+    if (userIssues[0]?.count > 0) {
+      throw new Error(
+        "Cannot delete user: There are issues associated with this user. Please reassign or delete the issues first."
+      );
+    }
+
+    // Check if there are any articles associated with this user
+    const userArticles = await sql`
+      SELECT COUNT(*) as count FROM articles WHERE writer_id = ${id}`;
+
+    if (userArticles[0]?.count > 0) {
+      throw new Error(
+        "Cannot delete user: There are articles associated with this user. Please reassign or delete the articles first."
+      );
+    }
+
+    // Delete the user
+    const result = await sql`
+      DELETE FROM users WHERE id = ${id}`;
+
+    if (result.count === 0) {
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to delete team member ${id}: ${error}`);
   }
 }

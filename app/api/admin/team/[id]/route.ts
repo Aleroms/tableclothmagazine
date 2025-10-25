@@ -3,16 +3,20 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import {
   getUserById,
+  getUserByEmail,
   isUserAdmin,
   updateTeamMember,
+  deleteTeamMember,
 } from "@/app/lib/database/query";
 import { Session } from "next-auth";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // Get the session to verify user is authenticated and is admin
     const session = (await getServerSession(authOptions)) as Session | null;
 
@@ -30,7 +34,7 @@ export async function GET(
     }
 
     // Get the team member by ID
-    const teamMember = await getUserById(params.id);
+    const teamMember = await getUserById(id);
 
     if (!teamMember) {
       return NextResponse.json(
@@ -73,9 +77,11 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // Get the session to verify user is authenticated and is admin
     const session = (await getServerSession(authOptions)) as Session | null;
 
@@ -93,7 +99,7 @@ export async function PUT(
     }
 
     // Get the existing team member to verify they exist
-    const existingMember = await getUserById(params.id);
+    const existingMember = await getUserById(id);
     if (!existingMember) {
       return NextResponse.json(
         { error: "Team member not found" },
@@ -141,10 +147,10 @@ export async function PUT(
     if (description !== undefined) updates.description = description;
 
     // Update the team member
-    await updateTeamMember(params.id, updates);
+    await updateTeamMember(id, updates);
 
     // Return the updated team member
-    const updatedMember = await getUserById(params.id);
+    const updatedMember = await getUserById(id);
     const safeUpdatedMember = {
       id: updatedMember.id,
       img_url: updatedMember.img_url,
@@ -161,6 +167,79 @@ export async function PUT(
     return NextResponse.json(safeUpdatedMember);
   } catch (error) {
     console.error("Error updating team member:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+
+    // Get the session to verify user is authenticated and is admin
+    const session = (await getServerSession(authOptions)) as Session | null;
+
+    if (!session || !session.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Check if user is admin
+    const userIsAdmin = await isUserAdmin(session.user.email);
+    if (!userIsAdmin) {
+      return NextResponse.json(
+        { error: "Forbidden: Admin access required" },
+        { status: 403 }
+      );
+    }
+
+    // Prevent self-deletion
+    const currentUser = await getUserByEmail(session.user.email);
+    if (!currentUser) {
+      return NextResponse.json(
+        { error: "Current user not found" },
+        { status: 404 }
+      );
+    }
+
+    console.log(
+      `Delete attempt: Current user ID: ${currentUser.id}, Target ID: ${id}`
+    ); // Debug log
+
+    if (currentUser.id === id) {
+      return NextResponse.json(
+        {
+          error:
+            "Cannot delete your own account. Please ask another admin to delete your account if needed.",
+        },
+        { status: 403 }
+      );
+    }
+
+    // Delete the team member
+    await deleteTeamMember(id);
+
+    return NextResponse.json({ message: "Team member deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting team member:", error);
+
+    // Handle specific error messages
+    if (error instanceof Error) {
+      if (
+        error.message.includes("User not found") ||
+        error.message.includes("not a team member")
+      ) {
+        return NextResponse.json({ error: error.message }, { status: 404 });
+      }
+      if (error.message.includes("Cannot delete team member")) {
+        return NextResponse.json({ error: error.message }, { status: 400 });
+      }
+    }
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

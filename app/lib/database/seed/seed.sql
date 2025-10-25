@@ -1,17 +1,20 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS users (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
     img_url TEXT,
     role TEXT DEFAULT 'user' NOT NULL,
     auth_level TEXT DEFAULT 'basic' NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT,
     fav_color VARCHAR(7),
-    pronouns TEXT
+    pronouns TEXT,
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 CREATE TABLE IF NOT EXISTS articles (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -24,7 +27,7 @@ CREATE TABLE IF NOT EXISTS articles (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (writer_id) REFERENCES users(id),
     FOREIGN KEY (issue_id) REFERENCES issues(id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS issues (
     id SERIAL PRIMARY KEY,

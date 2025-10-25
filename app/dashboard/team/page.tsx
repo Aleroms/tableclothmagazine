@@ -26,6 +26,28 @@ export default function AdminTeamPage() {
     description: "",
   });
 
+  // Delete modal state
+  const [deletingMember, setDeletingMember] = useState<User | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  // Create modal state
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
+  const [createForm, setCreateForm] = useState({
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    role: "",
+    auth_level: "" as "admin" | "team" | "basic" | "",
+    pronouns: "",
+    fav_color: "",
+    description: "",
+    img_url: "",
+  });
+
   useEffect(() => {
     if (!loading && (!session || !isAdmin)) {
       router.push("/dashboard");
@@ -97,6 +119,165 @@ export default function AdminTeamPage() {
       fav_color: "",
       description: "",
     });
+  };
+
+  const openDeleteModal = (member: User) => {
+    setDeletingMember(member);
+    setDeleteError(null);
+  };
+
+  const closeDeleteModal = () => {
+    setDeletingMember(null);
+    setDeleteError(null);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deletingMember) return;
+
+    try {
+      setDeleteLoading(true);
+      setDeleteError(null);
+
+      const response = await fetch(`/api/admin/team/${deletingMember.id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        let errorMessage = "Failed to delete team member";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (jsonError) {
+          console.log("Could not parse error response:", jsonError);
+        }
+
+        if (response.status === 400) {
+          throw new Error(errorMessage);
+        } else if (response.status === 401) {
+          throw new Error("Unauthorized");
+        } else if (response.status === 403) {
+          throw new Error("Admin access required");
+        } else if (response.status === 404) {
+          throw new Error("Team member not found");
+        } else {
+          throw new Error(`Server error (${response.status}): ${errorMessage}`);
+        }
+      }
+
+      // Remove the deleted member from the team list
+      setTeam((prevTeam) =>
+        prevTeam.filter((member) => member.id !== deletingMember.id)
+      );
+
+      closeDeleteModal();
+    } catch (error) {
+      console.error("Error deleting team member:", error);
+      setDeleteError(
+        error instanceof Error ? error.message : "An error occurred"
+      );
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
+  const openCreateModal = () => {
+    setShowCreateModal(true);
+    setCreateError(null);
+    setCreateForm({
+      email: "",
+      password: "",
+      first_name: "",
+      last_name: "",
+      role: "",
+      auth_level: "",
+      pronouns: "",
+      fav_color: "",
+      description: "",
+      img_url: "",
+    });
+  };
+
+  const closeCreateModal = () => {
+    setShowCreateModal(false);
+    setCreateError(null);
+    setCreateForm({
+      email: "",
+      password: "",
+      first_name: "",
+      last_name: "",
+      role: "",
+      auth_level: "",
+      pronouns: "",
+      fav_color: "",
+      description: "",
+      img_url: "",
+    });
+  };
+
+  const handleCreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setCreateLoading(true);
+      setCreateError(null);
+
+      const newMemberData = {
+        email: createForm.email,
+        password: createForm.password,
+        first_name: createForm.first_name,
+        last_name: createForm.last_name || null,
+        role: createForm.role,
+        auth_level: createForm.auth_level,
+        pronouns: createForm.pronouns || null,
+        fav_color: createForm.fav_color || null,
+        description: createForm.description || null,
+        img_url: createForm.img_url || null,
+      };
+
+      const response = await fetch("/api/admin/team", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMemberData),
+      });
+
+      if (!response.ok) {
+        let errorMessage = "Failed to create team member";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (jsonError) {
+          console.log("Could not parse error response:", jsonError);
+        }
+
+        if (response.status === 400) {
+          throw new Error(`Invalid data: ${errorMessage}`);
+        } else if (response.status === 401) {
+          throw new Error("Unauthorized");
+        } else if (response.status === 403) {
+          throw new Error("Admin access required");
+        } else if (response.status === 409) {
+          throw new Error(errorMessage);
+        } else {
+          throw new Error(`Server error (${response.status}): ${errorMessage}`);
+        }
+      }
+
+      const newMember = await response.json();
+
+      // Add the new member to the team list
+      setTeam((prevTeam) => [newMember, ...prevTeam]);
+
+      closeCreateModal();
+    } catch (error) {
+      console.error("Error creating team member:", error);
+      setCreateError(
+        error instanceof Error ? error.message : "An error occurred"
+      );
+    } finally {
+      setCreateLoading(false);
+    }
   };
 
   const handleEditSubmit = async (e: React.FormEvent) => {
@@ -213,42 +394,50 @@ export default function AdminTeamPage() {
       <div className="bg-[var(--t-dark-2)] rounded-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-white">Team Overview</h2>
-          <button
-            onClick={() => {
-              // Refetch team data
-              if (session && isAdmin) {
-                const fetchTeam = async () => {
-                  try {
-                    setTeamLoading(true);
-                    setTeamError(null);
+          <div className="flex space-x-3">
+            <button
+              onClick={openCreateModal}
+              className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm font-medium transition-colors"
+            >
+              Add Member
+            </button>
+            <button
+              onClick={() => {
+                // Refetch team data
+                if (session && isAdmin) {
+                  const fetchTeam = async () => {
+                    try {
+                      setTeamLoading(true);
+                      setTeamError(null);
 
-                    const response = await fetch("/api/admin/team");
+                      const response = await fetch("/api/admin/team");
 
-                    if (!response.ok) {
-                      throw new Error("Failed to fetch team members");
+                      if (!response.ok) {
+                        throw new Error("Failed to fetch team members");
+                      }
+
+                      const teamData = await response.json();
+                      setTeam(teamData);
+                    } catch (error) {
+                      console.error("Error fetching team:", error);
+                      setTeamError(
+                        error instanceof Error
+                          ? error.message
+                          : "An error occurred"
+                      );
+                    } finally {
+                      setTeamLoading(false);
                     }
-
-                    const teamData = await response.json();
-                    setTeam(teamData);
-                  } catch (error) {
-                    console.error("Error fetching team:", error);
-                    setTeamError(
-                      error instanceof Error
-                        ? error.message
-                        : "An error occurred"
-                    );
-                  } finally {
-                    setTeamLoading(false);
-                  }
-                };
-                fetchTeam();
-              }
-            }}
-            disabled={teamLoading}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white px-3 py-1 rounded text-sm font-medium transition-colors"
-          >
-            {teamLoading ? "Refreshing..." : "Refresh"}
-          </button>
+                  };
+                  fetchTeam();
+                }
+              }}
+              disabled={teamLoading}
+              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white px-3 py-1 rounded text-sm font-medium transition-colors"
+            >
+              {teamLoading ? "Refreshing..." : "Refresh"}
+            </button>
+          </div>
         </div>
 
         {teamLoading ? (
@@ -342,12 +531,26 @@ export default function AdminTeamPage() {
                       <span className="text-gray-400 text-xs">
                         {member.email}
                       </span>
-                      <button
-                        onClick={() => openEditModal(member)}
-                        className="text-blue-400 hover:text-blue-300 text-xs font-medium"
-                      >
-                        Edit
-                      </button>
+                      {session?.user?.email === member.email ? (
+                        <span className="text-green-400 text-xs font-medium">
+                          (Self)
+                        </span>
+                      ) : (
+                        <div className="flex space-x-3">
+                          <button
+                            onClick={() => openEditModal(member)}
+                            className="text-blue-400 hover:text-blue-300 text-xs font-medium"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => openDeleteModal(member)}
+                            className="text-red-400 hover:text-red-300 text-xs font-medium"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -504,6 +707,262 @@ export default function AdminTeamPage() {
                   onClick={closeEditModal}
                   disabled={editLoading}
                   className="px-4 py-2 border border-gray-600 text-gray-300 hover:bg-gray-700 rounded font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deletingMember && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[var(--t-dark-2)] rounded-lg p-6 w-full max-w-md mx-4">
+            <h2 className="text-xl font-semibold text-white mb-4">
+              Delete Team Member
+            </h2>
+
+            <div className="mb-6">
+              <p className="text-gray-300 mb-3">
+                Are you sure you want to delete{" "}
+                <span className="font-medium text-white">
+                  {deletingMember.first_name} {deletingMember.last_name}
+                </span>
+                ?
+              </p>
+              <p className="text-red-400 text-sm">
+                This action cannot be undone. The user will be permanently
+                removed from the team.
+              </p>
+            </div>
+
+            {deleteError && (
+              <div className="mb-4 p-3 bg-red-900/20 border border-red-500/20 rounded text-red-400 text-sm">
+                {deleteError}
+              </div>
+            )}
+
+            <div className="flex space-x-3">
+              <button
+                onClick={handleDeleteConfirm}
+                disabled={deleteLoading}
+                className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-800 disabled:cursor-not-allowed text-white px-4 py-2 rounded font-medium transition-colors"
+              >
+                {deleteLoading ? "Deleting..." : "Delete Member"}
+              </button>
+              <button
+                onClick={closeDeleteModal}
+                disabled={deleteLoading}
+                className="px-4 py-2 border border-gray-600 text-gray-300 hover:bg-gray-700 disabled:cursor-not-allowed rounded font-medium transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Team Member Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[var(--t-dark-2)] rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl font-semibold text-white mb-4">
+              Add New Team Member
+            </h2>
+
+            {createError && (
+              <div className="mb-4 p-3 bg-red-900/20 border border-red-500/20 rounded text-red-400 text-sm">
+                {createError}
+              </div>
+            )}
+
+            <form onSubmit={handleCreateSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  value={createForm.email}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, email: e.target.value })
+                  }
+                  required
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter email address"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Password *
+                </label>
+                <input
+                  type="password"
+                  value={createForm.password}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, password: e.target.value })
+                  }
+                  required
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter password"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={createForm.first_name}
+                    onChange={(e) =>
+                      setCreateForm({
+                        ...createForm,
+                        first_name: e.target.value,
+                      })
+                    }
+                    required
+                    className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                    placeholder="First name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    value={createForm.last_name}
+                    onChange={(e) =>
+                      setCreateForm({
+                        ...createForm,
+                        last_name: e.target.value,
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                    placeholder="Last name"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Role *
+                </label>
+                <input
+                  type="text"
+                  value={createForm.role}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, role: e.target.value })
+                  }
+                  required
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="e.g., Editor, Writer, Designer"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Access Level *
+                </label>
+                <select
+                  value={createForm.auth_level}
+                  onChange={(e) =>
+                    setCreateForm({
+                      ...createForm,
+                      auth_level: e.target.value as "admin" | "team" | "basic",
+                    })
+                  }
+                  required
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                >
+                  <option value="">Select access level</option>
+                  <option value="basic">Basic</option>
+                  <option value="team">Team</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Pronouns
+                </label>
+                <input
+                  type="text"
+                  value={createForm.pronouns}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, pronouns: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="e.g., they/them, she/her, he/him"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Favorite Color
+                </label>
+                <input
+                  type="text"
+                  value={createForm.fav_color}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, fav_color: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="e.g., Blue, #FF5733"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Description
+                </label>
+                <textarea
+                  value={createForm.description}
+                  onChange={(e) =>
+                    setCreateForm({
+                      ...createForm,
+                      description: e.target.value,
+                    })
+                  }
+                  rows={3}
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none resize-none"
+                  placeholder="Brief bio or description..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Profile Image URL
+                </label>
+                <input
+                  type="url"
+                  value={createForm.img_url}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, img_url: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+
+              <div className="flex space-x-3 pt-4">
+                <button
+                  type="submit"
+                  disabled={createLoading}
+                  className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-green-800 disabled:cursor-not-allowed text-white px-4 py-2 rounded font-medium transition-colors"
+                >
+                  {createLoading ? "Adding..." : "Add Member"}
+                </button>
+                <button
+                  type="button"
+                  onClick={closeCreateModal}
+                  disabled={createLoading}
+                  className="px-4 py-2 border border-gray-600 text-gray-300 hover:bg-gray-700 disabled:cursor-not-allowed rounded font-medium transition-colors"
                 >
                   Cancel
                 </button>
