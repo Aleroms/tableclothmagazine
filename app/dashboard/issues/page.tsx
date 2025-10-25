@@ -5,6 +5,34 @@ import { useEffect, useState } from "react";
 import { Issue, User } from "@/app/lib/definitions";
 import Image from "next/image";
 
+// Safe image component that handles errors
+function IssueImage({ src, alt }: { src: string | null; alt: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (!src || hasError) {
+    return (
+      <div className="w-16 h-20 rounded bg-gray-600 flex items-center justify-center flex-shrink-0">
+        <span className="text-gray-400 text-xs">
+          {hasError ? "Invalid" : "No Image"}
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-16 h-20 rounded bg-gray-600 flex items-center justify-center flex-shrink-0 overflow-hidden">
+      <Image
+        src={src}
+        alt={alt}
+        width={64}
+        height={80}
+        className="w-16 h-20 rounded object-cover"
+        onError={() => setHasError(true)}
+      />
+    </div>
+  );
+}
+
 export default function AdminIssuesPage() {
   const { user, session, loading, isAdmin } = useCurrentUser();
   const router = useRouter();
@@ -136,11 +164,11 @@ export default function AdminIssuesPage() {
     setEditingIssue(issue);
     setEditForm({
       name: issue.name,
-      img_url: issue.img_url,
-      editors_note: issue.editors_note,
+      img_url: issue.img_url || "",
+      editors_note: issue.editors_note || "",
       editor_name: getEditorName(issue.editor_id), // Convert ID to name
       release_date: new Date(issue.release_date).toISOString().split("T")[0],
-      description: issue.description,
+      description: issue.description || "",
     });
     setEditError(null);
   };
@@ -490,19 +518,7 @@ export default function AdminIssuesPage() {
                   className="bg-[var(--t-dark-1)] border border-gray-600 rounded-lg p-4 hover:border-gray-500 transition-colors"
                 >
                   <div className="flex items-start space-x-3">
-                    {issue.img_url ? (
-                      <Image
-                        src={issue.img_url}
-                        alt={issue.name}
-                        width={64}
-                        height={80}
-                        className="w-16 h-20 rounded object-cover flex-shrink-0"
-                      />
-                    ) : (
-                      <div className="w-16 h-20 rounded bg-gray-600 flex items-center justify-center flex-shrink-0">
-                        <span className="text-gray-400 text-xs">No Image</span>
-                      </div>
-                    )}
+                    <IssueImage src={issue.img_url} alt={issue.name} />
 
                     <div className="flex-1 min-w-0">
                       <h3 className="text-white font-medium truncate">

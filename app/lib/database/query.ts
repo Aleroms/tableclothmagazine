@@ -400,6 +400,11 @@ export async function createIssue(issueData: {
   description: string | null;
 }): Promise<Issue> {
   try {
+    // First, try to fix the sequence if needed
+    await sql`
+      SELECT setval('issues_id_seq', COALESCE((SELECT MAX(id) FROM issues), 0) + 1, false);
+    `;
+
     const result = await sql`
       INSERT INTO issues (name, img_url, editors_note, editor_id, release_date, description)
       VALUES (${issueData.name}, ${issueData.img_url}, ${issueData.editors_note}, 
@@ -409,6 +414,18 @@ export async function createIssue(issueData: {
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to create issue: ${error}`);
+  }
+}
+
+export async function resetIssuesSequence(): Promise<void> {
+  try {
+    await sql`
+      SELECT setval('issues_id_seq', COALESCE((SELECT MAX(id) FROM issues), 0) + 1, false);
+    `;
+    console.log("Issues sequence reset successfully");
+  } catch (error) {
+    console.log("Error resetting issues sequence:", error);
+    throw new Error(`Failed to reset issues sequence: ${error}`);
   }
 }
 
