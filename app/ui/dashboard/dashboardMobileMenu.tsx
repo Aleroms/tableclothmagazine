@@ -103,6 +103,13 @@ export default function DashboardMobileMenu() {
                   >
                     Resources
                   </Link>
+                  <Link
+                    href="/dashboard/admin/articles"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block py-2 px-3 rounded text-white hover:bg-[var(--t-dark-2)] transition-colors"
+                  >
+                    Manage Articles
+                  </Link>
                 </div>
               </>
             )}

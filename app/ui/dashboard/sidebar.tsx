@@ -82,6 +82,12 @@ export default function Sidebar() {
             >
               Resources
             </Link>
+            <Link
+              href="/dashboard/admin/articles"
+              className={getLinkClassName("/dashboard/admin/articles")}
+            >
+              Manage Articles
+            </Link>
           </>
         )}
 

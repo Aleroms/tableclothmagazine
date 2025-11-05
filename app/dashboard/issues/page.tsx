@@ -34,7 +34,7 @@ function IssueImage({ src, alt }: { src: string | null; alt: string }) {
 }
 
 export default function AdminIssuesPage() {
-  const { user, session, loading, isAdmin } = useCurrentUser();
+  const { session, loading, isAdmin } = useCurrentUser();
   const router = useRouter();
   const [issues, setIssues] = useState<Issue[]>([]);
   const [issuesLoading, setIssuesLoading] = useState(true);
@@ -42,7 +42,6 @@ export default function AdminIssuesPage() {
 
   // Team members for editor dropdown
   const [teamMembers, setTeamMembers] = useState<User[]>([]);
-  const [teamLoading, setTeamLoading] = useState(false);
 
   // Edit modal state
   const [editingIssue, setEditingIssue] = useState<Issue | null>(null);
@@ -120,8 +119,6 @@ export default function AdminIssuesPage() {
       if (!session || !isAdmin) return;
 
       try {
-        setTeamLoading(true);
-
         const response = await fetch("/api/admin/team");
 
         if (!response.ok) {
@@ -132,8 +129,6 @@ export default function AdminIssuesPage() {
         setTeamMembers(teamData);
       } catch (error) {
         console.error("Error fetching team members:", error);
-      } finally {
-        setTeamLoading(false);
       }
     };
 

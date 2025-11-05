@@ -84,6 +84,105 @@ export async function getArticleById(id: string): Promise<Article> {
   }
 }
 
+export async function getArticlesByWriterId(
+  writerId: string
+): Promise<Article[]> {
+  try {
+    const data = await sql`
+    SELECT * FROM articles WHERE writer_id = ${writerId} ORDER BY release_date DESC`;
+    return transformRowToArticleArray(data);
+  } catch (error) {
+    console.log(error);
+    throw new Error(
+      `Failed to fetch articles for writer ${writerId}: ${error}`
+    );
+  }
+}
+
+export async function createArticle(articleData: {
+  issue_id: number;
+  writer_id: string;
+  title: string;
+  markdown: string;
+  release_date: Date;
+}): Promise<Article> {
+  try {
+    const result = await sql`
+      INSERT INTO articles (issue_id, writer_id, title, markdown, release_date)
+      VALUES (${articleData.issue_id}, ${articleData.writer_id}, ${articleData.title}, 
+              ${articleData.markdown}, ${articleData.release_date})
+      RETURNING *`;
+    return result[0] as Article;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to create article: ${error}`);
+  }
+}
+
+export async function updateArticle(
+  id: string,
+  articleData: {
+    issue_id?: number;
+    title?: string;
+    markdown?: string;
+    release_date?: Date;
+  }
+): Promise<Article> {
+  try {
+    const updates: string[] = [];
+    const values: (string | number | Date)[] = [];
+    let paramCount = 1;
+
+    if (articleData.issue_id !== undefined) {
+      updates.push(`issue_id = $${paramCount++}`);
+      values.push(articleData.issue_id);
+    }
+    if (articleData.title !== undefined) {
+      updates.push(`title = $${paramCount++}`);
+      values.push(articleData.title);
+    }
+    if (articleData.markdown !== undefined) {
+      updates.push(`markdown = $${paramCount++}`);
+      values.push(articleData.markdown);
+    }
+    if (articleData.release_date !== undefined) {
+      updates.push(`release_date = $${paramCount++}`);
+      values.push(articleData.release_date);
+    }
+
+    if (updates.length === 0) {
+      throw new Error("No fields to update");
+    }
+
+    // Add the id parameter
+    values.push(id);
+    const result = await sql`
+      UPDATE articles 
+      SET ${sql.unsafe(updates.join(", "))}
+      WHERE id = $${paramCount}
+      RETURNING *`;
+
+    return result[0] as Article;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to update article ${id}: ${error}`);
+  }
+}
+
+export async function deleteArticle(id: string): Promise<void> {
+  try {
+    const result = await sql`
+      DELETE FROM articles WHERE id = ${id}`;
+
+    if (result.count === 0) {
+      throw new Error("Article not found");
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to delete article ${id}: ${error}`);
+  }
+}
+
 // EVENTS
 
 export async function getUpcomingEvents(limit: number = 5): Promise<Event[]> {

@@ -6,7 +6,7 @@ import { User } from "@/app/lib/definitions";
 import Image from "next/image";
 
 export default function AdminTeamPage() {
-  const { user, session, loading, isAdmin } = useCurrentUser();
+  const { session, loading, isAdmin } = useCurrentUser();
   const router = useRouter();
   const [team, setTeam] = useState<User[]>([]);
   const [teamLoading, setTeamLoading] = useState(true);
