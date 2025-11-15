@@ -32,6 +32,7 @@ export default function SignIn() {
         }
       }
     } catch (error) {
+      console.log(error);
       setError("Something went wrong");
     } finally {
       setLoading(false);

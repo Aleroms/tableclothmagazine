@@ -60,6 +60,7 @@ export default function ChangePasswordForm() {
         setError(errorData.error || "Failed to change password");
       }
     } catch (error) {
+      console.log(error);
       setError("An error occurred while changing your password");
     } finally {
       setLoading(false);
