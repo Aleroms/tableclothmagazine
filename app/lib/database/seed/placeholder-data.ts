@@ -17,6 +17,8 @@ const usersPlaceholder: User[] = [
     last_name: "Park",
     pronouns: "he/him",
     fav_color: "#f6c9de",
+    email: "riley.park@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "876db4dc-d16d-4f58-82e6-9f5d9210129f",
@@ -24,6 +26,8 @@ const usersPlaceholder: User[] = [
     auth_level: "team",
     first_name: "Adam",
     last_name: "Tan",
+    email: "adam.tan@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "82c2565f-9e51-497c-9802-5ccbcd605174",
@@ -31,6 +35,8 @@ const usersPlaceholder: User[] = [
     auth_level: "team",
     first_name: "Alex",
     last_name: "Grams",
+    email: "alex.grams@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "f6c50bb9-7872-4d0a-9ba6-06eddca6b6ef",
@@ -44,6 +50,8 @@ const usersPlaceholder: User[] = [
     fav_color: "#A0DEFF",
     description:
       "CS (Algorithms) major and Math minor. Graduated 2022. Thinking about working in education. [Games Portfolio](https://artlessavian.github.io/) [portfolio](https://artlessavian.github.io/)",
+    email: "ryan.chang@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "91a8189c-9b74-461f-920d-08b1ead41561",
@@ -54,6 +62,8 @@ const usersPlaceholder: User[] = [
     img_url:
       "https://tablecloth-magazine-local.s3.us-west-1.amazonaws.com/user/victoriawinn5.png",
     pronouns: "she/her",
+    email: "victoria.winn@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "07a0a5bd-e136-4d33-b24a-8545eae10b86",
@@ -67,6 +77,8 @@ const usersPlaceholder: User[] = [
       "https://tablecloth-magazine-local.s3.us-west-1.amazonaws.com/user/profile01.jpg",
     description:
       "Dane likes writing code and building gameplay systems, as well as advocating for public transit. For more, visit [danecarstens.net](https://danecarstens.net/)",
+    email: "dane.carstens@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "e371d364-b890-4683-8a1f-db885b33e2b1",
@@ -74,6 +86,8 @@ const usersPlaceholder: User[] = [
     auth_level: "team",
     first_name: "Ittai",
     last_name: "Mann",
+    email: "ittai.mann@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "24b5cb40-f1f0-4ef6-b27b-df9c50528f45",
@@ -87,6 +101,8 @@ const usersPlaceholder: User[] = [
       [GitHub](https://github.com/aleroms/) [Linkedin](https://www.linkedin.com/in/santiago-morales-14b466194/) [itch.io](https://aleroms.itch.io)
       `,
     fav_color: "#41b883",
+    email: "santiago.morales@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "476cc04f-1ba8-426e-a67e-fa544c791112",
@@ -94,6 +110,8 @@ const usersPlaceholder: User[] = [
     auth_level: "team",
     first_name: "Nichole",
     last_name: "Wong",
+    email: "nichole.wong@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "8da54bee-5368-4350-97f7-f317923966af",
@@ -104,6 +122,8 @@ const usersPlaceholder: User[] = [
     first_name: "SupriseOrb",
     description:
       "Queer indie game dev and occasional artist. https://supriseorb.carrd.co/",
+    email: "supriseorb@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "b3d32f77-6804-451a-af20-aaa941bc7944",
@@ -114,6 +134,8 @@ const usersPlaceholder: User[] = [
     first_name: "Charlie",
     last_name: "Xu",
     description: "game designer and NBA fanatic",
+    email: "charlie.xu@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "139a126e-f171-4096-abb4-5c172ad15262",
@@ -124,6 +146,8 @@ const usersPlaceholder: User[] = [
       "Doubled in Computer Game Science and Art. Randomly deep dives to analyze and investigate niche stuff, just need a moment to buffer memories. [Site](https://murphypchu.weebly.com/)",
     first_name: "Murphy",
     last_name: "Chu",
+    email: "murphy.chu@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
   {
     id: "899fcd63-6c4a-4f06-805d-042b9ca49c8e",
@@ -137,6 +161,8 @@ const usersPlaceholder: User[] = [
     auth_level: "team",
     description:
       "GDIM Major and Informatics Minor. Self-proclaimed gastronomer wit a love for sourdogh. [Itch.io Page](https://goozmabackatitagain.itch.io/)",
+    email: "noel.paredes@placeholder.com",
+    password: "$2b$10$placeholder.hash.for.testing.only",
   },
 ];
 

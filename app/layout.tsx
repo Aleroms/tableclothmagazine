@@ -6,7 +6,7 @@ import NavBar from "./ui/navigationBar";
 import Footer from "./ui/footer";
 
 import SessionProvider from "@/app/ui/sessionProvider";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 
 const outfit = Outfit({
   subsets: ["latin"],

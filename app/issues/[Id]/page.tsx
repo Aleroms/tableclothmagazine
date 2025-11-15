@@ -42,18 +42,19 @@ export default async function IssueDetails({ params }: IssueDetailsProps) {
     <main className="mt-20 mb-40">
       <div className="m-4">
         <div className="relative w-70 h-100 m-auto lg:w-100 md:h-120">
-          <Image
-            src={issue.img_url}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            alt={issue.name}
-            className="py-1 mb-1 drop-shadow-[var(--dropShadow)] rounded-sm"
-          />
+          {issue.img_url && (
+            <Image
+              src={issue.img_url}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              alt={issue.name}
+              className="py-1 mb-1 drop-shadow-[var(--dropShadow)] rounded-sm"
+            />
+          )}
         </div>
-        
       </div>
-          <div className="m-4 max-w-3xl md:m-auto">
-              <p>{issue.editors_note}</p>
+      <div className="m-4 max-w-3xl md:m-auto">
+        <p>{issue.editors_note}</p>
         {editor && <UserShort user={editor} />}
       </div>
       {articles.length > 0 ? (
