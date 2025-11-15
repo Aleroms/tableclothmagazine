@@ -10,10 +10,11 @@ import {
 } from "@/app/lib/database/query";
 import { Session } from "next-auth";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export async function GET(request: NextRequest, { params }: Props) {
   try {
     // Get the session to verify user is authenticated and is admin
     const session = (await getServerSession(authOptions)) as Session | null;
@@ -31,8 +32,9 @@ export async function GET(
       );
     }
 
-    // Parse and validate ID
-    const issueId = parseInt(params.id);
+    // Await params and parse ID
+    const { id } = await params;
+    const issueId = parseInt(id);
     if (isNaN(issueId)) {
       return NextResponse.json({ error: "Invalid issue ID" }, { status: 400 });
     }
@@ -54,10 +56,7 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, { params }: Props) {
   try {
     // Get the session to verify user is authenticated and is admin
     const session = (await getServerSession(authOptions)) as Session | null;
@@ -75,8 +74,9 @@ export async function PUT(
       );
     }
 
-    // Parse and validate ID
-    const issueId = parseInt(params.id);
+    // Await params and parse ID
+    const { id } = await params;
+    const issueId = parseInt(id);
     if (isNaN(issueId)) {
       return NextResponse.json({ error: "Invalid issue ID" }, { status: 400 });
     }
@@ -146,10 +146,7 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, { params }: Props) {
   try {
     // Get the session to verify user is authenticated and is admin
     const session = (await getServerSession(authOptions)) as Session | null;
@@ -167,8 +164,9 @@ export async function DELETE(
       );
     }
 
-    // Parse and validate ID
-    const issueId = parseInt(params.id);
+    // Await params and parse ID
+    const { id } = await params;
+    const issueId = parseInt(id);
     if (isNaN(issueId)) {
       return NextResponse.json({ error: "Invalid issue ID" }, { status: 400 });
     }
