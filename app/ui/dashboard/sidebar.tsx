@@ -43,7 +43,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 md:w-72 lg:w-80 flex flex-col p-4 outline-1 bg-[var(--t-dark-2)] min-h-full">
+    <aside className="w-64 md:w-72 lg:w-80 flex flex-col p-4 bg-[var(--t-dark-2)] min-h-full">
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 break-words leading-tight">
         Welcome {userName}!
       </h2>

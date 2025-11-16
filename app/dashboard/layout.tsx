@@ -16,7 +16,7 @@ export default async function Layout({
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-screen outline-red outline-1 mx-1 my-2">
+    <div className="flex flex-col md:flex-row h-screen">
       {/* Dashboard Mobile Menu - Visible on mobile, hidden on medium screens and up */}
       <div className="md:hidden">
         <DashboardMobileMenu />

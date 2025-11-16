@@ -35,6 +35,7 @@ export async function GET() {
         a.updated_at,
         u.first_name || ' ' || u.last_name as writer_name,
         u.email as writer_email,
+        u.role as writer_role,
         i.name as issue_name
       FROM articles a
       LEFT JOIN users u ON a.writer_id = u.id
