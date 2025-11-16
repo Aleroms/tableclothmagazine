@@ -50,7 +50,7 @@ export async function getMarkdownByArticleId(
 export async function getLatestArticles(limit: number): Promise<Article[]> {
   try {
     const rows = await sql`
-        SELECT * FROM articles ORDER BY release_date LIMIT ${limit}`;
+        SELECT * FROM articles ORDER BY release_date DESC LIMIT ${limit}`;
     return transformRowToArticleArray(rows);
   } catch (error) {
     console.log(error);

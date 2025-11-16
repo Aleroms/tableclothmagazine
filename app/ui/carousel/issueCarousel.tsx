@@ -30,7 +30,7 @@ export default function IssueCarousel({ thumbnails }: CarouselProps) {
         />
         <div className="carousel-body flex flex-col p-2 w-full justify-center">
           <h2 className="capitalize font-bold text-2xl md:text-4xl inline mt-5 mb-5">
-            Latest Releases:
+            Latest Releases
           </h2>
           <div className="my-1">
             <div className=" flex overflow-x-auto gap-2 sm:gap-8 md:gap-8 lg:gap-8">
@@ -47,7 +47,7 @@ export default function IssueCarousel({ thumbnails }: CarouselProps) {
                 .map(({ id, name, img_url }) => (
                   <div
                     key={id}
-                    className="relative w-[250px] md:w-[350px] aspect-[3/4] shrink-0 mt-2 mr-20 ml-20 sm:mr-0 sm:ml-0"
+                    className="relative w-[250px] md:w-[350px] aspect-[3/4] shrink-0 mt-2 mx-2 sm:mr-0 sm:ml-0"
                   >
                     <Link href={`issues/${id}`}>
                       <Image
