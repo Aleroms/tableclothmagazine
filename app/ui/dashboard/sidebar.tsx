@@ -8,9 +8,6 @@ import { usePathname } from "next/navigation";
 export default function Sidebar() {
   const { user, session, loading, isAdmin, isTeam } = useCurrentUser();
   const pathname = usePathname();
-  console.log("User data:", user);
-  console.log("Session data:", session);
-  console.log("isAdmin:", isAdmin, "isTeam:", isTeam);
 
   if (loading) {
     return <SidebarSkeleton />;

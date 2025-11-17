@@ -13,6 +13,7 @@ export default function UpdateProfileForm({
 }: UpdateProfileFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -25,6 +26,38 @@ export default function UpdateProfileForm({
     description: user.description || "",
     email: user.email,
   });
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setError("");
+
+    try {
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", file);
+      uploadFormData.append("category", "user");
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setFormData({ ...formData, img_url: data.url });
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || "Failed to upload image");
+      }
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred while uploading the image");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,19 +121,34 @@ export default function UpdateProfileForm({
           className="space-y-4 max-h-[32rem] overflow-y-auto"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+            <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-400 mb-1">
-                Profile Picture URL
+                Profile Picture
               </label>
-              <input
-                type="url"
-                value={formData.img_url}
-                onChange={(e) =>
-                  setFormData({ ...formData, img_url: e.target.value })
-                }
-                className="w-full px-3 py-2 bg-[var(--t-dark-2)] border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="https://example.com/image.jpg"
-              />
+              <div className="space-y-2">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  disabled={uploading}
+                  className="w-full px-3 py-2 bg-[var(--t-dark-2)] border border-gray-600 rounded text-white file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 disabled:opacity-50"
+                />
+                {uploading && (
+                  <p className="text-sm text-blue-400">Uploading image...</p>
+                )}
+                {formData.img_url && (
+                  <div className="flex items-center space-x-2">
+                    <img
+                      src={formData.img_url}
+                      alt="Profile preview"
+                      className="w-16 h-16 rounded-full object-cover"
+                    />
+                    <p className="text-sm text-gray-400 truncate flex-1">
+                      {formData.img_url}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div>

@@ -154,15 +154,20 @@ export async function updateArticle(
       throw new Error("No fields to update");
     }
 
-    // Add the id parameter
-    values.push(id);
-    const result = await sql`
+    // Build the query using the postgres library's raw query
+    const query = `
       UPDATE articles 
-      SET ${sql.unsafe(updates.join(", "))}
+      SET ${updates.join(", ")}
       WHERE id = $${paramCount}
       RETURNING *`;
 
-    return result[0] as Article;
+    const result = await sql.unsafe(query, [...values, id]);
+
+    if (result.length === 0) {
+      throw new Error("Article not found");
+    }
+
+    return result[0] as unknown as Article;
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to update article ${id}: ${error}`);

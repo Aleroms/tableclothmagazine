@@ -4,9 +4,91 @@ import UpdateProfileForm from "@/app/ui/dashboard/updateProfileForm";
 import ChangePasswordForm from "@/app/ui/dashboard/changePasswordForm";
 import DashboardProfileSkeleton from "@/app/ui/skeleton/dashboardProfileSkeleton";
 import Image from "next/image";
+import { useState, useRef } from "react";
 
 export default function Dashboard() {
   const { user, session, loading, isAdmin, isTeam } = useCurrentUser();
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please select an image file");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError("File size must be less than 5MB");
+      return;
+    }
+
+    try {
+      setUploadingImage(true);
+      setUploadError(null);
+      setUploadSuccess(false);
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("category", "user");
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+
+      const data = await response.json();
+      console.log("returned from api/upload -->", data.url);
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Update user profile with new image URL
+      const updateResponse = await fetch("/api/user/update-profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          img_url: data.url,
+          first_name: user.first_name,
+          last_name: user.last_name || null,
+          pronouns: user.pronouns || null,
+          fav_color: user.fav_color || null,
+          description: user.description || null,
+          email: user.email,
+        }),
+      });
+
+      if (!updateResponse.ok) {
+        console.log(updateResponse);
+        throw new Error("Failed to update profile");
+      }
+
+      setUploadSuccess(true);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      console.error("Upload error:", error);
+      setUploadError(error instanceof Error ? error.message : "Upload failed");
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
 
   if (loading) {
     return <DashboardProfileSkeleton />;
@@ -58,8 +140,33 @@ export default function Dashboard() {
                     <span className="text-gray-400 text-sm">No Image</span>
                   </div>
                 )}
-                <div className="text-white bg-[var(--t-dark-1)] p-3 rounded border border-gray-600 flex-1 text-sm">
-                  {user.img_url || "No profile picture set"}
+                <div className="flex-1">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileSelect}
+                      accept="image/*"
+                      className="hidden"
+                      disabled={uploadingImage}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploadingImage}
+                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-sm"
+                    >
+                      {uploadingImage ? "Uploading..." : "Upload Image"}
+                    </button>
+                    {uploadError && (
+                      <span className="text-red-400 text-xs">
+                        {uploadError}
+                      </span>
+                    )}
+                    {uploadSuccess && (
+                      <span className="text-green-400 text-xs">✓ Uploaded</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

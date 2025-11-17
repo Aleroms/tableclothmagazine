@@ -1,7 +1,7 @@
 "use client";
 import { useCurrentUser } from "@/app/hooks/useCurrentUser";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Article, Issue } from "@/app/lib/definitions";
 
 export default function ArticlePage() {
@@ -33,6 +33,11 @@ export default function ArticlePage() {
     markdown: "",
     release_date: "",
   });
+
+  // Image upload state
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!loading && (!session || (!isAdmin && !isTeam))) {
@@ -95,6 +100,7 @@ export default function ArticlePage() {
   const openCreateModal = () => {
     setShowCreateModal(true);
     setCreateError(null);
+    setUploadError(null);
     setCreateForm({
       issue_id: "",
       title: "",
@@ -179,6 +185,7 @@ export default function ArticlePage() {
       release_date: new Date(article.release_date).toISOString().split("T")[0],
     });
     setEditError(null);
+    setUploadError(null);
   };
 
   const closeEditModal = () => {
@@ -244,6 +251,74 @@ export default function ArticlePage() {
       );
     } finally {
       setEditLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please select an image file");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError("File size must be less than 5MB");
+      return;
+    }
+
+    // Only allow uploads when editing existing articles
+    if (!editingArticle) {
+      setUploadError("Please save the article before uploading images");
+      return;
+    }
+
+    const issueId = editForm.issue_id;
+    const articleId = editingArticle.id;
+
+    if (!issueId) {
+      setUploadError("Please select an issue first");
+      return;
+    }
+
+    try {
+      setUploadingImage(true);
+      setUploadError(null);
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("category", "article");
+      formData.append("issueNumber", issueId);
+      formData.append("articleId", articleId.toString());
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+
+      const data = await response.json();
+
+      // Insert markdown image syntax at cursor position or end of text
+      const imageMarkdown = `![${file.name}](${data.url})`;
+
+      setEditForm({
+        ...editForm,
+        markdown: editForm.markdown + "\n" + imageMarkdown,
+      });
+    } catch (error) {
+      console.error("Upload error:", error);
+      setUploadError(error instanceof Error ? error.message : "Upload failed");
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
@@ -481,6 +556,11 @@ export default function ArticlePage() {
                   className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none resize-none font-mono text-sm"
                   placeholder="Write your article in Markdown format..."
                 />
+                <div className="mt-2">
+                  <p className="text-gray-500 text-xs italic">
+                    Note: Save the article first, then edit it to upload images
+                  </p>
+                </div>
               </div>
 
               <div className="flex space-x-3 pt-4">
@@ -586,6 +666,27 @@ export default function ArticlePage() {
                   className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none resize-none font-mono text-sm"
                   placeholder="Write your article in Markdown format..."
                 />
+                <div className="mt-2 flex items-center space-x-2">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                    className="hidden"
+                    disabled={uploadingImage || !editForm.issue_id}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploadingImage || !editForm.issue_id}
+                    className="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-sm"
+                  >
+                    {uploadingImage ? "Uploading..." : "Upload Image"}
+                  </button>
+                  {uploadError && (
+                    <span className="text-red-400 text-xs">{uploadError}</span>
+                  )}
+                </div>
               </div>
 
               <div className="flex space-x-3 pt-4">
