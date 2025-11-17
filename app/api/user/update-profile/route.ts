@@ -21,7 +21,6 @@ export async function PUT(request: NextRequest) {
       email,
     } = await request.json();
 
-
     if (!first_name || first_name.trim() === "") {
       return NextResponse.json(
         { error: "First name is required" },
