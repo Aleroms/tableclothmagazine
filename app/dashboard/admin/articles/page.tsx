@@ -7,6 +7,7 @@ import { Article, Issue } from "@/app/lib/definitions";
 interface AdminArticle extends Article {
   writer_name: string;
   writer_email: string;
+  writer_role: string;
   issue_name: string;
   created_at: string;
   updated_at: string;
@@ -295,7 +296,8 @@ export default function AdminArticlesPage() {
           <p className="text-2xl font-bold text-purple-400 mt-1">
             {articlesLoading
               ? "..."
-              : new Set(articles.map((a) => a.writer_email)).size}
+              : new Set(articles.map((a) => a.writer_id).filter((id) => id))
+                  .size}
           </p>
         </div>
       </div>

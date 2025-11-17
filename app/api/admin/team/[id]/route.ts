@@ -1,12 +1,13 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/lib/auth";
 import {
   getUserById,
   getUserByEmail,
   isUserAdmin,
   updateTeamMember,
   deleteTeamMember,
+  updateUserPassword,
 } from "@/app/lib/database/query";
 import { Session } from "next-auth";
 
@@ -240,6 +241,78 @@ export async function DELETE(
       }
     }
 
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+
+    // Get the session to verify user is authenticated and is admin
+    const session = (await getServerSession(authOptions)) as Session | null;
+
+    if (!session || !session.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Check if user is admin
+    const userIsAdmin = await isUserAdmin(session.user.email);
+    if (!userIsAdmin) {
+      return NextResponse.json(
+        { error: "Forbidden: Admin access required" },
+        { status: 403 }
+      );
+    }
+
+    // Get the team member by ID
+    const teamMember = await getUserById(id);
+
+    if (!teamMember) {
+      return NextResponse.json(
+        { error: "Team member not found" },
+        { status: 404 }
+      );
+    }
+
+    // Parse request body
+    const body = await request.json();
+    const { newPassword } = body;
+
+    if (!newPassword || typeof newPassword !== "string") {
+      return NextResponse.json(
+        { error: "New password is required" },
+        { status: 400 }
+      );
+    }
+
+    if (newPassword.length < 6) {
+      return NextResponse.json(
+        { error: "Password must be at least 6 characters" },
+        { status: 400 }
+      );
+    }
+
+    // Update the password
+    await updateUserPassword(teamMember.email, newPassword);
+
+    return NextResponse.json({
+      message: "Password reset successfully",
+      user: {
+        id: teamMember.id,
+        email: teamMember.email,
+        first_name: teamMember.first_name,
+        last_name: teamMember.last_name,
+      },
+    });
+  } catch (error) {
+    console.error("Error resetting password:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "@/app/lib/auth";
 import { isUserAdmin } from "@/app/lib/database/query";
 import sql from "@/app/lib/database/db";
 import { Session } from "next-auth";
@@ -35,6 +35,7 @@ export async function GET() {
         a.updated_at,
         u.first_name || ' ' || u.last_name as writer_name,
         u.email as writer_email,
+        u.role as writer_role,
         i.name as issue_name
       FROM articles a
       LEFT JOIN users u ON a.writer_id = u.id

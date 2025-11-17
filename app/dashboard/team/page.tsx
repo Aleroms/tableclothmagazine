@@ -31,6 +31,14 @@ export default function AdminTeamPage() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
+  // Password reset modal state
+  const [resettingPassword, setResettingPassword] = useState<User | null>(null);
+  const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
+  const [resetPasswordError, setResetPasswordError] = useState<string | null>(
+    null
+  );
+  const [newPassword, setNewPassword] = useState("");
+
   // Create modal state
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
@@ -129,6 +137,64 @@ export default function AdminTeamPage() {
   const closeDeleteModal = () => {
     setDeletingMember(null);
     setDeleteError(null);
+  };
+
+  const openResetPasswordModal = (member: User) => {
+    setResettingPassword(member);
+    setNewPassword("");
+    setResetPasswordError(null);
+  };
+
+  const closeResetPasswordModal = () => {
+    setResettingPassword(null);
+    setNewPassword("");
+    setResetPasswordError(null);
+  };
+
+  const handleResetPasswordConfirm = async () => {
+    if (!resettingPassword || !newPassword) return;
+
+    try {
+      setResetPasswordLoading(true);
+      setResetPasswordError(null);
+
+      const response = await fetch(`/api/admin/team/${resettingPassword.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ newPassword }),
+      });
+
+      if (!response.ok) {
+        let errorMessage = "Failed to reset password";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (jsonError) {
+          console.log("Could not parse error response:", jsonError);
+        }
+
+        if (response.status === 401) {
+          throw new Error("Unauthorized");
+        } else if (response.status === 403) {
+          throw new Error("Admin access required");
+        } else if (response.status === 404) {
+          throw new Error("Team member not found");
+        } else {
+          throw new Error(`Server error (${response.status}): ${errorMessage}`);
+        }
+      }
+
+      closeResetPasswordModal();
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      setResetPasswordError(
+        error instanceof Error ? error.message : "An error occurred"
+      );
+    } finally {
+      setResetPasswordLoading(false);
+    }
   };
 
   const handleDeleteConfirm = async () => {
@@ -527,7 +593,7 @@ export default function AdminTeamPage() {
                   </div>
 
                   <div className="mt-3 pt-3 border-t border-gray-700">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col items-end gap-2 justify-between">
                       <span className="text-gray-400 text-xs">
                         {member.email}
                       </span>
@@ -536,7 +602,7 @@ export default function AdminTeamPage() {
                           (Self)
                         </span>
                       ) : (
-                        <div className="flex space-x-3">
+                        <div className="flex space-x-2">
                           <button
                             onClick={() => openEditModal(member)}
                             className="text-blue-400 hover:text-blue-300 text-xs font-medium"
@@ -544,11 +610,19 @@ export default function AdminTeamPage() {
                             Edit
                           </button>
                           <button
-                            onClick={() => openDeleteModal(member)}
-                            className="text-red-400 hover:text-red-300 text-xs font-medium"
+                            onClick={() => openResetPasswordModal(member)}
+                            className="text-yellow-400 hover:text-yellow-300 text-xs font-medium"
                           >
-                            Delete
+                            Reset PW
                           </button>
+                          {member.auth_level !== "admin" && (
+                            <button
+                              onClick={() => openDeleteModal(member)}
+                              className="text-red-400 hover:text-red-300 text-xs font-medium"
+                            >
+                              Delete
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
@@ -755,6 +829,66 @@ export default function AdminTeamPage() {
               <button
                 onClick={closeDeleteModal}
                 disabled={deleteLoading}
+                className="px-4 py-2 border border-gray-600 text-gray-300 hover:bg-gray-700 disabled:cursor-not-allowed rounded font-medium transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Password Modal */}
+      {resettingPassword && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[var(--t-dark-2)] rounded-lg p-6 w-full max-w-md mx-4">
+            <h2 className="text-xl font-semibold text-white mb-4">
+              Reset Password
+            </h2>
+
+            <div className="mb-6">
+              <p className="text-gray-300 mb-4">
+                Reset password for{" "}
+                <span className="font-medium text-white">
+                  {resettingPassword.first_name} {resettingPassword.last_name}
+                </span>
+              </p>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-yellow-500 focus:outline-none"
+                  placeholder="Enter new password"
+                  disabled={resetPasswordLoading}
+                />
+                <p className="text-gray-400 text-xs mt-1">
+                  The user will need to use this password to log in.
+                </p>
+              </div>
+            </div>
+
+            {resetPasswordError && (
+              <div className="mb-4 p-3 bg-red-900/20 border border-red-500/20 rounded text-red-400 text-sm">
+                {resetPasswordError}
+              </div>
+            )}
+
+            <div className="flex space-x-3">
+              <button
+                onClick={handleResetPasswordConfirm}
+                disabled={resetPasswordLoading || !newPassword}
+                className="flex-1 bg-yellow-600 hover:bg-yellow-700 disabled:bg-yellow-800 disabled:cursor-not-allowed text-white px-4 py-2 rounded font-medium transition-colors"
+              >
+                {resetPasswordLoading ? "Resetting..." : "Reset Password"}
+              </button>
+              <button
+                onClick={closeResetPasswordModal}
+                disabled={resetPasswordLoading}
                 className="px-4 py-2 border border-gray-600 text-gray-300 hover:bg-gray-700 disabled:cursor-not-allowed rounded font-medium transition-colors"
               >
                 Cancel

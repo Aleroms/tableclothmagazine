@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../../auth/[...nextauth]/route";
+import { authOptions } from "@/app/lib/auth";
 import {
   isUserAdmin,
   deleteArticle,
@@ -149,7 +149,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
 
-    await deleteArticle(id);
+    await deleteArticle(id, existingArticle.issue_id);
 
     return NextResponse.json({ message: "Article deleted successfully" });
   } catch (error) {

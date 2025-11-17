@@ -6,20 +6,30 @@ export default function Footer() {
   const delim = "|";
   return (
     <footer className="px-12 py-8 bg-[var(--t-dark-3)] block">
-      <TableLogo size={100} isFooter/>
+      <TableLogo size={100} isFooter />
       <p className="text-stone-50/40 text-sm mt-6 text-center">
         © 2025 The Tablecloth magazine. All rights reserved.
       </p>
       <nav className="flex justify-center gap-4 mt-2">
         {links.map((link, index) => (
           <span key={link} className="flex items-center gap-2">
-            <Link href={`/${link}`} className="text-white">{link}</Link>
+            <Link href={`/${link}`} className="text-white">
+              {link}
+            </Link>
             {index < links.length - 1 && (
               <span className="text-stone-50/40">{delim}</span>
             )}
           </span>
         ))}
       </nav>
+      <div className="text-center mt-4">
+        <Link
+          href="/auth/signin"
+          className="text-stone-50/40 hover:text-stone-50/60 text-xs transition-colors"
+        >
+          Login
+        </Link>
+      </div>
     </footer>
   );
 }
