@@ -2,7 +2,7 @@ import Sidebar from "../ui/dashboard/sidebar";
 import DashboardMobileMenu from "../ui/dashboard/dashboardMobileMenu";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/lib/auth";
 
 export default async function Layout({
   children,

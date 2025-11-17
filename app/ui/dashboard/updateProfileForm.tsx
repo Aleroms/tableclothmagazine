@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { User } from "@/app/lib/definitions";
+import Image from "next/image";
 
 type UpdateProfileFormProps = {
   user: User;
@@ -138,9 +139,11 @@ export default function UpdateProfileForm({
                 )}
                 {formData.img_url && (
                   <div className="flex items-center space-x-2">
-                    <img
+                    <Image
                       src={formData.img_url}
                       alt="Profile preview"
+                      width={64}
+                      height={64}
                       className="w-16 h-16 rounded-full object-cover"
                     />
                     <p className="text-sm text-gray-400 truncate flex-1">

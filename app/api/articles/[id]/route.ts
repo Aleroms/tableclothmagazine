@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/lib/auth";
 import {
   getArticleById,
   updateArticle,
@@ -142,7 +142,7 @@ export async function DELETE(
     }
 
     // Delete the article
-    await deleteArticle(id);
+    await deleteArticle(id, existingArticle.issue_id);
 
     return NextResponse.json({ message: "Article deleted successfully" });
   } catch (error) {
