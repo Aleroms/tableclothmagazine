@@ -174,13 +174,63 @@ export async function updateArticle(
   }
 }
 
-export async function deleteArticle(id: string): Promise<void> {
+export async function deleteArticle(
+  id: string,
+  issueId: number
+): Promise<void> {
   try {
+    // Delete from database
     const result = await sql`
       DELETE FROM articles WHERE id = ${id}`;
 
     if (result.count === 0) {
       throw new Error("Article not found");
+    }
+
+    // Delete S3 folder and all images inside
+    try {
+      const { S3Client, ListObjectsV2Command, DeleteObjectsCommand } =
+        await import("@aws-sdk/client-s3");
+
+      const s3Client = new S3Client({
+        region: process.env.AWS_REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY!,
+          secretAccessKey: process.env.AWS_SECRETE_ACCESS_KEY!,
+        },
+      });
+
+      const prefix = `article/${issueId}/${id}/`;
+
+      // List all objects in the folder
+      const listCommand = new ListObjectsV2Command({
+        Bucket: process.env.AWS_BUCKET,
+        Prefix: prefix,
+      });
+
+      const listResponse = await s3Client.send(listCommand);
+
+      // Delete all objects if any exist
+      if (listResponse.Contents && listResponse.Contents.length > 0) {
+        const objectsToDelete = listResponse.Contents.map((obj) => ({
+          Key: obj.Key!,
+        }));
+
+        const deleteCommand = new DeleteObjectsCommand({
+          Bucket: process.env.AWS_BUCKET,
+          Delete: {
+            Objects: objectsToDelete,
+          },
+        });
+
+        await s3Client.send(deleteCommand);
+        console.log(
+          `Deleted ${objectsToDelete.length} files from S3 for article ${id}`
+        );
+      }
+    } catch (s3Error) {
+      console.error("Error deleting S3 files:", s3Error);
+      // Don't throw error - article is already deleted from DB
     }
   } catch (error) {
     console.log(error);
