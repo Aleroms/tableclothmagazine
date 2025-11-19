@@ -7,7 +7,6 @@ export async function GET() {
   try {
     // Get the session to verify user is authenticated
     const session = await getServerSession(authOptions);
-    console.log("Session in /api/user/me:", session);
 
     if (!session || !session.user?.email) {
       console.log("Unauthorized: No session or email");
@@ -15,9 +14,7 @@ export async function GET() {
     }
 
     // Fetch user data from database
-    console.log("Fetching user by email:", session.user.email);
     const user = await getUserByEmail(session.user.email);
-    console.log("User found:", user ? "Yes" : "No");
 
     if (!user) {
       console.log("User not found in database for email:", session.user.email);
