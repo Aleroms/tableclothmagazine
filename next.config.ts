@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         hostname: "tablecloth-magazine-local.s3.us-west-1.amazonaws.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn12.picryl.com",
+        pathname: "**",
+      },
     ],
   },
 };

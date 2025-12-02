@@ -18,6 +18,7 @@ export default function AdminArticlesPage() {
   const router = useRouter();
   const [articles, setArticles] = useState<AdminArticle[]>([]);
   const [issues, setIssues] = useState<Issue[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
   const [articlesLoading, setArticlesLoading] = useState(true);
   const [articlesError, setArticlesError] = useState<string | null>(null);
 
@@ -32,6 +33,7 @@ export default function AdminArticlesPage() {
     title: "",
     markdown: "",
     release_date: "",
+    writer_id: "",
   });
 
   // Delete modal state
@@ -101,6 +103,32 @@ export default function AdminArticlesPage() {
     fetchIssues();
   }, [session]);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      if (!session) return;
+
+      try {
+        const response = await fetch("/api/admin/team");
+
+        if (response.ok) {
+          const usersData = await response.json();
+          console.log("Users loaded:", usersData);
+          setUsers(usersData);
+        } else {
+          console.error(
+            "Failed to fetch users:",
+            response.status,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, [session]);
+
   const openEditModal = (article: AdminArticle) => {
     setEditingArticle(article);
     setEditForm({
@@ -108,6 +136,7 @@ export default function AdminArticlesPage() {
       title: article.title,
       markdown: article.markdown,
       release_date: new Date(article.release_date).toISOString().split("T")[0],
+      writer_id: article.writer_id,
     });
     setEditError(null);
   };
@@ -120,6 +149,7 @@ export default function AdminArticlesPage() {
       title: "",
       markdown: "",
       release_date: "",
+      writer_id: "",
     });
   };
 
@@ -136,6 +166,7 @@ export default function AdminArticlesPage() {
         title: editForm.title,
         markdown: editForm.markdown,
         release_date: editForm.release_date,
+        writer_id: editForm.writer_id,
       };
 
       const response = await fetch(`/api/admin/articles/${editingArticle.id}`, {
@@ -432,6 +463,38 @@ export default function AdminArticlesPage() {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Writer *
+                </label>
+                <select
+                  value={editForm.writer_id}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, writer_id: e.target.value })
+                  }
+                  required
+                  className="w-full px-3 py-2 bg-[var(--t-dark-1)] border border-gray-600 rounded text-white focus:border-blue-500 focus:outline-none"
+                >
+                  <option value="">Select a writer</option>
+                  {users.length > 0 ? (
+                    users.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.first_name} {user.last_name} ({user.email})
+                      </option>
+                    ))
+                  ) : (
+                    <option value="" disabled>
+                      Loading users...
+                    </option>
+                  )}
+                </select>
+                {users.length === 0 && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    No users loaded. Check console for errors.
+                  </p>
+                )}
               </div>
 
               <div>

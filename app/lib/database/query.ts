@@ -50,7 +50,11 @@ export async function getMarkdownByArticleId(
 export async function getLatestArticles(limit: number): Promise<Article[]> {
   try {
     const rows = await sql`
-        SELECT * FROM articles ORDER BY release_date DESC LIMIT ${limit}`;
+        SELECT a.* FROM articles a
+        JOIN issues i ON a.issue_id = i.id
+        WHERE i.release_date <= NOW()
+        ORDER BY a.release_date DESC 
+        LIMIT ${limit}`;
     return transformRowToArticleArray(rows);
   } catch (error) {
     console.log(error);
@@ -126,6 +130,7 @@ export async function updateArticle(
     title?: string;
     markdown?: string;
     release_date?: Date;
+    writer_id?: string;
   }
 ): Promise<Article> {
   try {
@@ -148,6 +153,10 @@ export async function updateArticle(
     if (articleData.release_date !== undefined) {
       updates.push(`release_date = $${paramCount++}`);
       values.push(articleData.release_date);
+    }
+    if (articleData.writer_id !== undefined) {
+      updates.push(`writer_id = $${paramCount++}`);
+      values.push(articleData.writer_id);
     }
 
     if (updates.length === 0) {
@@ -455,6 +464,18 @@ export async function getAllIssues(): Promise<Issue[]> {
   }
 }
 
+export async function getPublishedIssues(): Promise<Issue[]> {
+  try {
+    return await sql`
+    SELECT * FROM issues 
+    WHERE release_date <= NOW()
+    ORDER BY id DESC`;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to fetch published issues ${error}`);
+  }
+}
+
 export async function getIssueById(id: number): Promise<Issue> {
   try {
     const data = await sql`
@@ -469,7 +490,9 @@ export async function getIssueById(id: number): Promise<Issue> {
 export async function getIssuesThumbnail(): Promise<IssueThumbnail[]> {
   try {
     return await sql`
-    SELECT id, name, img_url FROM issues ORDER BY id DESC`;
+    SELECT id, name, img_url FROM issues 
+    WHERE release_date <= NOW()
+    ORDER BY id DESC`;
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch issue thumbnail ${error}`);

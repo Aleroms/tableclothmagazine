@@ -82,13 +82,12 @@ export async function PUT(request: NextRequest, { params }: Props) {
     }
 
     const body = await request.json();
-    const { issue_id, title, markdown, release_date } = body;
+    const { issue_id, title, markdown, release_date, writer_id } = body;
 
     if (!issue_id || !title || !markdown || !release_date) {
       return NextResponse.json(
         {
-          error:
-            "All fields are required: issue_id, title, markdown, release_date",
+          error: "Required fields: issue_id, title, markdown, release_date",
         },
         { status: 400 }
       );
@@ -105,6 +104,7 @@ export async function PUT(request: NextRequest, { params }: Props) {
       title,
       markdown,
       release_date,
+      ...(writer_id && { writer_id }),
     });
 
     return NextResponse.json(updatedArticle);

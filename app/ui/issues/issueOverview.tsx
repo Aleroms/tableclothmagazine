@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getAllIssues } from "@/app/lib/database/query";
+import { getPublishedIssues } from "@/app/lib/database/query";
 
 export default async function IssueOverview() {
-  const issues = await getAllIssues();
+  const issues = await getPublishedIssues();
   return (
     <div className="dark:bg-[var(--t-dark-3)] bg-[var(--t-light-3)] shadow-sm p-4 rounded-sm max-w-4xl m-4 md:m-auto md:grid md:grid-cols-3 md:gap-8 lg:max-w-7xl md:pb-8">
       {issues.map(({ id, img_url, name }) => (

@@ -34,6 +34,11 @@ export default async function IssueDetails({ params }: IssueDetailsProps) {
     redirect("/");
   }
 
+  // Check if issue is published (release_date <= current date)
+  if (new Date(issue.release_date) > new Date()) {
+    redirect("/");
+  }
+
   const articles = await getArticlesByIssueId(issue.id);
 
   const editor = await getUserById(issue.editor_id);

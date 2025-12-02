@@ -1,34 +1,44 @@
 import UserAuthor from "@/app/ui/user/userAuthor";
 import { redirect } from "next/navigation";
 import { CustomMDX } from "@/app/plugin/mdx-remote";
-import { getArticleById, getUserById } from "@/app/lib/database/query";
+import {
+  getArticleById,
+  getUserById,
+  getIssueById,
+} from "@/app/lib/database/query";
 import { Metadata } from "next";
 interface ArticleDetailsProps {
   params: Promise<{ articleId: string }>;
 }
 
 interface IssueDetailsProps {
-    params: Promise<{ articleId: string }>;
+  params: Promise<{ articleId: string }>;
 }
 
 export async function generateMetadata({
-    params,
+  params,
 }: IssueDetailsProps): Promise<Metadata> {
-    const { articleId } = await params;
-    const article = await getArticleById(articleId);
-    const { title} = article;
-    return {
-        title: `${title}`,
-        description: `${title}`,
-    };
+  const { articleId } = await params;
+  const article = await getArticleById(articleId);
+  const { title } = article;
+  return {
+    title: `${title}`,
+    description: `${title}`,
+  };
 }
 export default async function ArticleDetails({ params }: ArticleDetailsProps) {
-  const { articleId } = await params;
+  const { articleId, Id } = await params;
 
   const article = await getArticleById(articleId);
   console.log(article);
 
   if (article == null) {
+    redirect("/");
+  }
+
+  // Check if article's issue is published
+  const issue = await getIssueById(article.issue_id);
+  if (!issue || new Date(issue.release_date) > new Date()) {
     redirect("/");
   }
 
